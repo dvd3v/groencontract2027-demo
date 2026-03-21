@@ -65,6 +65,13 @@
 .status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
 .plan-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}.plan-stat{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:14px 16px}.plan-stat .num{font-size:22px;font-weight:700}.plan-stat .lbl{font-size:11px;color:var(--txm);margin-top:2px}
 </style>
+<!-- Data: config, objecttypes, pilots -->
+<script src="data/config.js"></script>
+<script src="data/objecttypes.js"></script>
+<script src="data/pilots/cultuurbeek.js"></script>
+<script src="data/pilots/natuurbeek.js"></script>
+<script src="data/pilots/waterkering.js"></script>
+<script src="data/pilots/waterbuffer.js"></script>
 </head>
 <body>
 <div class="app">
@@ -86,14 +93,9 @@
     </div>
   </div>
   <div class="sb" id="sidebar">
-    <div class="dtabs"><button class="dtab a" onclick="swDS(this)">Cultuurbeek</button><button class="dtab ph">Natuurbeek</button><button class="dtab ph">Kering</button><button class="dtab ph">Buffer</button></div>
+    <div class="dtabs" id="pilotTabs"></div>
     <div class="sbs">
-      <div class="sec" id="s1"><div class="shd" onclick="tgS('s1')"><h3>Kaartlagen</h3><span class="chev">&#x25BC;</span></div><div class="scc">
-        <div class="li" onclick="tgL('groen')"><div class="ld" style="background:var(--g)"></div><span class="ll">Groenobjecten</span><div class="tgl on" id="t-groen"></div></div>
-        <div class="li" onclick="tgL('water')"><div class="ld" style="background:var(--b)"></div><span class="ll">Waterobjecten</span><div class="tgl on" id="t-water"></div></div>
-        <div class="li" onclick="tgL('traject')"><div class="ld" style="background:var(--p)"></div><span class="ll">Jaarplan</span><div class="tgl" id="t-traject"></div></div>
-        <div class="li" onclick="tgL('werkpad')"><div class="ld" style="background:var(--y)"></div><span class="ll">Werkpad overlay</span><div class="tgl" id="t-werkpad"></div></div>
-      </div></div>
+      <div class="sec" id="s1"><div class="shd" onclick="tgS('s1')"><h3>Kaartlagen</h3><span class="chev">&#x25BC;</span></div><div class="scc" id="layerControls"></div></div>
       <div class="sec" id="s2"><div class="shd" onclick="tgS('s2')"><h3>Visualisatie</h3><span class="chev">&#x25BC;</span></div><div class="scc">
         <button class="stb a" data-s="objecttype" onclick="setSt('objecttype')">&#x25CF; Objecttype</button>
         <button class="stb" data-s="verschijningsvorm" onclick="setSt('verschijningsvorm')">&#x25CF; Verschijningsvorm</button>
@@ -308,49 +310,133 @@
 <div class="po" id="rPop" style="display:none"><div class="pp" id="rPopPanel"><div class="pph" id="rPopDrag"><h2 id="rT">Beheerregime</h2><button class="ppc" onclick="cReg()">&#x2715;</button></div><div class="ppb" id="rB"></div></div></div>
 
 <script>
-// Simplified coords for demo
-const G={"type":"FeatureCollection","features":[{"type":"Feature","properties":{"GlobalID":1,"naam":"WL beek","trajectcode":"WL123","verschijningsvorm":"Schraalgrasland","ruimtelijke_context":"Talud","objecttype":"Gras- en kruidachtigen","functie":"Cultuurbeek","taludsteilte":"1 : 2"},"geometry":{"type":"MultiPolygon","coordinates":[[[[5.850797,51.320902],[5.850787,51.320902],[5.850232,51.320476],[5.849211,51.319685],[5.848349,51.319020],[5.848172,51.318881],[5.847786,51.318579],[5.847768,51.318566],[5.847763,51.318550],[5.847758,51.318553],[5.847747,51.318563],[5.847748,51.318571],[5.847770,51.318587],[5.848155,51.318889],[5.848332,51.319029],[5.849194,51.319694],[5.850215,51.320485],[5.850771,51.320910],[5.850800,51.320916],[5.850816,51.320912],[5.850805,51.320900],[5.850797,51.320902]]]]}},{"type":"Feature","properties":{"GlobalID":2,"naam":"WL beek","trajectcode":"WL123","verschijningsvorm":"Schraalgrasland","ruimtelijke_context":"Talud","objecttype":"Gras- en kruidachtigen","functie":"Cultuurbeek","taludsteilte":"1 : 2"},"geometry":{"type":"MultiPolygon","coordinates":[[[[5.850442,51.320606],[5.850809,51.320888],[5.850805,51.320900],[5.850816,51.320912],[5.850832,51.320891],[5.850826,51.320879],[5.850458,51.320598],[5.849753,51.320049],[5.849023,51.319485],[5.848916,51.319401],[5.848328,51.318940],[5.847835,51.318565],[5.847798,51.318542],[5.847785,51.318541],[5.847763,51.318550],[5.847777,51.318560],[5.847819,51.318573],[5.848312,51.318949],[5.848899,51.319409],[5.849007,51.319494],[5.849736,51.320057],[5.850442,51.320606]]]]}},{"type":"Feature","properties":{"GlobalID":3,"naam":"WL beek","trajectcode":"WL123","verschijningsvorm":"Schraalgrasland","objecttype":"Gras- en kruidachtigen","functie":"Cultuurbeek","is_werkpad":true},"geometry":{"type":"MultiPolygon","coordinates":[[[[5.850790,51.320921],[5.850800,51.320920],[5.850800,51.320916],[5.850771,51.320910],[5.850215,51.320485],[5.849194,51.319694],[5.848332,51.319029],[5.848155,51.318889],[5.847770,51.318587],[5.847748,51.318571],[5.847747,51.318563],[5.847756,51.318550],[5.847748,51.318553],[5.847740,51.318568],[5.847742,51.318572],[5.847764,51.318590],[5.848149,51.318892],[5.848326,51.319032],[5.849189,51.319697],[5.850210,51.320488],[5.850766,51.320914],[5.850790,51.320921]]]]}},{"type":"Feature","properties":{"GlobalID":4,"naam":"WL beek","trajectcode":"WL123","verschijningsvorm":"Schraalgrasland","objecttype":"Gras- en kruidachtigen","functie":"Cultuurbeek"},"geometry":{"type":"MultiPolygon","coordinates":[[[[5.848916,51.319401],[5.849023,51.319485],[5.849753,51.320049],[5.850458,51.320598],[5.850826,51.320879],[5.850832,51.320891],[5.850829,51.320904],[5.850834,51.320905],[5.850839,51.320892],[5.850836,51.320880],[5.850464,51.320595],[5.849758,51.320046],[5.849029,51.319482],[5.848334,51.318937],[5.847840,51.318561],[5.847808,51.318542],[5.847785,51.318536],[5.847768,51.318541],[5.847756,51.318550],[5.847763,51.318550],[5.847785,51.318541],[5.847798,51.318542],[5.847835,51.318565],[5.848328,51.318940],[5.848916,51.319401]]]]}}]};
-const W={"type":"FeatureCollection","features":[{"type":"Feature","properties":{"GlobalID":1,"naam":"WL beek","trajectcode":"WL123","objecttype":"Watergang","verschijningsvorm":"Sloot","ruimtelijke_context":null,"functie":"Cultuurbeek","breedteklasse_watergang":2,"type_waterbodem":"Nat"},"geometry":{"type":"MultiPolygon","coordinates":[[[[5.850787,51.320902],[5.850797,51.320902],[5.850805,51.320900],[5.850811,51.320892],[5.850809,51.320888],[5.850442,51.320606],[5.849736,51.320057],[5.849007,51.319494],[5.848924,51.319429],[5.848899,51.319409],[5.848312,51.318949],[5.847819,51.318573],[5.847788,51.318554],[5.847777,51.318560],[5.847768,51.318566],[5.847786,51.318579],[5.848172,51.318881],[5.848349,51.319020],[5.849211,51.319685],[5.850232,51.320476],[5.850787,51.320902]]]]}}]};
-// TWO periods for same traject to demo multi-period planning
-const T={"type":"FeatureCollection","features":[
-{"type":"Feature","properties":{"GlobalID":1,"trajectcode":"WL123","beheerregime":"Regime 1","periode":"1","bewerkingspercentage":50,"uitvoerder":"Aannemer Zuid","opmerking_uitvoering":"","fase_zijde":"L"},"geometry":{"type":"MultiPolygon","coordinates":[[[[5.850829,51.320904],[5.850834,51.320905],[5.850839,51.320892],[5.850836,51.320880],[5.850464,51.320595],[5.849758,51.320046],[5.849029,51.319482],[5.848334,51.318937],[5.847840,51.318561],[5.847808,51.318542],[5.847756,51.318550],[5.847740,51.318568],[5.847742,51.318572],[5.847764,51.318590],[5.848149,51.318892],[5.848326,51.319032],[5.849189,51.319697],[5.850210,51.320488],[5.850766,51.320914],[5.850800,51.320920],[5.850800,51.320916],[5.850816,51.320912],[5.850829,51.320904]]]]}},
-{"type":"Feature","properties":{"GlobalID":2,"trajectcode":"WL123","beheerregime":"Regime 1","periode":"2","bewerkingspercentage":50,"uitvoerder":"Aannemer Zuid","opmerking_uitvoering":"","fase_zijde":"R"},"geometry":{"type":"MultiPolygon","coordinates":[[[[5.850829,51.320904],[5.850834,51.320905],[5.850839,51.320892],[5.850836,51.320880],[5.850464,51.320595],[5.849758,51.320046],[5.849029,51.319482],[5.848334,51.318937],[5.847840,51.318561],[5.847808,51.318542],[5.847756,51.318550],[5.847740,51.318568],[5.847742,51.318572],[5.847764,51.318590],[5.848149,51.318892],[5.848326,51.319032],[5.849189,51.319697],[5.850210,51.320488],[5.850766,51.320914],[5.850800,51.320920],[5.850800,51.320916],[5.850816,51.320912],[5.850829,51.320904]]]]}}
-]};
+// ===== DATA FROM EXTERNAL CONFIG =====
+// Aliases to external config (loaded via <script> tags)
+const cfg = window.APP_CONFIG;
+const OT  = window.OBJECT_TYPES;
+const dom  = cfg.domains;
+const cMap = cfg.colorMaps;
+const statusColors = cfg.statusColors;
+const beg  = cfg.glossary;
+const p2b  = cfg.propertyToConcept;
+const regimes = cfg.regimes;
 
-const dom={objecttype:['Gras- en kruidachtigen','Bos','Bosplantsoen','Struweel','Haag','Moeras','Houtsingel','Watergang','Watervlakte'],ruimtelijke_context:['Talud','Boven Talud','Wegberm','Meterstrook','Bodem','Natte Bodem','Winterbed','Instroom Voorziening','Uitstroom Voorziening','Kruin'],functie:['Cultuurbeek','Natuurbeek','Aanvoersloot','Omgevingsgericht water','Buffer','Bronbeek','Vispassage'],beheerder:['Waterschap Limburg','Gemeente','Particulier','Rijkswaterstaat','Provincie'],is_werkpad:['true','false'],type_waterbodem:['Droog','Nat'],breedteklasse_watergang:['1','2','3','4','5'],verschijningsvorm_water:['Beek','Sloot','Poel','Ven','Plas'],fase_zijde:['L','R']};
-// Verschijningsvorm per objecttype (from domeinlijsten CSV)
-const vvPerOT={
-  'Gras- en kruidachtigen':['Rietvegetatie','Zoomvegetatie','Ruige glanshaverhooilanden','Glanshaverhooilanden op schrale bodem','Bloemrijk natte ruigte','Ruigte','Gazon extensief','Dotterbloemhooiland (droge vorm)','Dotterbloemhooiland (Natte vorm)','Heischraal grasland','Schraalgrasland','Kalkgrasland','Pimpernelhooiland','Orchideeëngrasland'],
-  'Bos':['Bos'],
-  'Bosplantsoen':['Bomen en struikvormers'],
-  'Struweel':['Struweel'],
-  'Haag':['Geschoren haag','Losse haag'],
-  'Moeras':['Doorstroommoeras'],
-  'Houtsingel':['Houtsingel'],
-  'Watergang':['Beek','Sloot'],
-  'Watervlakte':['Poel','Ven','Plas']
-};
-// Full color maps for all values
-const cMap={
-  objecttype:{'Gras- en kruidachtigen':'#16a34a','Bos':'#166534','Bosplantsoen':'#15803d','Struweel':'#65a30d','Haag':'#84cc16','Moeras':'#a3e635','Houtsingel':'#4d7c0f','Watergang':'#2563eb','Watervlakte':'#3b82f6'},
-  verschijningsvorm:{'Schraalgrasland':'#22c55e','Rietvegetatie':'#84cc16','Zoomvegetatie':'#a3e635','Ruige glanshaverhooilanden':'#4ade80','Glanshaverhooilanden op schrale bodem':'#16a34a','Bloemrijk natte ruigte':'#86efac','Ruigte':'#eab308','Gazon extensief':'#bef264','Dotterbloemhooiland (droge vorm)':'#a3e635','Dotterbloemhooiland (Natte vorm)':'#34d399','Heischraal grasland':'#d9f99d','Kalkgrasland':'#fde68a','Pimpernelhooiland':'#fbbf24','Orchidee\u00EBngrasland':'#f0abfc','Bos':'#166534','Bomen en struikvormers':'#15803d','Struweel':'#65a30d','Geschoren haag':'#84cc16','Losse haag':'#a3e635','Doorstroommoeras':'#0d9488','Houtsingel':'#4d7c0f','Sloot':'#3b82f6','Beek':'#0ea5e9','Poel':'#06b6d4','Ven':'#67e8f9','Plas':'#22d3ee'},
-  ruimtelijke_context:{'Talud':'#ea580c','Boven Talud':'#f97316','Wegberm':'#a3a3a3','Meterstrook':'#d4d4d4','Bodem':'#78716c','Natte Bodem':'#0ea5e9','Winterbed':'#7dd3fc','Instroom Voorziening':'#f59e0b','Uitstroom Voorziening':'#fbbf24','Kruin':'#a16207'},
-  functie:{'Cultuurbeek':'#0ea5e9','Natuurbeek':'#10b981','Aanvoersloot':'#6366f1','Omgevingsgericht water':'#8b5cf6','Buffer':'#f59e0b','Bronbeek':'#14b8a6','Vispassage':'#f43f5e'}
-};
-const statusColors={gepland:'#7c3aed',in_uitvoering:'#d97706',uitgevoerd:'#16a34a',afgekeurd:'#dc2626'};
-const beg={"Uniek ID (GlobalID)":{"d":"Systeemgegenereerde unieke code.","s":"GUID/ArcGIS","st":"Definitief","c":"Velden"},"Naam":{"d":"Naam watergang/traject","s":"WL","st":"Controleren","c":"Velden"},"Traject Code":{"d":"Logische trajectcode","s":"WL","st":"Definitief","c":"Velden"},"Object Type":{"d":"Hoofdklasse; bepaalt verschijningsvormen.","s":"IMBOR 2025","st":"Definitief","c":"Velden"},"Verschijningsvorm":{"d":"Toplaag op basis van eigenschappen.","s":"IMBOR 2025","st":"Controleren","c":"Velden"},"Ruimtelijke Context":{"d":"Omgeving/constructieve situatie.","s":"WL","st":"Controleren","c":"Velden"},"Functie":{"d":"Functie watergang.","s":"WL","st":"Controleren","c":"Velden"},"Gras- en kruidachtigen":{"d":"Terrein met gras/kruidachtige vegetatie.","s":"IMBOR 2025","st":"Definitief","c":"Objecttypen"},"Watergang":{"d":"Geul voor waterbeheersing.","s":"IMBOR 2025","st":"Definitief","c":"Objecttypen"},"Schraalgrasland":{"d":"Droge, soortenrijke graslanden.","s":"WL","st":"Definitief","c":"Verschijningsvormen"},"Talud":{"d":"Onder helling gelegen vlak.","s":"kennisbank","st":"Controleren","c":"Ruimtelijke Context"},"Sloot":{"d":"Gegraven watergang.","s":"IMBOR 2025","st":"Controleren","c":"Verschijningsvormen"},"Cultuurbeek":{"d":"Watergang in cultuurlandschap.","s":"WL","st":"","c":"Functie"},"Nat":{"d":"Jaarrond watervoerend.","s":"","st":"Controleren","c":"Waterbodem"}};
-const p2b={globalid:'Uniek ID (GlobalID)',naam:'Naam',trajectcode:'Traject Code',objecttype:'Object Type',verschijningsvorm:'Verschijningsvorm',ruimtelijke_context:'Ruimtelijke Context',functie:'Functie',breedteklasse_watergang:'Breedteklasse Watergang',type_waterbodem:'Type Waterbodem'};
-const regimes={"Regime 1":{t:"Regime 1 — Cultuurbeek Extensief",ty:"Ecologisch maaibeheer",fr:"2x/jaar",ma:"Ja",bp:"50%",ds:"Schraalgrasland extensief maaibeheer. Sinusbeheer: jaarlijks wisselende zijde."}};
+// Build vvPerOT from OBJECT_TYPES
+const vvPerOT = {};
+for (const [name, def] of Object.entries(OT)) {
+  vvPerOT[name] = def.verschijningsvormen;
+}
+// Build objecttype domain list
+dom.objecttype = Object.keys(OT);
 
-let map,gL,wL,tL,wpL,baseLyr,vis={groen:1,water:1,traject:0,werkpad:0},cSt='objecttype',tVis=0,aTL='groen',aan={},ctx={},activePeriod='all',legOpen=true;
+// ===== PILOT STATE =====
+let activePilotKey = Object.keys(window.PILOTS)[0] || 'cultuurbeek';
+let pilot = window.PILOTS[activePilotKey];
+// Mutable data references (reassigned on pilot switch)
+let G = pilot.layers.groen  ? pilot.layers.groen.data  : {type:'FeatureCollection',features:[]};
+let W = pilot.layers.water  ? pilot.layers.water.data  : {type:'FeatureCollection',features:[]};
+let T = pilot.layers.traject ? pilot.layers.traject.data : {type:'FeatureCollection',features:[]};
+
+function getObjectLayerKeys() {
+  // All layer keys except 'traject' are object layers
+  return Object.keys(pilot.layers).filter(k => k !== 'traject');
+}
+function getAllFeatures() {
+  // All features from all object layers (for legend, etc.)
+  const feats = [];
+  for (const k of getObjectLayerKeys()) {
+    feats.push(...(pilot.layers[k]?.data?.features || []));
+  }
+  return feats;
+}
+
+function switchPilot(key) {
+  if (!window.PILOTS[key]) return;
+  activePilotKey = key;
+  pilot = window.PILOTS[key];
+  G = pilot.layers.groen  ? pilot.layers.groen.data  : {type:'FeatureCollection',features:[]};
+  W = pilot.layers.water  ? pilot.layers.water.data  : {type:'FeatureCollection',features:[]};
+  T = pilot.layers.traject ? pilot.layers.traject.data : {type:'FeatureCollection',features:[]};
+  // Reset visibility: object layers on, traject/werkpad off
+  vis = {};
+  for (const k of Object.keys(pilot.layers)) {
+    vis[k] = k === 'traject' ? 0 : 1;
+  }
+  vis.werkpad = 0;
+  aan = {};
+  activePeriod = 'all';
+  renderPilotTabs();
+  renderLayerControls();
+  if (map) {
+    map.setView(pilot.mapCenter, pilot.mapZoom);
+    rL(); uLeg(); rBeg(); rDomOv();
+  }
+}
+
+function renderPilotTabs() {
+  const el = document.getElementById('pilotTabs');
+  if (!el) return;
+  const keys = Object.keys(window.PILOTS);
+  el.innerHTML = keys.map(k => {
+    const p = window.PILOTS[k];
+    const hasData = Object.values(p.layers).some(l => l.data && l.data.features && l.data.features.length > 0);
+    const active = k === activePilotKey;
+    return `<button class="dtab${active ? ' a' : ''}${!hasData && !active ? ' ph' : ''}" onclick="switchPilot('${k}')">${p.name}</button>`;
+  }).join('');
+}
+
+function renderLayerControls() {
+  const el = document.getElementById('layerControls');
+  if (!el) return;
+  let h = '';
+  // Object layers
+  for (const [k, lyr] of Object.entries(pilot.layers)) {
+    if (k === 'traject') continue;
+    const on = vis[k] ? ' on' : '';
+    h += `<div class="li" onclick="tgL('${k}')"><div class="ld" style="background:${lyr.color}"></div><span class="ll">${lyr.label}</span><div class="tgl${on}" id="t-${k}"></div></div>`;
+  }
+  // Traject layer
+  if (pilot.layers.traject) {
+    const on = vis.traject ? ' on' : '';
+    h += `<div class="li" onclick="tgL('traject')"><div class="ld" style="background:${pilot.layers.traject.color}"></div><span class="ll">${pilot.layers.traject.label}</span><div class="tgl${on}" id="t-traject"></div></div>`;
+  }
+  // Werkpad overlay (always available)
+  const wpOn = vis.werkpad ? ' on' : '';
+  h += `<div class="li" onclick="tgL('werkpad')"><div class="ld" style="background:var(--y)"></div><span class="ll">Werkpad overlay</span><div class="tgl${wpOn}" id="t-werkpad"></div></div>`;
+  el.innerHTML = h;
+}
+
+// ===== APP STATE =====
+let map,gL,wL,tL,wpL,baseLyr,vis={},cSt='objecttype',tVis=0,aTL='groen',aan={},ctx={},activePeriod='all',legOpen=true;
+// Initialize vis from first pilot
+for (const k of Object.keys(pilot.layers)) { vis[k] = k === 'traject' ? 0 : 1; }
+vis.werkpad = 0;
 
 function gc(p){const v=p[cSt];const m=cMap[cSt]||{};if(v==null)return'#d1d5db';return m[String(v)]||'#6b7280'}
 function e(s){return String(s).replace(/&/g,'&amp;').replace(/'/g,'&#39;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
-function gDom(k,ln,p){const l=k.toLowerCase();if(l==='objecttype')return ln==='water'?['Watergang','Watervlakte']:['Gras- en kruidachtigen','Bos','Bosplantsoen','Struweel','Haag','Moeras','Houtsingel'];if(l==='ruimtelijke_context')return dom.ruimtelijke_context;if(l==='functie')return dom.functie;if(l==='beheerder')return dom.beheerder;if(l==='is_werkpad')return dom.is_werkpad;if(l==='type_waterbodem')return dom.type_waterbodem;if(l==='breedteklasse_watergang')return dom.breedteklasse_watergang;if(l==='verschijningsvorm'){const ot=p&&p.objecttype;if(ot&&vvPerOT[ot])return vvPerOT[ot];return ln==='water'?dom.verschijningsvorm_water:Object.values(vvPerOT).flat()}if(l==='fase_zijde')return dom.fase_zijde;return null}
+function gDom(k,ln,p){
+  const l=k.toLowerCase();
+  if(l==='objecttype'){
+    // Filter objecttypes by category matching the layer name
+    return Object.entries(OT).filter(([,def])=>def.category===ln).map(([name])=>name);
+  }
+  if(l==='verschijningsvorm'){
+    const ot=p&&p.objecttype;
+    if(ot&&vvPerOT[ot])return vvPerOT[ot];
+    // Fallback: all verschijningsvormen for this layer's category
+    const catTypes=Object.entries(OT).filter(([,def])=>def.category===ln);
+    if(catTypes.length)return catTypes.flatMap(([,def])=>def.verschijningsvormen);
+    return Object.values(vvPerOT).flat();
+  }
+  // Generic domain lookup
+  if(dom[l])return dom[l];
+  return null;
+}
 
 function initMap(){
-  map=L.map('map',{zoomControl:true}).setView([51.31975,5.8493],17);
+  map=L.map('map',{zoomControl:true}).setView(pilot.mapCenter,pilot.mapZoom);
   baseLyr=L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'&copy; OSM &copy; CARTO',maxZoom:22}).addTo(map);
+  renderPilotTabs();renderLayerControls();
   rL();rBeg();uLeg();rDomOv();
 }
 function setBM(id,el){
@@ -363,29 +449,60 @@ function setBM(id,el){
   baseLyr.bringToBack();
 }
 
+// Map of layer key -> Leaflet layer (dynamic)
+let mapLayerRefs = {};
+
 function rL(){
   const z=map.getZoom(),c=map.getCenter();
-  [gL,wL,tL,wpL].forEach(l=>{if(l)map.removeLayer(l)});
-  gL=L.geoJSON(G,{style:f=>({fillColor:gc(f.properties),fillOpacity:.55,color:'#fff',weight:1.5,opacity:.9}),onEachFeature:(f,l)=>l.on('click',()=>sPop(f,'groen',G.features.indexOf(f)))});
-  if(vis.groen)gL.addTo(map);
-  wL=L.geoJSON(W,{style:f=>({fillColor:gc(f.properties),fillOpacity:.6,color:'#bfdbfe',weight:1.5,opacity:.9}),onEachFeature:(f,l)=>l.on('click',()=>sPop(f,'water',W.features.indexOf(f)))});
-  if(vis.water)wL.addTo(map);
-  // Filter trajecten by active period
-  const tFeats=activePeriod==='all'?T.features:T.features.filter(f=>f.properties.periode===activePeriod);
-  const tGeo={type:'FeatureCollection',features:tFeats};
-  tL=L.geoJSON(tGeo,{style:f=>{const k='traject-'+T.features.indexOf(f);const ad=aan[k]||{};const sc=statusColors[ad.status]||'#7c3aed';return{fillColor:sc,fillOpacity:ad.status==='uitgevoerd'?.2:.12,color:sc,weight:ad.status==='uitgevoerd'?3:2,opacity:ad.status==='uitgevoerd'?.7:.5,dashArray:ad.status==='uitgevoerd'?'':'8 4'}},onEachFeature:(f,l)=>l.on('click',()=>sPop(f,'traject',T.features.indexOf(f)))});
-  if(vis.traject)tL.addTo(map);
-  const wf={type:'FeatureCollection',features:G.features.filter(f=>f.properties.is_werkpad===true)};
-  wpL=L.geoJSON(wf,{style:()=>({fillColor:'#d97706',fillOpacity:.35,color:'#d97706',weight:2.5,opacity:.8,dashArray:'5 3'}),onEachFeature:(f,l)=>l.on('click',()=>sPop(f,'groen',G.features.indexOf(f)))});
+  // Remove all existing layers
+  Object.values(mapLayerRefs).forEach(l=>{if(l)map.removeLayer(l)});
+  mapLayerRefs = {};
+
+  // Create object layers dynamically
+  for (const [k, lyr] of Object.entries(pilot.layers)) {
+    if (k === 'traject') continue;
+    const data = lyr.data || {type:'FeatureCollection',features:[]};
+    mapLayerRefs[k] = L.geoJSON(data, {
+      style: f => ({fillColor:gc(f.properties),fillOpacity:.55,color:'#fff',weight:1.5,opacity:.9}),
+      onEachFeature: (f,l) => l.on('click', () => sPop(f, k, data.features.indexOf(f)))
+    });
+    if(vis[k]) mapLayerRefs[k].addTo(map);
+  }
+
+  // Backward compat aliases
+  gL = mapLayerRefs.groen || null;
+  wL = mapLayerRefs.water || null;
+
+  // Traject layer (special rendering)
+  if (pilot.layers.traject) {
+    const tFeats=activePeriod==='all'?T.features:T.features.filter(f=>f.properties.periode===activePeriod);
+    const tGeo={type:'FeatureCollection',features:tFeats};
+    tL=L.geoJSON(tGeo,{style:f=>{const k='traject-'+T.features.indexOf(f);const ad=aan[k]||{};const sc=statusColors[ad.status]||'#7c3aed';return{fillColor:sc,fillOpacity:ad.status==='uitgevoerd'?.2:.12,color:sc,weight:ad.status==='uitgevoerd'?3:2,opacity:ad.status==='uitgevoerd'?.7:.5,dashArray:ad.status==='uitgevoerd'?'':'8 4'}},onEachFeature:(f,l)=>l.on('click',()=>sPop(f,'traject',T.features.indexOf(f)))});
+    mapLayerRefs.traject = tL;
+    if(vis.traject)tL.addTo(map);
+  }
+
+  // Werkpad overlay (from all object layers where is_werkpad===true)
+  const wpFeats = getAllFeatures().filter(f=>f.properties.is_werkpad===true);
+  const wf={type:'FeatureCollection',features:wpFeats};
+  wpL=L.geoJSON(wf,{style:()=>({fillColor:'#d97706',fillOpacity:.35,color:'#d97706',weight:2.5,opacity:.8,dashArray:'5 3'}),onEachFeature:(f,l)=>l.on('click',()=>{
+    // Find which layer this feature belongs to
+    for(const [k,lyr] of Object.entries(pilot.layers)){
+      if(k==='traject')continue;
+      const idx=(lyr.data?.features||[]).indexOf(f);
+      if(idx>=0){sPop(f,k,idx);return;}
+    }
+  })});
+  mapLayerRefs.werkpad = wpL;
   if(vis.werkpad)wpL.addTo(map);
   map.setView(c,z);
 }
-function tgL(n){vis[n]=!vis[n];document.getElementById('t-'+n).classList.toggle('on',vis[n]);const m={groen:gL,water:wL,traject:tL,werkpad:wpL}[n];if(!m)return;vis[n]?m.addTo(map):map.removeLayer(m)}
+function tgL(n){vis[n]=vis[n]?0:1;const tel=document.getElementById('t-'+n);if(tel)tel.classList.toggle('on',vis[n]);const m=mapLayerRefs[n];if(!m)return;vis[n]?m.addTo(map):map.removeLayer(m)}
 function setSt(a){cSt=a;document.querySelectorAll('.stb').forEach(b=>b.classList.toggle('a',b.dataset.s===a));rL();uLeg()}
 function uLeg(){
   const m=cMap[cSt]||{};
   // Collect only values actually in use
-  const inUse=new Set();[...G.features,...W.features].forEach(f=>{const v=f.properties[cSt];if(v!=null)inUse.add(String(v))});
+  const inUse=new Set();getAllFeatures().forEach(f=>{const v=f.properties[cSt];if(v!=null)inUse.add(String(v))});
   let items='';for(const[v,c]of Object.entries(m)){const used=inUse.has(v);items+=`<div class="leg-item" style="${used?'':'opacity:.4'}"><div class="leg-dot" style="background:${c}"></div>${v}</div>`}
   // Status legend for jaarplan
   let statusLeg='<div style="margin-top:6px;font-size:10.5px;font-weight:600;color:var(--txd);margin-bottom:4px">Jaarplan status</div>';
@@ -408,8 +525,8 @@ function iH(b){if(!b)return'';return`<span class="ii" onmouseenter="sT(event,'${
 
 function sPop(f,ln,i){
   ctx={f,ln,i};const p=f.properties;
-  const lbl=ln==='traject'?'Jaarplan':'Groenobject';
-  document.getElementById('pT').innerHTML=`${({groen:'Groenobject',water:'Waterobject',traject:'Jaarplan'})[ln]} — ${e(p.objecttype||p.trajectcode||'Object')} <span style="color:var(--txm);font-weight:400;font-size:12px">${ln==='traject'?'Periode '+p.periode:'#'+p.GlobalID}</span>`;
+  const layerLabel=ln==='traject'?'Jaarplan':(pilot.layers[ln]?.label||ln);
+  document.getElementById('pT').innerHTML=`${layerLabel} — ${e(p.objecttype||p.trajectcode||'Object')} <span style="color:var(--txm);font-weight:400;font-size:12px">${ln==='traject'?'Periode '+p.periode:'#'+p.GlobalID}</span>`;
   let tabs='<button class="ptb a" onclick="sTab(\'a\')">Attributen</button>';
   if(ln==='traject'){tabs+='<button class="ptb" onclick="sTab(\'p\')">&#x1F527; Aannemer</button>';tabs+='<button class="ptb" onclick="sTab(\'f\')">&#x21C4; Fasering</button>';}
   document.getElementById('pTabs').innerHTML=tabs;sTab('a');document.getElementById('fPop').style.display='block';
@@ -473,9 +590,16 @@ function hT(){document.getElementById('tip').style.display='none'}
 
 function toggleTable(){tVis=!tVis;document.getElementById('tPanel').classList.toggle('hid',!tVis);document.getElementById('tBtn').classList.toggle('btn-p',tVis);if(tVis)rTbl();setTimeout(()=>map.invalidateSize(),350)}
 function oIT(ln){aTL=ln;if(!tVis)toggleTable();rTbl()}
+function getDataMap(){
+  const m={};
+  for(const [k,lyr] of Object.entries(pilot.layers)){m[k]=lyr.data||{type:'FeatureCollection',features:[]};}
+  return m;
+}
 function rTbl(){
-  document.getElementById('tTabs').innerHTML=['groen','water','traject'].map(n=>`<button class="tb ${n===aTL?'a':''}" onclick="aTL='${n}';rTbl()">${({groen:'Groen',water:'Water',traject:'Jaarplan'})[n]}</button>`).join('');
-  const dm={groen:G,water:W,traject:T}[aTL];if(!dm||!dm.features.length){document.getElementById('tC').innerHTML='<p style="padding:16px;color:var(--txd)">Geen data</p>';return}
+  const dm0=getDataMap();const keys=Object.keys(dm0);
+  if(!keys.includes(aTL))aTL=keys[0]||'groen';
+  document.getElementById('tTabs').innerHTML=keys.map(n=>`<button class="tb ${n===aTL?'a':''}" onclick="aTL='${n}';rTbl()">${pilot.layers[n]?.label||n}</button>`).join('');
+  const dm=dm0[aTL];if(!dm||!dm.features.length){document.getElementById('tC').innerHTML='<p style="padding:16px;color:var(--txd)">Geen data</p>';return}
   const ks=[...new Set(dm.features.flatMap(f=>Object.keys(f.properties)))];
   let h='<table class="dt"><thead><tr>';ks.forEach(k=>{const b=fB(k);h+=`<th>${e(k)} ${iH(b)}</th>`});h+='</tr></thead><tbody>';
   dm.features.forEach((f,fi)=>{h+='<tr>';ks.forEach(k=>{let v=f.properties[k];const dv=v==null?'':String(v);const d=gDom(k,aTL,f.properties);
@@ -483,20 +607,16 @@ function rTbl(){
     else{h+=`<td><input value="${e(dv)}" onchange="cC('${aTL}',${fi},'${e(k)}',this.value)" onfocus="this.select()"></td>`}});h+='</tr>'});
   h+='</tbody></table>';document.getElementById('tC').innerHTML=h;
 }
-function cC(ln,fi,k,v){const dm={groen:G,water:W,traject:T}[ln];let p=v;if(v==='true')p=true;else if(v==='false')p=false;else if(v===''||v==='null')p=null;else if(!isNaN(Number(v))&&v.trim()!=='')p=Number(v);dm.features[fi].properties[k]=p;if(k==='objecttype'){dm.features[fi].properties.verschijningsvorm=null}rL();uLeg();rTbl()}
-function addA(){const n=prompt('Nieuwe attribuut naam:');if(!n)return;({groen:G,water:W,traject:T})[aTL].features.forEach(f=>{if(!(n in f.properties))f.properties[n]=null});rTbl()}
-function rmA(){const dm=({groen:G,water:W,traject:T})[aTL];const ks=[...new Set(dm.features.flatMap(f=>Object.keys(f.properties)))];const n=prompt('Verwijder attribuut:\n'+ks.join(', '));if(!n||!ks.includes(n))return;dm.features.forEach(f=>{delete f.properties[n]});rTbl();rL()}
-function exportCSV(){const dms={groen:G,water:W,traject:T};let c='';for(const[ln,d]of Object.entries(dms)){const ks=[...new Set(d.features.flatMap(f=>Object.keys(f.properties)))];c+=`# ${ln}\n`+['_laag',...ks].join(';')+'\n';d.features.forEach(f=>{c+=[ln,...ks.map(k=>{const v=f.properties[k];return v==null?'':String(v)})].join(';')+'\n'});c+='\n'}c+='# Aannemer\n_key;status;datum_gepland;datum_uitgevoerd;opmerking;fase_uitgevoerd;fase_afwijking_reden\n';for(const[k,a]of Object.entries(aan))c+=`${k};${a.status||''};${a.datum_gepland||''};${a.datum_uitgevoerd||''};${a.opmerking||''};${a.fase_uitgevoerd||''};${a.fase_afwijking_reden||''}\n`;const b=new Blob([c],{type:'text/csv;charset=utf-8;'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='groenbeheer_'+new Date().toISOString().slice(0,10)+'.csv';a.click()}
+function cC(ln,fi,k,v){const dm=getDataMap()[ln];let p=v;if(v==='true')p=true;else if(v==='false')p=false;else if(v===''||v==='null')p=null;else if(!isNaN(Number(v))&&v.trim()!=='')p=Number(v);dm.features[fi].properties[k]=p;if(k==='objecttype'){dm.features[fi].properties.verschijningsvorm=null}rL();uLeg();rTbl()}
+function addA(){const n=prompt('Nieuwe attribuut naam:');if(!n)return;getDataMap()[aTL].features.forEach(f=>{if(!(n in f.properties))f.properties[n]=null});rTbl()}
+function rmA(){const dm=getDataMap()[aTL];const ks=[...new Set(dm.features.flatMap(f=>Object.keys(f.properties)))];const n=prompt('Verwijder attribuut:\n'+ks.join(', '));if(!n||!ks.includes(n))return;dm.features.forEach(f=>{delete f.properties[n]});rTbl();rL()}
+function exportCSV(){const dms=getDataMap();let c='';for(const[ln,d]of Object.entries(dms)){const ks=[...new Set(d.features.flatMap(f=>Object.keys(f.properties)))];c+=`# ${ln}\n`+['_laag',...ks].join(';')+'\n';d.features.forEach(f=>{c+=[ln,...ks.map(k=>{const v=f.properties[k];return v==null?'':String(v)})].join(';')+'\n'});c+='\n'}c+='# Aannemer\n_key;status;datum_gepland;datum_uitgevoerd;opmerking;fase_uitgevoerd;fase_afwijking_reden\n';for(const[k,a]of Object.entries(aan))c+=`${k};${a.status||''};${a.datum_gepland||''};${a.datum_uitgevoerd||''};${a.opmerking||''};${a.fase_uitgevoerd||''};${a.fase_afwijking_reden||''}\n`;const b=new Blob([c],{type:'text/csv;charset=utf-8;'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='groenbeheer_'+new Date().toISOString().slice(0,10)+'.csv';a.click()}
 
 function rBeg(flt=''){const l=document.getElementById('blist'),lw=flt.toLowerCase();let h='',lc='';for(const[t,i]of Object.entries(beg)){if(flt&&!t.toLowerCase().includes(lw)&&!i.d.toLowerCase().includes(lw))continue;if(i.c!==lc){lc=i.c;h+=`<div style="font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--txm);padding:7px 0 3px;border-top:1px solid var(--bd);margin-top:5px">${e(lc)}</div>`}const sc=i.st==='Definitief'?'var(--g)':i.st==='Controleren'?'var(--y)':'var(--txm)';h+=`<div style="padding:5px 0;border-bottom:1px solid var(--bd)" onmouseenter="sT(event,'${e(i.d)}','${e(i.s||'')}','${e(i.st||'')}')" onmouseleave="hT()"><div style="font-size:12px;font-weight:500">${e(t)} <span style="font-size:9px;color:${sc};margin-left:3px">${e(i.st||'')}</span></div><div style="font-size:11px;color:var(--txd);margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${e(i.d)}</div></div>`}if(!h)h='<p style="color:var(--txm);font-size:12px">Geen begrippen</p>';l.innerHTML=h}
 function fltB(){rBeg(document.getElementById('bsrc').value)}
 function rDomOv(){const el=document.getElementById('domOv');let h='';for(const[k,v]of Object.entries(dom)){h+=`<div style="margin-bottom:10px"><div style="font-size:12px;font-weight:600;margin-bottom:4px">${e(k)}</div><div style="display:flex;flex-wrap:wrap;gap:4px">${v.map(x=>`<span style="font-size:11px;padding:2px 8px;background:var(--sf2);border:1px solid var(--bd);border-radius:12px">${e(x)}</span>`).join('')}</div></div>`}el.innerHTML=h}
 // ===== ARCHITECTURE PAGE: Drag & Drop Layers =====
-const defaultLayers={
-  A:['GlobalID','objecttype','verschijningsvorm','ruimtelijke_context','functie','taludsteilte','is_werkpad','steilheidklasse','eigenaar'],
-  B:['watergang_id','complex_id','trajectcode','naam','streefbeeld_id','ecologisch_doel','beheerder'],
-  C:['beheerregime','periode','fase_zijde','bewerkingspercentage','uitvoerder','techniek','maaifrequentie','datum_gepland','datum_uitgevoerd','status','opmerking']
-};
+const defaultLayers=cfg.defaultLayers;
 let layers=JSON.parse(JSON.stringify(defaultLayers));
 
 function renderChips(){
@@ -525,21 +645,13 @@ function resetLayers(){layers=JSON.parse(JSON.stringify(defaultLayers));renderCh
 function exportLayers(){let c='laag;attribuut\n';['A','B','C'].forEach(l=>layers[l].forEach(a=>c+=`Laag ${l};${a}\n`));const b=new Blob([c],{type:'text/csv'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='drielagen_model_'+new Date().toISOString().slice(0,10)+'.csv';a.click()}
 
 // ===== REGIME MATRIX =====
-const objectTypes=['Gras- en kruidachtigen','Bos','Struweel','Haag','Moeras','Houtsingel','Watergang','Watervlakte'];
-let mxRegimes=['Natuur_A','Natuur_B','Cultuur_Ext','Cultuur_Int','Kering','Buffer'];
-let mxData={};
-// Pre-fill some example data
+const objectTypes=Object.keys(OT);
+let mxRegimes=[...(cfg.matrixRegimes||[])];
+let mxData={...(cfg.matrixData||{})};
 function initMatrix(){
   mxRegimes.forEach(r=>objectTypes.forEach(ot=>{
     const k=r+'|'+ot;
-    if(r==='Natuur_A'&&ot==='Gras- en kruidachtigen')mxData[k]='Sinusbeheer, 2x/jaar, maaisel afvoeren';
-    else if(r==='Natuur_A'&&ot==='Watergang')mxData[k]='Eenzijdig schonen, 1x/jaar okt';
-    else if(r==='Cultuur_Ext'&&ot==='Gras- en kruidachtigen')mxData[k]='2x maaien, maaisel afvoeren';
-    else if(r==='Cultuur_Int'&&ot==='Gras- en kruidachtigen')mxData[k]='4-6x maaien, klepelen';
-    else if(r==='Kering'&&ot==='Gras- en kruidachtigen')mxData[k]='6x maaien, gazon kort';
-    else if(r==='Buffer'&&ot==='Watergang')mxData[k]='Schonen bij vulling >50%';
-    else if(r==='Natuur_B'&&ot==='Gras- en kruidachtigen')mxData[k]='1x/jaar sept, niet maaien voor 15 jul';
-    else if(!mxData[k])mxData[k]='';
+    if(!mxData[k])mxData[k]='';
   }));
   renderMatrix();
 }
@@ -609,7 +721,7 @@ function showPage(p){
   else if(p==='arch'){const el=document.getElementById('archPage');el.style.display='block';el.classList.add('vis');renderChips()}
   else if(p==='matrix'){const el=document.getElementById('matrixPage');el.style.display='block';el.classList.add('vis');if(!document.getElementById('mxTable').innerHTML)initMatrix()}
 }
-function swDS(el){document.querySelectorAll('.dtab').forEach(t=>t.classList.remove('a'));el.classList.add('a')}
+function swDS(el){/* legacy — pilot switching via switchPilot() */}
 function tgS(id){document.getElementById(id).classList.toggle('c')}
 // ===== DRAGGABLE POPUPS =====
 function makeDraggable(panelId, handleId){
