@@ -55,15 +55,15 @@ window.OBJECT_TYPES = {
   'Watervlakte': {
     category: 'water',
     verschijningsvormen: ['Poel','Ven','Plas']
-  }
+  },
 
-  // ── Voorbeeld: Verharding (uncomment om te activeren) ──────────────
-  // 'Verharding': {
-  //   category: 'verharding',
-  //   verschijningsvormen: ['Asfalt','Klinkers','Beton','Halfverharding']
-  // },
-  // 'Kunstwerk': {
-  //   category: 'verharding',
-  //   verschijningsvormen: ['Brug','Duiker','Stuw','Dam']
-  // }
+  // ── Verharding ───────────────────────────────────────────────────────
+  'Elementenverharding': {
+    category: 'verharding',
+    verschijningsvormen: ['Natuursteen','Betonsteen','Gebakken klinkers']
+  },
+  'Halfverharding': {
+    category: 'verharding',
+    verschijningsvormen: ['Kleischelpen','Grind','Schelpen','Puin']
+  }
 };

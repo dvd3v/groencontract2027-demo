@@ -8,7 +8,7 @@ window.PILOTS = window.PILOTS || {};
 window.PILOTS['cultuurbeek'] = {
   name: 'Cultuurbeek',
   mapCenter: [51.31975, 5.8493],
-  mapZoom: 17,
+  mapZoom: 19,
 
   // Beschikbare kaartlagen voor deze pilot
   layers: {
@@ -26,8 +26,8 @@ window.PILOTS['cultuurbeek'] = {
       label: 'Jaarplan',
       color: 'var(--p)',
       data: {"type":"FeatureCollection","features":[
-        {"type":"Feature","properties":{"GlobalID":1,"trajectcode":"WL123","beheerregime":"Regime 1","periode":"1","bewerkingspercentage":50,"uitvoerder":"Aannemer Zuid","opmerking_uitvoering":"","fase_zijde":"L"},"geometry":{"type":"MultiPolygon","coordinates":[[[[5.850829,51.320904],[5.850834,51.320905],[5.850839,51.320892],[5.850836,51.320880],[5.850464,51.320595],[5.849758,51.320046],[5.849029,51.319482],[5.848334,51.318937],[5.847840,51.318561],[5.847808,51.318542],[5.847756,51.318550],[5.847740,51.318568],[5.847742,51.318572],[5.847764,51.318590],[5.848149,51.318892],[5.848326,51.319032],[5.849189,51.319697],[5.850210,51.320488],[5.850766,51.320914],[5.850800,51.320920],[5.850800,51.320916],[5.850816,51.320912],[5.850829,51.320904]]]]}},
-        {"type":"Feature","properties":{"GlobalID":2,"trajectcode":"WL123","beheerregime":"Regime 1","periode":"2","bewerkingspercentage":50,"uitvoerder":"Aannemer Zuid","opmerking_uitvoering":"","fase_zijde":"R"},"geometry":{"type":"MultiPolygon","coordinates":[[[[5.850829,51.320904],[5.850834,51.320905],[5.850839,51.320892],[5.850836,51.320880],[5.850464,51.320595],[5.849758,51.320046],[5.849029,51.319482],[5.848334,51.318937],[5.847840,51.318561],[5.847808,51.318542],[5.847756,51.318550],[5.847740,51.318568],[5.847742,51.318572],[5.847764,51.318590],[5.848149,51.318892],[5.848326,51.319032],[5.849189,51.319697],[5.850210,51.320488],[5.850766,51.320914],[5.850800,51.320920],[5.850800,51.320916],[5.850816,51.320912],[5.850829,51.320904]]]]}}
+        {"type":"Feature","properties":{"GlobalID":1,"trajectcode":"WL123","beheerregime":"Cultuur_Ext","periode":"1","bewerkingspercentage":50,"uitvoerder":"Aannemer Zuid","opmerking_uitvoering":"Sinusbeheer linkerzijde. Schraalgrasland talud maaien, maaisel afvoeren. Watergang eenzijdig schonen (linkeroever).","fase_zijde":"L"},"geometry":{"type":"MultiPolygon","coordinates":[[[[5.850829,51.320904],[5.850834,51.320905],[5.850839,51.320892],[5.850836,51.320880],[5.850464,51.320595],[5.849758,51.320046],[5.849029,51.319482],[5.848334,51.318937],[5.847840,51.318561],[5.847808,51.318542],[5.847756,51.318550],[5.847740,51.318568],[5.847742,51.318572],[5.847764,51.318590],[5.848149,51.318892],[5.848326,51.319032],[5.849189,51.319697],[5.850210,51.320488],[5.850766,51.320914],[5.850800,51.320920],[5.850800,51.320916],[5.850816,51.320912],[5.850829,51.320904]]]]}},
+        {"type":"Feature","properties":{"GlobalID":2,"trajectcode":"WL123","beheerregime":"Cultuur_Ext","periode":"2","bewerkingspercentage":50,"uitvoerder":"Aannemer Zuid","opmerking_uitvoering":"Sinusbeheer rechterzijde. Schraalgrasland talud maaien, maaisel afvoeren. Watergang eenzijdig schonen (rechteroever).","fase_zijde":"R"},"geometry":{"type":"MultiPolygon","coordinates":[[[[5.850829,51.320904],[5.850834,51.320905],[5.850839,51.320892],[5.850836,51.320880],[5.850464,51.320595],[5.849758,51.320046],[5.849029,51.319482],[5.848334,51.318937],[5.847840,51.318561],[5.847808,51.318542],[5.847756,51.318550],[5.847740,51.318568],[5.847742,51.318572],[5.847764,51.318590],[5.848149,51.318892],[5.848326,51.319032],[5.849189,51.319697],[5.850210,51.320488],[5.850766,51.320914],[5.850800,51.320920],[5.850800,51.320916],[5.850816,51.320912],[5.850829,51.320904]]]]}}
       ]}
     }
   }

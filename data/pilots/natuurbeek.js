@@ -8,7 +8,7 @@ window.PILOTS = window.PILOTS || {};
 window.PILOTS['natuurbeek'] = {
   name: 'Natuurbeek',
   mapCenter: [51.32, 5.85],   // Pas aan naar werkelijke locatie
-  mapZoom: 16,
+  mapZoom: 18,
 
   layers: {
     groen: {
