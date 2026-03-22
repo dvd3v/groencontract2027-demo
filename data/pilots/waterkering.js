@@ -8,7 +8,7 @@ window.PILOTS = window.PILOTS || {};
 window.PILOTS['waterkering'] = {
   name: 'Kering',
   mapCenter: [51.32, 5.85],
-  mapZoom: 16,
+  mapZoom: 18,
 
   layers: {
     groen: {

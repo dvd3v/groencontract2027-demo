@@ -64,6 +64,14 @@
 .plan-tbl select,.plan-tbl input{border:none;background:transparent;font-size:12px;font-family:var(--f);color:var(--tx);width:100%;padding:2px 0}.plan-tbl select:focus,.plan-tbl input:focus{outline:none;border-bottom:1px solid var(--wl)}.plan-tbl select{appearance:auto;cursor:pointer}
 .status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
 .plan-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}.plan-stat{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:14px 16px}.plan-stat .num{font-size:22px;font-weight:700}.plan-stat .lbl{font-size:11px;color:var(--txm);margin-top:2px}
+/* Begrippen page */
+.beg-page{display:none;height:calc(100vh - 52px);overflow-y:auto;padding:32px;background:var(--bg)}.beg-page.vis{display:block;grid-column:1/-1}
+.beg-toolbar{display:flex;gap:8px;align-items:center;margin-bottom:16px;flex-wrap:wrap}.beg-search{flex:1;min-width:200px;padding:8px 12px;border:1px solid var(--bd);border-radius:var(--rs);font-size:13px;font-family:var(--f);background:var(--sf);color:var(--tx)}.beg-search:focus{outline:none;border-color:var(--wl)}.beg-filter{padding:6px 10px;border:1px solid var(--bd);border-radius:var(--rs);font-size:12px;font-family:var(--f);background:var(--sf);color:var(--tx);cursor:pointer;appearance:auto}.beg-filter:focus{outline:none;border-color:var(--wl)}
+.beg-table{width:100%;border-collapse:collapse;font-size:12.5px;background:var(--sf)}.beg-table th{padding:9px 12px;background:var(--sf2);color:var(--txd);font-weight:600;text-align:left;border:1px solid var(--bd);position:sticky;top:0;z-index:1;white-space:nowrap}.beg-table td{padding:7px 12px;border:1px solid var(--bd);vertical-align:top}.beg-table tr:hover td{background:rgba(41,182,194,.03)}
+.beg-table input,.beg-table select,.beg-table textarea{border:none;background:transparent;font-size:12px;font-family:var(--f);color:var(--tx);width:100%;padding:2px 0;resize:vertical}.beg-table input:focus,.beg-table select:focus,.beg-table textarea:focus{outline:none;border-bottom:1px solid var(--wl)}.beg-table select{appearance:auto;cursor:pointer}
+.beg-status{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600}.beg-st-def{background:rgba(22,163,74,.1);color:var(--g)}.beg-st-ctrl{background:rgba(217,119,6,.1);color:var(--y)}.beg-st-tbp{background:rgba(146,152,173,.15);color:var(--txm)}.beg-st-empty{background:var(--sf2);color:var(--txm)}
+.beg-cat-hdr{background:var(--sf2);font-weight:600;color:var(--txd);font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+.beg-del{cursor:pointer;color:var(--txm);font-size:11px;text-align:center}.beg-del:hover{color:var(--r)}
 </style>
 <!-- Data: config, objecttypes, pilots -->
 <script src="data/config.js"></script>
@@ -84,9 +92,10 @@
       <div class="nav-tabs">
         <button class="nav-tab a" onclick="showPage('map')">&#x1F5FA; Kaart</button>
         <button class="nav-tab" onclick="showPage('plan')">&#x1F4C5; Jaarplan</button>
+        <button class="nav-tab" onclick="showPage('beg')">&#x1F4D6; Begrippen</button>
+        <button class="nav-tab" onclick="showPage('matrix')">&#x2696; Regimematrix</button>
         <button class="nav-tab" onclick="showPage('dm')">&#x1F4CA; Datamodel</button>
         <button class="nav-tab" onclick="showPage('arch')">&#x1F9F1; Drielagen</button>
-        <button class="nav-tab" onclick="showPage('matrix')">&#x2696; Regimematrix</button>
       </div>
       <button class="btn" onclick="toggleTable()" id="tBtn">&#x1F4CB; Tabel</button>
       <button class="btn btn-s" onclick="exportCSV()">&#x2B07; CSV</button>
@@ -102,10 +111,6 @@
         <button class="stb" data-s="ruimtelijke_context" onclick="setSt('ruimtelijke_context')">&#x25CF; Ruimtelijke context</button>
         <button class="stb" data-s="functie" onclick="setSt('functie')">&#x25CF; Functie</button>
         <div id="leg"></div>
-      </div></div>
-      <div class="sec" id="s3"><div class="shd" onclick="tgS('s3')"><h3>Begrippenlijst</h3><span class="chev">&#x25BC;</span></div><div class="scc">
-        <input type="text" placeholder="Zoek begrip..." id="bsrc" style="width:100%;background:var(--sf2);border:1px solid var(--bd);border-radius:var(--rs);padding:6px 9px;color:var(--tx);font-size:12px;font-family:var(--f);margin-bottom:8px" oninput="fltB()">
-        <div id="blist" style="max-height:260px;overflow-y:auto"></div>
       </div></div>
     </div>
   </div>
@@ -125,12 +130,15 @@
         <svg viewBox="0 0 880 355" style="width:100%;font-family:'DM Sans',sans-serif">
           <rect x="330" y="10" width="220" height="40" rx="8" fill="#7c3aed" opacity=".12" stroke="#7c3aed" stroke-width="1.5"/>
           <text x="440" y="35" text-anchor="middle" font-size="13" font-weight="600" fill="#7c3aed">Traject (WL123)</text>
-          <line x1="380" y1="50" x2="220" y2="80" stroke="#c8cdd6" stroke-width="1"/>
-          <line x1="500" y1="50" x2="660" y2="80" stroke="#c8cdd6" stroke-width="1"/>
-          <rect x="100" y="80" width="240" height="34" rx="6" fill="#16a34a" opacity=".1" stroke="#16a34a" stroke-width="1"/>
-          <text x="220" y="101" text-anchor="middle" font-size="12" font-weight="500" fill="#16a34a">Groenobjecten</text>
-          <rect x="540" y="80" width="240" height="34" rx="6" fill="#2563eb" opacity=".1" stroke="#2563eb" stroke-width="1"/>
-          <text x="660" y="101" text-anchor="middle" font-size="12" font-weight="500" fill="#2563eb">Waterobjecten</text>
+          <line x1="330" y1="50" x2="140" y2="80" stroke="#c8cdd6" stroke-width="1"/>
+          <line x1="440" y1="50" x2="440" y2="80" stroke="#c8cdd6" stroke-width="1"/>
+          <line x1="550" y1="50" x2="740" y2="80" stroke="#c8cdd6" stroke-width="1"/>
+          <rect x="20" y="80" width="240" height="34" rx="6" fill="#16a34a" opacity=".1" stroke="#16a34a" stroke-width="1"/>
+          <text x="140" y="101" text-anchor="middle" font-size="12" font-weight="500" fill="#16a34a">Groenobjecten</text>
+          <rect x="320" y="80" width="240" height="34" rx="6" fill="#2563eb" opacity=".1" stroke="#2563eb" stroke-width="1"/>
+          <text x="440" y="101" text-anchor="middle" font-size="12" font-weight="500" fill="#2563eb">Waterobjecten</text>
+          <rect x="620" y="80" width="240" height="34" rx="6" fill="#ea580c" opacity=".1" stroke="#ea580c" stroke-width="1"/>
+          <text x="740" y="101" text-anchor="middle" font-size="12" font-weight="500" fill="#ea580c">Verhardingsobjecten</text>
           <text x="440" y="148" text-anchor="middle" font-size="11" font-weight="600" fill="#5c6077">DWARSPROFIEL</text>
           <!-- Realistic cross section: flat maaiveld, sloping taluds down to watergang -->
           <!-- Ground level left -->
@@ -176,9 +184,16 @@
         <div class="dm-row"><div class="dm-k">taludsteilte</div><div class="dm-v">Int</div></div>
       </div>
       <div class="dm-card"><h3><div class="dot" style="background:var(--b)"></div>Waterobjecten</h3>
+        <p style="font-size:11px;color:var(--txd);margin-bottom:8px">Watergangen (beken, sloten) en watervlakten (poelen, vennen, plassen). Bij buffers: de poel/plas in de natte bodem.</p>
         <div class="dm-row"><div class="dm-k">breedteklasse_watergang</div><div class="dm-v">Short INT<span class="dm-dom">DOM_breedteklasse</span></div></div>
         <div class="dm-row"><div class="dm-k">bodembreedte</div><div class="dm-v">INT</div></div>
         <div class="dm-row"><div class="dm-k">type_waterbodem</div><div class="dm-v">Short INT<span class="dm-dom">DOM_type_waterbodem</span></div></div>
+      </div>
+      <div class="dm-card"><h3><div class="dot" style="background:var(--o)"></div>Verhardingsobjecten</h3>
+        <p style="font-size:11px;color:var(--txd);margin-bottom:8px">Halfverhardingen en elementenverhardingen rondom constructies en onderhoudspaden. Onderdeel van het waterbuffer-areaal.</p>
+        <div class="dm-row"><div class="dm-k">objecttype</div><div class="dm-v">Short INT<span class="dm-dom">Elementenverharding, Halfverharding</span></div></div>
+        <div class="dm-row"><div class="dm-k">verschijningsvorm</div><div class="dm-v">Short INT<span class="dm-dom">Natuursteen, Kleischelpen, Betonsteen, Grind</span></div></div>
+        <div class="dm-row"><div class="dm-k">is_werkpad</div><div class="dm-v">Boolean</div></div>
       </div>
       <div class="dm-card"><h3><div class="dot" style="background:var(--p)"></div>Trajecten (Jaarplan)</h3>
         <div class="dm-row"><div class="dm-k">beheerregime</div><div class="dm-v">Text</div></div>
@@ -187,6 +202,7 @@
         <div class="dm-row"><div class="dm-k">uitvoerder</div><div class="dm-v">Text</div></div>
         <div class="dm-row"><div class="dm-k">fase_zijde</div><div class="dm-v">Text — L/R (welke zijde deze periode)</div></div>
         <p style="font-size:11px;color:var(--txd);margin-top:8px">&#x2139; Eenzelfde traject kan meerdere keren voorkomen (1x per periode). Elke periode heeft eigen zijde, regime en aannemer-terugmelding.</p>
+        <p style="font-size:11px;color:var(--txd);margin-top:4px">&#x2139; Bij buffers is fasering (L/R) niet van toepassing. Buffer-trajecten hebben regimes <em>Buffer_Normaal</em> (standaard onderhoud taluds/bodem) en <em>Buffer_Voorziening</em> (vrijmaaien in-/uitstroom constructies).</p>
       </div>
       <div class="dm-card"><h3>Domeinlijsten</h3><div id="domOv"></div></div>
     </div>
@@ -302,6 +318,32 @@
       <div style="overflow-x:auto;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);box-shadow:0 1px 4px rgba(0,0,0,.04)">
         <table class="plan-tbl" id="planTbl"></table>
       </div>
+    </div>
+  </div>
+  <!-- Begrippen page -->
+  <div class="beg-page" id="begPage">
+    <div style="max-width:1300px;margin:0 auto">
+      <h2 style="font-size:20px;margin-bottom:4px">Begrippenlijst</h2>
+      <p style="color:var(--txd);font-size:13px;margin-bottom:16px">Beheer en raadpleeg alle begrippen, definities en standaarden. Klik op een cel om te bewerken.</p>
+      <div class="beg-toolbar">
+        <input type="text" class="beg-search" id="begSearch" placeholder="Zoek op begrip of definitie..." oninput="renderBegPage()">
+        <select class="beg-filter" id="begCatFilter" onchange="renderBegPage()">
+          <option value="">Alle categorieën</option>
+        </select>
+        <select class="beg-filter" id="begStatusFilter" onchange="renderBegPage()">
+          <option value="">Alle statussen</option>
+          <option value="Definitief">Definitief</option>
+          <option value="Controleren">Controleren</option>
+          <option value="Te bepalen">Te bepalen</option>
+          <option value="">(leeg)</option>
+        </select>
+        <button class="btn btn-s" onclick="addBegrip()">+ Begrip</button>
+        <button class="btn btn-p" onclick="exportBegrippen()">&#x2B07; Exporteer CSV</button>
+      </div>
+      <div style="overflow-x:auto;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);box-shadow:0 1px 4px rgba(0,0,0,.04)">
+        <table class="beg-table" id="begTable"></table>
+      </div>
+      <p style="color:var(--txm);font-size:11px;margin-top:8px" id="begCount"></p>
     </div>
   </div>
 </div>
@@ -483,7 +525,7 @@ function rL(){
   }
 
   // Werkpad overlay (from all object layers where is_werkpad===true)
-  const wpFeats = getAllFeatures().filter(f=>f.properties.is_werkpad===true);
+  const wpFeats = getAllFeatures().filter(f=>{const w=f.properties.is_werkpad;return w===true||w==='True'||w==='true'});
   const wf={type:'FeatureCollection',features:wpFeats};
   wpL=L.geoJSON(wf,{style:()=>({fillColor:'#d97706',fillOpacity:.35,color:'#d97706',weight:2.5,opacity:.8,dashArray:'5 3'}),onEachFeature:(f,l)=>l.on('click',()=>{
     // Find which layer this feature belongs to
@@ -612,8 +654,87 @@ function addA(){const n=prompt('Nieuwe attribuut naam:');if(!n)return;getDataMap
 function rmA(){const dm=getDataMap()[aTL];const ks=[...new Set(dm.features.flatMap(f=>Object.keys(f.properties)))];const n=prompt('Verwijder attribuut:\n'+ks.join(', '));if(!n||!ks.includes(n))return;dm.features.forEach(f=>{delete f.properties[n]});rTbl();rL()}
 function exportCSV(){const dms=getDataMap();let c='';for(const[ln,d]of Object.entries(dms)){const ks=[...new Set(d.features.flatMap(f=>Object.keys(f.properties)))];c+=`# ${ln}\n`+['_laag',...ks].join(';')+'\n';d.features.forEach(f=>{c+=[ln,...ks.map(k=>{const v=f.properties[k];return v==null?'':String(v)})].join(';')+'\n'});c+='\n'}c+='# Aannemer\n_key;status;datum_gepland;datum_uitgevoerd;opmerking;fase_uitgevoerd;fase_afwijking_reden\n';for(const[k,a]of Object.entries(aan))c+=`${k};${a.status||''};${a.datum_gepland||''};${a.datum_uitgevoerd||''};${a.opmerking||''};${a.fase_uitgevoerd||''};${a.fase_afwijking_reden||''}\n`;const b=new Blob([c],{type:'text/csv;charset=utf-8;'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='groenbeheer_'+new Date().toISOString().slice(0,10)+'.csv';a.click()}
 
-function rBeg(flt=''){const l=document.getElementById('blist'),lw=flt.toLowerCase();let h='',lc='';for(const[t,i]of Object.entries(beg)){if(flt&&!t.toLowerCase().includes(lw)&&!i.d.toLowerCase().includes(lw))continue;if(i.c!==lc){lc=i.c;h+=`<div style="font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--txm);padding:7px 0 3px;border-top:1px solid var(--bd);margin-top:5px">${e(lc)}</div>`}const sc=i.st==='Definitief'?'var(--g)':i.st==='Controleren'?'var(--y)':'var(--txm)';h+=`<div style="padding:5px 0;border-bottom:1px solid var(--bd)" onmouseenter="sT(event,'${e(i.d)}','${e(i.s||'')}','${e(i.st||'')}')" onmouseleave="hT()"><div style="font-size:12px;font-weight:500">${e(t)} <span style="font-size:9px;color:${sc};margin-left:3px">${e(i.st||'')}</span></div><div style="font-size:11px;color:var(--txd);margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${e(i.d)}</div></div>`}if(!h)h='<p style="color:var(--txm);font-size:12px">Geen begrippen</p>';l.innerHTML=h}
-function fltB(){rBeg(document.getElementById('bsrc').value)}
+// ===== BEGRIPPEN PAGE =====
+function rBeg(){/* no-op: begrippen moved to dedicated page */}
+function fltB(){/* no-op */}
+function getBegCategories(){return [...new Set(Object.values(beg).map(b=>b.c).filter(Boolean))]}
+function renderBegPage(){
+  const search=(document.getElementById('begSearch')||{}).value||'';
+  const catFlt=(document.getElementById('begCatFilter')||{}).value||'';
+  const stFlt=(document.getElementById('begStatusFilter')||{}).value;
+  const lw=search.toLowerCase();
+  // Populate category filter
+  const catSel=document.getElementById('begCatFilter');
+  if(catSel){
+    const cats=getBegCategories();
+    const cur=catSel.value;
+    const opts='<option value="">Alle categorie\u00EBn</option>'+cats.map(c=>`<option value="${e(c)}"${c===cur?' selected':''}>${e(c)}</option>`).join('');
+    if(catSel.innerHTML!==opts)catSel.innerHTML=opts;
+  }
+  // Filter entries
+  const entries=Object.entries(beg).filter(([t,i])=>{
+    if(lw&&!t.toLowerCase().includes(lw)&&!(i.d||'').toLowerCase().includes(lw)&&!(i.s||'').toLowerCase().includes(lw))return false;
+    if(catFlt&&i.c!==catFlt)return false;
+    if(stFlt!==undefined&&stFlt!==null&&stFlt!==''){if(stFlt===''&&i.st)return false;if(stFlt&&i.st!==stFlt)return false;}
+    return true;
+  });
+  // Group by category
+  const grouped={};
+  entries.forEach(([t,i])=>{const c=i.c||'Overig';if(!grouped[c])grouped[c]=[];grouped[c].push([t,i])});
+  // Render table
+  let h='<thead><tr><th style="width:180px">Begrip</th><th style="min-width:280px">Definitie / Toelichting</th><th style="width:130px">Standaard</th><th style="width:100px">Eigenaar</th><th style="width:110px">Status</th><th style="width:36px"></th></tr></thead><tbody>';
+  const catOrder=['Velden','Functie','Ruimtelijke Context','Objecttypen','Verschijningsvormen','Type Waterbodem','Overig'];
+  const sortedCats=[...new Set([...catOrder.filter(c=>grouped[c]),...Object.keys(grouped)])];
+  let total=0;
+  sortedCats.forEach(cat=>{
+    const items=grouped[cat];if(!items)return;
+    h+=`<tr><td colspan="6" class="beg-cat-hdr">${e(cat)} (${items.length})</td></tr>`;
+    items.forEach(([t,i])=>{
+      total++;
+      const stColor=i.st==='Definitief'?'rgba(22,163,74,.06)':i.st==='Controleren'?'rgba(217,119,6,.06)':i.st==='Te bepalen'?'rgba(146,152,173,.06)':'';
+      const stSelColor=i.st==='Definitief'?'var(--g)':i.st==='Controleren'?'var(--y)':i.st==='Te bepalen'?'var(--txm)':'var(--txm)';
+      h+=`<tr style="${stColor?'background:'+stColor:''}">
+        <td><input value="${e(t)}" onchange="renameBegrip('${e(t)}',this.value)" style="font-weight:500"></td>
+        <td><textarea rows="1" onchange="updateBegrip('${e(t)}','d',this.value)" onfocus="this.rows=3" onblur="this.rows=1">${e(i.d||'')}</textarea></td>
+        <td><input value="${e(i.s||'')}" onchange="updateBegrip('${e(t)}','s',this.value)"></td>
+        <td><input value="${e(i.o||'')}" onchange="updateBegrip('${e(t)}','o',this.value)"></td>
+        <td><select onchange="updateBegrip('${e(t)}','st',this.value);renderBegPage()" style="font-weight:600;color:${stSelColor}">
+          <option value=""${!i.st?' selected':''}>(leeg)</option>
+          <option value="Definitief"${i.st==='Definitief'?' selected':''}>Definitief</option>
+          <option value="Controleren"${i.st==='Controleren'?' selected':''}>Controleren</option>
+          <option value="Te bepalen"${i.st==='Te bepalen'?' selected':''}>Te bepalen</option>
+        </select></td>
+        <td class="beg-del" onclick="deleteBegrip('${e(t)}')" title="Verwijder">&#x1F5D1;</td>
+      </tr>`;
+    });
+  });
+  h+='</tbody>';
+  document.getElementById('begTable').innerHTML=h;
+  document.getElementById('begCount').textContent=`${total} begrippen weergegeven van ${Object.keys(beg).length} totaal`;
+}
+function updateBegrip(name,field,value){if(beg[name])beg[name][field]=value;}
+function renameBegrip(oldName,newName){
+  if(!newName||newName===oldName)return;
+  if(beg[newName]){alert('Begrip "'+newName+'" bestaat al.');return;}
+  beg[newName]=beg[oldName];delete beg[oldName];renderBegPage();
+}
+function deleteBegrip(name){if(!confirm('Begrip "'+name+'" verwijderen?'))return;delete beg[name];renderBegPage();}
+function addBegrip(){
+  const name=prompt('Naam nieuw begrip:');if(!name)return;
+  if(beg[name]){alert('Begrip "'+name+'" bestaat al.');return;}
+  const cats=getBegCategories();
+  const cat=prompt('Categorie?\n'+cats.join(', '),'Overig')||'Overig';
+  beg[name]={"d":"","s":"","st":"","o":"","c":cat};
+  renderBegPage();
+}
+function exportBegrippen(){
+  let csv='Begrip;Definitie / Toelichting;Verwijzing Standaard;Eigenaar;Status;Categorie\n';
+  for(const[t,i]of Object.entries(beg)){
+    csv+=[t,i.d||'',i.s||'',i.o||'',i.st||'',i.c||''].map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(';')+'\n';
+  }
+  const b=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='begrippenlijst_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
+}
 function rDomOv(){const el=document.getElementById('domOv');let h='';for(const[k,v]of Object.entries(dom)){h+=`<div style="margin-bottom:10px"><div style="font-size:12px;font-weight:600;margin-bottom:4px">${e(k)}</div><div style="display:flex;flex-wrap:wrap;gap:4px">${v.map(x=>`<span style="font-size:11px;padding:2px 8px;background:var(--sf2);border:1px solid var(--bd);border-radius:12px">${e(x)}</span>`).join('')}</div></div>`}el.innerHTML=h}
 // ===== ARCHITECTURE PAGE: Drag & Drop Layers =====
 const defaultLayers=cfg.defaultLayers;
@@ -676,50 +797,71 @@ function rmRegime(r){if(!confirm('Regime "'+r+'" verwijderen?'))return;mxRegimes
 function exportMatrix(){let c='objecttype;'+mxRegimes.join(';')+'\n';objectTypes.forEach(ot=>{c+=ot+';'+mxRegimes.map(r=>'"'+(mxData[r+'|'+ot]||'')+'"').join(';')+'\n'});const b=new Blob([c],{type:'text/csv'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='regimematrix_'+new Date().toISOString().slice(0,10)+'.csv';a.click()}
 
 // ===== JAARPLAN TABLE =====
+function getAllTrajecten(){
+  // Collect trajecten from ALL pilots, keyed by pilotKey-index for unique aan[] references
+  const all=[];
+  for(const[pk,p]of Object.entries(window.PILOTS)){
+    const tData=p.layers.traject?p.layers.traject.data:null;
+    if(!tData||!tData.features)continue;
+    tData.features.forEach((f,i)=>{all.push({feature:f,pilotKey:pk,pilotName:p.name,idx:i,aanKey:pk+'-traject-'+i})});
+  }
+  return all;
+}
 function renderPlan(){
+  const allT=getAllTrajecten();
   // Summary stats
-  const total=T.features.length;
+  const total=allT.length;
   let nGepland=0,nUitv=0,nAfgek=0;
-  T.features.forEach((f,i)=>{const ad=aan['traject-'+i]||{};if(ad.status==='uitgevoerd')nUitv++;else if(ad.status==='afgekeurd')nAfgek++;else nGepland++});
+  allT.forEach(t=>{const ad=aan[t.aanKey]||{};if(ad.status==='uitgevoerd')nUitv++;else if(ad.status==='afgekeurd')nAfgek++;else nGepland++});
   document.getElementById('planStats').innerHTML=`
     <div class="plan-stat"><div class="num">${total}</div><div class="lbl">Totaal trajecten</div></div>
     <div class="plan-stat"><div class="num" style="color:var(--p)">${nGepland}</div><div class="lbl">Gepland / in uitvoering</div></div>
     <div class="plan-stat"><div class="num" style="color:var(--g)">${nUitv}</div><div class="lbl">Uitgevoerd</div></div>
     <div class="plan-stat"><div class="num" style="color:var(--r)">${nAfgek}</div><div class="lbl">Afgekeurd</div></div>`;
 
-  let h='<thead><tr><th>Traject</th><th>Periode</th><th>Regime</th><th>Zijde</th><th>Bewerkings%</th><th>Uitvoerder</th><th>Status</th><th>Datum gepland</th><th>Datum uitgevoerd</th><th>Opmerking</th></tr></thead><tbody>';
-  T.features.forEach((f,i)=>{
-    const p=f.properties,k='traject-'+i,ad=aan[k]||{datum_gepland:'',datum_uitgevoerd:'',status:'gepland',opmerking:''};
+  let h='<thead><tr><th>Gebied</th><th>Traject</th><th>Naam</th><th>Periode</th><th>Regime</th><th>Zijde</th><th>Bewerkings%</th><th>Uitvoerder</th><th>Status</th><th>Datum gepland</th><th>Datum uitgevoerd</th><th>Opmerking</th></tr></thead><tbody>';
+  let lastPilot='';
+  allT.forEach(t=>{
+    const p=t.feature.properties,ak=t.aanKey,ad=aan[ak]||{datum_gepland:'',datum_uitgevoerd:'',status:'gepland',opmerking:''};
     const sc=statusColors[ad.status]||'#7c3aed';
+    // Pilot group header
+    if(t.pilotKey!==lastPilot){
+      lastPilot=t.pilotKey;
+      h+=`<tr><td colspan="12" style="background:var(--sf2);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--txd);padding:10px 12px">${e(t.pilotName)}</td></tr>`;
+    }
     h+=`<tr>
-      <td style="font-weight:500">${e(p.trajectcode)}</td>
-      <td style="text-align:center">${e(p.periode)}</td>
-      <td><span class="cr" onclick="sReg('${e(p.beheerregime)}')">${e(p.beheerregime)}</span></td>
-      <td><span class="fase-side fase-${p.fase_zijde||'L'}">${(p.fase_zijde||'L')==='L'?'&#x25C0; L':'&#x25B6; R'}</span></td>
-      <td style="text-align:center">${p.bewerkingspercentage}%</td>
-      <td>${e(p.uitvoerder)}</td>
-      <td><select onchange="uAP(${i},'status',this.value);renderPlan()" style="color:${sc};font-weight:500">${['gepland','in_uitvoering','uitgevoerd','afgekeurd'].map(s=>`<option value="${s}"${ad.status===s?' selected':''}>${s.replace(/_/g,' ')}</option>`).join('')}</select></td>
-      <td><input type="date" value="${ad.datum_gepland}" onchange="uAP(${i},'datum_gepland',this.value)"></td>
-      <td><input type="date" value="${ad.datum_uitgevoerd}" onchange="uAP(${i},'datum_uitgevoerd',this.value)"></td>
-      <td><input type="text" value="${e(ad.opmerking||'')}" placeholder="..." onchange="uAP(${i},'opmerking',this.value)"></td>
+      <td style="font-size:11px;color:var(--txm)">${e(t.pilotName)}</td>
+      <td style="font-weight:500">${e(p.trajectcode||'')}</td>
+      <td style="font-size:11px;color:var(--txd)">${e(p.naam||'')}</td>
+      <td style="text-align:center">${e(p.periode||'')}</td>
+      <td><span class="cr" onclick="sReg('${e(p.beheerregime)}')">${e(p.beheerregime||'')}</span></td>
+      <td>${p.fase_zijde?`<span class="fase-side fase-${p.fase_zijde}">${p.fase_zijde==='L'?'&#x25C0; L':'&#x25B6; R'}</span>`:'<span style="color:var(--txm);font-size:11px">n.v.t.</span>'}</td>
+      <td style="text-align:center">${p.bewerkingspercentage!=null?p.bewerkingspercentage+'%':'-'}</td>
+      <td>${e(p.uitvoerder||'')}</td>
+      <td><select onchange="uAP2('${ak}','status',this.value);renderPlan()" style="color:${sc};font-weight:500">${['gepland','in_uitvoering','uitgevoerd','afgekeurd'].map(s=>`<option value="${s}"${ad.status===s?' selected':''}>${s.replace(/_/g,' ')}</option>`).join('')}</select></td>
+      <td><input type="date" value="${ad.datum_gepland}" onchange="uAP2('${ak}','datum_gepland',this.value)"></td>
+      <td><input type="date" value="${ad.datum_uitgevoerd}" onchange="uAP2('${ak}','datum_uitgevoerd',this.value)"></td>
+      <td><input type="text" value="${e(ad.opmerking||p.opmerking_uitvoering||'')}" placeholder="..." onchange="uAP2('${ak}','opmerking',this.value)"></td>
     </tr>`;
   });
   h+='</tbody>';
   document.getElementById('planTbl').innerHTML=h;
 }
 function uAP(i,f,v){const k='traject-'+i;if(!aan[k])aan[k]={datum_gepland:'',datum_uitgevoerd:'',status:'gepland',opmerking:''};aan[k][f]=v;rL();uLeg()}
+function uAP2(ak,f,v){if(!aan[ak])aan[ak]={datum_gepland:'',datum_uitgevoerd:'',status:'gepland',opmerking:''};aan[ak][f]=v;rL();uLeg()}
 
 function showPage(p){
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('a'));
-  ['mapPage','planPage','dmPage','archPage','matrixPage'].forEach(id=>{const el=document.getElementById(id);if(el){el.style.display='none';el.classList.remove('vis')}});
+  ['mapPage','planPage','begPage','matrixPage','dmPage','archPage'].forEach(id=>{const el=document.getElementById(id);if(el){el.style.display='none';el.classList.remove('vis')}});
   document.getElementById('sidebar').style.display='none';
-  const pages={map:0,plan:1,dm:2,arch:3,matrix:4};
+  const pages={map:0,plan:1,beg:2,matrix:3,dm:4,arch:5};
   document.querySelectorAll('.nav-tab')[pages[p]||0].classList.add('a');
   if(p==='map'){document.getElementById('mapPage').style.display='';document.getElementById('sidebar').style.display='';setTimeout(()=>map.invalidateSize(),100)}
   else if(p==='plan'){const el=document.getElementById('planPage');el.style.display='block';el.classList.add('vis');renderPlan()}
+  else if(p==='beg'){const el=document.getElementById('begPage');el.style.display='block';el.classList.add('vis');renderBegPage()}
+  else if(p==='matrix'){const el=document.getElementById('matrixPage');el.style.display='block';el.classList.add('vis');if(!document.getElementById('mxTable').innerHTML)initMatrix()}
   else if(p==='dm'){const el=document.getElementById('dmPage');el.style.display='block';el.classList.add('vis')}
   else if(p==='arch'){const el=document.getElementById('archPage');el.style.display='block';el.classList.add('vis');renderChips()}
-  else if(p==='matrix'){const el=document.getElementById('matrixPage');el.style.display='block';el.classList.add('vis');if(!document.getElementById('mxTable').innerHTML)initMatrix()}
 }
 function swDS(el){/* legacy — pilot switching via switchPilot() */}
 function tgS(id){document.getElementById(id).classList.toggle('c')}
