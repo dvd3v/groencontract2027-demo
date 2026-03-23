@@ -34,12 +34,18 @@ window.PILOTS['cultuurbeek'] = {
   // Werkzaamheden — Traject_Werkzaamheid records (1:N relatie met traject)
   werkzaamheden: [
     // Ecologisch gefaseerd maaien (15-juli regel) — 4 records voor L/R-wisseling over even/oneven jaren
-    { Werk_ID:'W-CB-001', Traject_ID:'WL-TR-1045', Handeling:'Maaien', Werkwijze:'Sinusbeheer', Doel:'Talud', Zijde:'Links',   Periode:1, Cyclus_Jaar:'Oneven jaren', Percentage:50, Afvoer:true },
-    { Werk_ID:'W-CB-002', Traject_ID:'WL-TR-1045', Handeling:'Maaien', Werkwijze:'Sinusbeheer', Doel:'Talud', Zijde:'Rechts',  Periode:2, Cyclus_Jaar:'Oneven jaren', Percentage:50, Afvoer:true },
-    { Werk_ID:'W-CB-003', Traject_ID:'WL-TR-1045', Handeling:'Maaien', Werkwijze:'Sinusbeheer', Doel:'Talud', Zijde:'Rechts',  Periode:1, Cyclus_Jaar:'Even jaren',   Percentage:50, Afvoer:true },
-    { Werk_ID:'W-CB-004', Traject_ID:'WL-TR-1045', Handeling:'Maaien', Werkwijze:'Sinusbeheer', Doel:'Talud', Zijde:'Links',   Periode:2, Cyclus_Jaar:'Even jaren',   Percentage:50, Afvoer:true },
+    { Werk_ID:'W-CB-001', Traject_ID:'WL-TR-1045', Handeling:'Maaien', Werkwijze:'Sinusbeheer', Doel:'Talud', Zijde:'Links',   Periode:1, Percentage:50, Afvoer:true },
+    { Werk_ID:'W-CB-002', Traject_ID:'WL-TR-1045', Handeling:'Maaien', Werkwijze:'Sinusbeheer', Doel:'Talud', Zijde:'Rechts',  Periode:2, Percentage:50, Afvoer:true },
+    { Werk_ID:'W-CB-003', Traject_ID:'WL-TR-1045', Handeling:'Maaien', Werkwijze:'Sinusbeheer', Doel:'Talud', Zijde:'Rechts',  Periode:1,   Percentage:50, Afvoer:true },
+    { Werk_ID:'W-CB-004', Traject_ID:'WL-TR-1045', Handeling:'Maaien', Werkwijze:'Sinusbeheer', Doel:'Talud', Zijde:'Links',   Periode:2,   Percentage:50, Afvoer:true },
     // Watergang schonen
-    { Werk_ID:'W-CB-005', Traject_ID:'WL-TR-1045', Handeling:'Opschonen', Werkwijze:'Standaard', Doel:'Bodem', Zijde:'N.v.t.', Periode:2, Cyclus_Jaar:'Elk jaar',     Percentage:100, Afvoer:true }
+    { Werk_ID:'W-CB-005', Traject_ID:'WL-TR-1045', Handeling:'Opschonen',  Werkwijze:'Standaard',         Doel:'Bodem',       Zijde:'N.v.t.', Periode:2, Percentage:100, Afvoer:true  },
+    // Vrijmaaien werkpad (voor machinale toegang)
+    { Werk_ID:'W-CB-006', Traject_ID:'WL-TR-1045', Handeling:'Vrijmaaien', Werkwijze:'Standaard',         Doel:'Werkpad',     Zijde:'N.v.t.', Periode:1, Percentage:100, Afvoer:false },
+    // Habitatbeheer berm — habitatbenadering, niet afvoeren
+    { Werk_ID:'W-CB-007', Traject_ID:'WL-TR-1045', Handeling:'Maaien',     Werkwijze:'Habitatbenadering', Doel:'Berm',        Zijde:'Beide',  Periode:2, Percentage:40,  Afvoer:false },
+    // Jaarlijkse inspectie constructies
+    { Werk_ID:'W-CB-008', Traject_ID:'WL-TR-1045', Handeling:'Inspecteren',Werkwijze:'Standaard',         Doel:'Constructie', Zijde:'N.v.t.', Periode:1, Percentage:100, Afvoer:false }
   ],
 
   // Aannemersregistratie (persistent via localStorage)

@@ -58,7 +58,7 @@ groencontract2027-demo/
     ├── config.js           # Gedeelde configuratie (domeinen, kleurmappen, woordenlijst)
     ├── objecttypes.js      # Objecttype-definities (groen & water)
     └── pilots/
-        ├── cultuurbeek.js  # Pilotgebied Cultuurbeek (volledig ingevuld)
+        ├── ogw.js          # Pilotgebied Omgevingsgericht water (volledig ingevuld)
         ├── natuurbeek.js   # Pilotgebied Natuurbeek (sjabloon)
         ├── waterbuffer.js  # Pilotgebied Waterbuffer (sjabloon)
         └── waterkering.js  # Pilotgebied Waterkering (sjabloon)
@@ -86,7 +86,7 @@ Navigeer daarna naar `http://localhost:8080`.
 
 | Pilot | Status | Locatie |
 |---|---|---|
-| Cultuurbeek | Actief – volledig ingevuld | Regio Limburg |
+| Omgevingsgericht water (OGW) | Actief – volledig ingevuld | Regio Limburg |
 | Natuurbeek | Sjabloon | – |
 | Waterbuffer | Sjabloon | – |
 | Waterkering | Sjabloon | – |
@@ -105,7 +105,7 @@ Objecten volgen het **drielagen-model**:
 | B – Identificatie | watergang_id, trajectcode, naam, beheerder |
 | C – Beheer | beheerregime, periode, fase/zijde, bewerkingspercentage, uitvoerder, datum gepland, status |
 
-Beheerregimes: `Natuur_A`, `Natuur_B`, `Cultuur_Ext`, `Cultuur_Int`, `Kering`, `Buffer`.
+Beheerregimes: `Natuur_A`, `Natuur_B`, `OGW_Ext`, `OGW_Int`, `Kering`, `Buffer`.
 
 ---
 

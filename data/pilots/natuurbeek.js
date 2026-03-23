@@ -2,7 +2,7 @@
  * Pilot: Natuurbeek (placeholder)
  *
  * Voeg hier GeoJSON data toe voor het pilotgebied Natuurbeek.
- * Kopieer de structuur van cultuurbeek.js als voorbeeld.
+ * Kopieer de structuur van ogw.js als voorbeeld.
  */
 window.PILOTS = window.PILOTS || {};
 window.PILOTS['natuurbeek'] = {
