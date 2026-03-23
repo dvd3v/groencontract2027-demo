@@ -8,13 +8,15 @@ window.APP_CONFIG = {
 
   // ── Domeinlijsten ──────────────────────────────────────────────────
   domains: {
-    ruimtelijke_context: ['Talud','Boven Talud','Wegberm','Meterstrook','Bodem','Natte Bodem','Winterbed','Instroom Voorziening','Uitstroom Voorziening','Kruin'],
-    functie: ['Cultuurbeek','Natuurbeek','Aanvoersloot','Omgevingsgericht water','Buffer','Waterbuffer','Bronbeek','Vispassage'],
+    ruimtelijke_context: ['Talud','Boven Talud','Wegberm','Meterstrook','Bodem','Natte Bodem','Winterbed','Instroom Voorziening','Uitstroom Voorziening','Kruin','Toegang & bereikbaarheid','Overlaat'],
+    functie: ['Natuurbeek','Aanvoersloot','Omgevingsgericht water','Buffer','Waterbuffer','Bronbeek','Vispassage'],
     beheerder: ['Waterschap Limburg','Gemeente','Particulier','Rijkswaterstaat','Provincie'],
     is_werkpad: ['true','false'],
-    type_waterbodem: ['Droog','Nat'],
     breedteklasse_watergang: ['1','2','3','4','5'],
     verschijningsvorm_water: ['Beek','Sloot','Poel','Ven','Plas'],
+    verschijningsvorm_verharding: ['Asfaltverharding','Betonverharding','Halfverharding','Onverhard','Elementverharding'],
+    verschijningsvorm_hek: ['Boerenhekwerk','Grootveehek','V-werk','Combinatiepoort','Klaphek','Draaihek','Kleinveehek'],
+    objecttype_hek: ['Draadraaster','Faunaraster','Gaashek','Spijlenhek','Schrikdraad','Toegangspoort'],
     fase_zijde: ['L','R']
   },
 
@@ -24,7 +26,10 @@ window.APP_CONFIG = {
       'Gras- en kruidachtigen':'#16a34a','Bos':'#166534','Bosplantsoen':'#15803d',
       'Struweel':'#65a30d','Haag':'#84cc16','Moeras':'#a3e635',
       'Houtsingel':'#4d7c0f','Watergang':'#2563eb','Watervlakte':'#3b82f6',
-      'Elementenverharding':'#78716c','Halfverharding':'#a8a29e'
+      'Asfaltverharding':'#57534e','Betonverharding':'#a1a1aa','Onverhard':'#d6d3d1',
+      'Elementverharding':'#78716c',
+      'Draadraaster':'#92400e','Faunaraster':'#b45309','Gaashek':'#a16207',
+      'Spijlenhek':'#ca8a04','Schrikdraad':'#eab308','Toegangspoort':'#854d0e'
     },
     verschijningsvorm: {
       'Schraalgrasland':'#22c55e','Rietvegetatie':'#84cc16','Zoomvegetatie':'#a3e635',
@@ -36,8 +41,10 @@ window.APP_CONFIG = {
       'Struweel':'#65a30d','Geschoren haag':'#84cc16','Losse haag':'#a3e635',
       'Doorstroommoeras':'#0d9488','Houtsingel':'#4d7c0f','Sloot':'#3b82f6',
       'Beek':'#0ea5e9','Poel':'#06b6d4','Ven':'#67e8f9','Plas':'#22d3ee',
-      'Natuursteen':'#78716c','Betonsteen':'#a1a1aa','Gebakken klinkers':'#92400e',
-      'Kleischelpen':'#d6a35c','Grind':'#d4d4d8','Schelpen':'#fef3c7','Puin':'#a8a29e'
+      'Asfaltverharding':'#57534e','Betonverharding':'#a1a1aa','Halfverharding':'#a8a29e',
+      'Onverhard':'#d6d3d1','Elementverharding':'#78716c',
+      'Boerenhekwerk':'#92400e','Grootveehek':'#b45309','V-werk':'#a16207',
+      'Combinatiepoort':'#ca8a04','Klaphek':'#eab308','Draaihek':'#854d0e','Kleinveehek':'#d97706'
     },
     ruimtelijke_context: {
       'Talud':'#ea580c','Boven Talud':'#f97316','Wegberm':'#a3a3a3',
@@ -46,8 +53,8 @@ window.APP_CONFIG = {
       'Uitstroom Voorziening':'#fbbf24','Kruin':'#a16207'
     },
     functie: {
-      'Cultuurbeek':'#0ea5e9','Natuurbeek':'#10b981','Aanvoersloot':'#6366f1',
-      'Omgevingsgericht water':'#8b5cf6','Buffer':'#f59e0b',
+      'Natuurbeek':'#10b981','Aanvoersloot':'#6366f1',
+      'Omgevingsgericht water':'#0ea5e9','Buffer':'#f59e0b',
       'Waterbuffer':'#ea580c','Bronbeek':'#14b8a6','Vispassage':'#f43f5e'
     }
   },
@@ -82,14 +89,13 @@ window.APP_CONFIG = {
     "Waterbuffer":          {"d":"Voorziening voor tijdelijke berging van water bij piekafvoer.","s":"WL","st":"Controleren","o":"Tamira","c":"Functie"},
     "Bronbeek":             {"d":"Bovenloop van een watergang die worden gevoed door (semi-)permanent stromende bronnen of kwelzones.","s":"Waterbeheerprogramma","st":"Controleren","o":"Tamira","c":"Functie"},
     "Vispassage":           {"d":"Waterbouwkundig constructie dat vissen toegang geeft tot een door een dijk, dam, stuw of sluis ontoegankelijk geworden achterland.","s":"IMBOR 2025","st":"Controleren","o":"Tamira","c":"Functie"},
-    "Cultuurbeek":          {"d":"Watergang in cultuurlandschap.","s":"WL","st":"","o":"Tamira","c":"Functie"},
 
     // ── Ruimtelijke Context ──────────────────────────────────────────
     "Talud":                {"d":"Onder helling gelegen vlak.","s":"kennisbank","st":"Controleren","o":"Vaos","c":"Ruimtelijke Context"},
     "Boven Talud":          {"d":"Onder helling gelegen vlak, niet aan de watergang zijde maar aan de landzijde van het onderhoudspad. Voorkomend bij verlaagde onderhoudspaden.","s":"WL","st":"Controleren","o":"Vaos","c":"Ruimtelijke Context"},
     "Wegberm":              {"d":"Plat of iets onderhelling gelegen terreindeel naast een verharde of onverharde weg wat tevens dient als werkpad om het onderhoud van de watergang te kunnen uitvoeren.","s":"WL","st":"Controleren","o":"Vaos","c":"Ruimtelijke Context"},
     "Meterstrook":          {"d":"Strook aan een of beide zijde van de watergang van ca. 1m breed om het onderhoud te kunnen uitvoeren en of maaisel op te deponeren.","s":"WL","st":"Controleren","o":"Vaos","c":"Ruimtelijke Context"},
-    "Natte Bodem":          {"d":"Bodems van regenwaterbuffers die niet permanent water bevatten maar door de duur van de periode dat er water staat als nat/vochtig beschouwt kunnen worden.","s":"WL","st":"","o":"Vaos","c":"Ruimtelijke Context"},
+    "Natte Bodem":          {"d":"Bodems van regenwaterbuffers die niet permanent water bevatten maar door de duur van de periode dat er water staat als nat/vochtig beschouwt kunnen worden.","s":"WL","st":"Te bepalen","o":"Vaos","c":"Ruimtelijke Context"},
     "Bodem":                {"d":"Het laagst gelegen vlak in een terrein.","s":"WL","st":"Controleren","o":"Vaos","c":"Ruimtelijke Context"},
     "Winterbed":            {"d":"De oppervlakte tussen het zomerbed van een bovenrivier en de buitenkruinlijn van de hoogwaterkerende dijk dan wel de hoge gronden, die het water bij hoge standen keren.","s":"kennisbank","st":"Controleren","o":"Vaos","c":"Ruimtelijke Context"},
     "Instroom Voorziening": {"d":"Constructie die ervoor gemaakt is om te zorgen dat het regenwater de buffer in stroomt.","s":"WL","st":"Controleren","o":"Vaos","c":"Ruimtelijke Context"},
@@ -105,12 +111,10 @@ window.APP_CONFIG = {
     "Haag":                 {"d":"Gesloten lijnvormige beplanting, waarvan de hoogte en breedte door middel van knippen in stand wordt gehouden.","s":"IMBOR 2025","st":"Controleren","o":"Max","c":"Objecttypen"},
     "Moeras":               {"d":"Een overgangsgebied tussen water en land, vaak in drassige omstandigheden. Gekenmerkt door altijd vochtige en/of natte omstandigheden.","s":"WL","st":"Definitief","o":"Max","c":"Objecttypen"},
     "Houtsingel":           {"d":"Een brede strook met bomen en struiken als afscheiding tussen weilanden en akkers en ook wel langs beken en waterlopen. Lijnvormig landschapselement van 4 tot 20 meter breed.","s":"IMBOR 2025","st":"Definitief","o":"Max","c":"Objecttypen"},
-    "Graft":                {"d":"Steile rand met bos of struikgewas op hellingen voornamelijk gelegen in agrarische terreinen of natuurgebieden. Een knik of mini-terras op een helling.","s":"IMBOR 2025","st":"","o":"Max","c":"Objecttypen"},
+    "Graft":                {"d":"Steile rand met bos of struikgewas op hellingen voornamelijk gelegen in agrarische terreinen of natuurgebieden. Een knik of mini-terras op een helling.","s":"IMBOR 2025","st":"Te bepalen","o":"Max","c":"Objecttypen"},
     "Watergang":            {"d":"Een voor de waterbeheersing bestemde geul met een vlakke bodem die meestal permanent water bevat.","s":"IMBOR 2025","st":"Definitief","o":"Max","c":"Objecttypen"},
     "Watervlakte":          {"d":"Een aan het oppervlak gelegen, niet lijnvormige, natuurlijke dan wel kunstmatige verdieping van de bodem die, eventueel periodiek, gevuld is met water.","s":"IMBOR 2025","st":"Controleren","o":"Max","c":"Objecttypen"},
     "Boom":                 {"d":"Een houtachtig gewas (loofboom of conifeer) met een wortelgestel en een enkele, stevige, houtige stam, die zich boven de grond vertakt.","s":"IMBOR 2025","st":"Definitief","o":"Max","c":"Objecttypen"},
-    "Elementenverharding":  {"d":"Verharding samengesteld uit individuele elementen (stenen, tegels).","s":"IMBOR 2025","st":"Definitief","o":"","c":"Objecttypen"},
-    "Halfverharding":       {"d":"Semi-verharde laag van ongebonden materiaal (schelpen, grind, puin).","s":"IMBOR 2025","st":"Definitief","o":"","c":"Objecttypen"},
 
     // ── Verschijningsvormen ──────────────────────────────────────────
     "Rietvegetatie":        {"d":"Een vegetatie met als hoofdsoort een of meerdere soorten riet, kan zowel een natte als een droge ondergrond hebben.","s":"IMBOR 2025","st":"Definitief","o":"Max","c":"Verschijningsvormen"},
@@ -134,18 +138,41 @@ window.APP_CONFIG = {
     "Sloot":                {"d":"Een gegraven watergang die dient om overtollig water af te voeren. Algemene benaming voor een waterloop van beperkte breedte die stilstaand of langzaam stromend water bevat.","s":"IMBOR 2025","st":"Controleren","o":"Max","c":"Verschijningsvormen"},
     "Poel":                 {"d":"Een door mens gegraven ge\u00EFsoleerde waterpartij die stilstaand en veelal ondiep water (max 150cm) bevat. De poel dient een leefgebied te zijn voor verschillende macrofauna-/amfibie\u00EBn- en plantensoorten.","s":"WL","st":"Controleren","o":"Max","c":"Verschijningsvormen"},
     "Ven":                  {"d":"Een klein, meestal ondiep meer, dat voorkomt op Pleistocene zandgronden. Wisselende waterstanden, zelden groter dan enkele hectaren.","s":"IMBOR 2025","st":"Controleren","o":"Max","c":"Verschijningsvormen"},
-    "Plas":                 {"d":"Jaarrond waterhoudende regenwaterbufferbodem.","s":"WL","st":"","o":"","c":"Verschijningsvormen"},
-    "Natuursteen":          {"d":"Verhardingselement van natuurlijk gewonnen steen.","s":"IMBOR 2025","st":"Definitief","o":"","c":"Verschijningsvormen"},
-    "Kleischelpen":         {"d":"Halfverharding van klei-schelpenmengsels, waterdoorlatend.","s":"WL","st":"Controleren","o":"","c":"Verschijningsvormen"},
-    "Betonsteen":           {"d":"","s":"IMBOR 2025","st":"","o":"","c":"Verschijningsvormen"},
-    "Gebakken klinkers":    {"d":"","s":"IMBOR 2025","st":"","o":"","c":"Verschijningsvormen"},
-    "Grind":                {"d":"","s":"","st":"","o":"","c":"Verschijningsvormen"},
-    "Schelpen":             {"d":"","s":"","st":"","o":"","c":"Verschijningsvormen"},
-    "Puin":                 {"d":"","s":"","st":"","o":"","c":"Verschijningsvormen"},
+    "Plas":                 {"d":"Jaarrond waterhoudende regenwaterbufferbodem.","s":"WL","st":"Te bepalen","o":"","c":"Verschijningsvormen"},
+    "Fauna- en kruidenrijkgrasland":{"d":"Kruiden- en faunarijk grasland omvat graslanden die kruidenrijk zijn, maar niet tot de schraallanden, vochtig hooiland, zilt grasland en overstromingsgrasland of glanshaverhooiland behoren.","s":"WL","st":"Definitief","o":"Max","c":"Verschijningsvormen"},
+    "Bos (verschijningsvorm)":{"d":"Bos als verschijningsvorm.","s":"","st":"Te bepalen","o":"Max","c":"Verschijningsvormen"},
+    "Bomen en struikvormers":{"d":"Bomen en struikvormers als verschijningsvorm van bosplantsoen.","s":"","st":"Te bepalen","o":"Max","c":"Verschijningsvormen"},
+    "Struweel (verschijningsvorm)":{"d":"Struweel als verschijningsvorm.","s":"","st":"Te bepalen","o":"Max","c":"Verschijningsvormen"},
 
-    // ── Type Waterbodem ──────────────────────────────────────────────
-    "Droog":                {"d":"Watergang die tussen 1 april en 1 oktober bij normale omstandigheden geen of nauwelijks water afvoert.","s":"","st":"Controleren","o":"Henk","c":"Type Waterbodem"},
-    "Nat":                  {"d":"Watergang die het gehele jaar bij normale omstandigheden water afvoert.","s":"","st":"Controleren","o":"Henk","c":"Type Waterbodem"}
+    // ── Verhardingsobjecten ─────────────────────────────────────────
+    "Asfaltverharding":     {"d":"Verharding van asfalt.","s":"","st":"Te bepalen","o":"Vaos","c":"Objecttypen"},
+    "Betonverharding":      {"d":"Verharding van beton.","s":"","st":"Te bepalen","o":"Vaos","c":"Objecttypen"},
+    "Onverhard":            {"d":"Onverharde ondergrond.","s":"","st":"Te bepalen","o":"Vaos","c":"Objecttypen"},
+    "Elementverharding":    {"d":"Verharding samengesteld uit individuele elementen.","s":"","st":"Te bepalen","o":"Vaos","c":"Objecttypen"},
+
+    // ── Hekken ──────────────────────────────────────────────────────
+    "Draadraaster":         {"d":"Hekwerk van draad.","s":"","st":"Te bepalen","o":"Vaos","c":"Objecttypen"},
+    "Faunaraster":          {"d":"Raster specifiek bedoeld om fauna te geleiden of te weren.","s":"","st":"Te bepalen","o":"Vaos","c":"Objecttypen"},
+    "Gaashek":              {"d":"Hekwerk van gaas.","s":"","st":"Te bepalen","o":"Vaos","c":"Objecttypen"},
+    "Spijlenhek":           {"d":"Hekwerk van spijlen.","s":"","st":"Te bepalen","o":"Vaos","c":"Objecttypen"},
+    "Schrikdraad":          {"d":"Elektrisch geladen draad als afrastering.","s":"","st":"Te bepalen","o":"Vaos","c":"Objecttypen"},
+    "Toegangspoort":        {"d":"Poort die toegang verschaft.","s":"","st":"Te bepalen","o":"Vaos","c":"Objecttypen"},
+
+    // ── Hek Verschijningsvormen ─────────────────────────────────────
+    "Boerenhekwerk":        {"d":"Traditioneel hekwerk bij agrarische percelen.","s":"","st":"Te bepalen","o":"Vaos","c":"Verschijningsvormen"},
+    "Grootveehek":          {"d":"Hek geschikt voor het keren van groot vee.","s":"","st":"Te bepalen","o":"Vaos","c":"Verschijningsvormen"},
+    "V-werk":               {"d":"V-vormige constructie als veekering.","s":"","st":"Te bepalen","o":"Vaos","c":"Verschijningsvormen"},
+    "Combinatiepoort":      {"d":"Poort die meerdere functies combineert.","s":"","st":"Te bepalen","o":"Vaos","c":"Verschijningsvormen"},
+    "Klaphek":              {"d":"Hek dat open en dicht klapt.","s":"","st":"Te bepalen","o":"Vaos","c":"Verschijningsvormen"},
+    "Draaihek":             {"d":"Hek dat draait om doorgang te verlenen.","s":"","st":"Te bepalen","o":"Vaos","c":"Verschijningsvormen"},
+    "Kleinveehek":          {"d":"Hek geschikt voor het keren van klein vee.","s":"","st":"Te bepalen","o":"Vaos","c":"Verschijningsvormen"},
+
+    // ── Verharding Verschijningsvormen ──────────────────────────────
+    "Asfaltverharding (verschijningsvorm)":{"d":"Asfaltverharding als verschijningsvorm.","s":"","st":"Te bepalen","o":"Vaos","c":"Verschijningsvormen"},
+    "Betonverharding (verschijningsvorm)":{"d":"Betonverharding als verschijningsvorm.","s":"","st":"Te bepalen","o":"Vaos","c":"Verschijningsvormen"},
+    "Halfverharding (verschijningsvorm)":{"d":"Halfverharding als verschijningsvorm.","s":"","st":"Te bepalen","o":"Vaos","c":"Verschijningsvormen"},
+    "Onverhard (verschijningsvorm)":{"d":"Onverharde ondergrond als verschijningsvorm.","s":"","st":"Te bepalen","o":"Vaos","c":"Verschijningsvormen"},
+    "Elementverharding (verschijningsvorm)":{"d":"Elementverharding als verschijningsvorm.","s":"","st":"Te bepalen","o":"Vaos","c":"Verschijningsvormen"}
   },
 
   // ── Property → begrip mapping ──────────────────────────────────────
@@ -157,14 +184,13 @@ window.APP_CONFIG = {
     verschijningsvorm: 'Verschijningsvorm',
     ruimtelijke_context: 'Ruimtelijke Context',
     functie: 'Functie',
-    breedteklasse_watergang: 'Breedteklasse Watergang',
-    type_waterbodem: 'Type Waterbodem'
+    breedteklasse_watergang: 'Breedteklasse Watergang'
   },
 
   // ── Regimes ────────────────────────────────────────────────────────
   regimes: {
-    "Cultuur_Ext": {
-      t: "Cultuur Extensief \u2014 Sinusbeheer",
+    "OGW_Ext": {
+      t: "OGW Extensief \u2014 Sinusbeheer",
       ty: "Ecologisch maaibeheer",
       fr: "2x/jaar",
       ma: "Ja",
@@ -191,24 +217,24 @@ window.APP_CONFIG = {
 
   // ── Drielagen-model defaults ───────────────────────────────────────
   defaultLayers: {
-    A: ['GlobalID','objecttype','verschijningsvorm','ruimtelijke_context','functie','taludsteilte','is_werkpad','steilheidklasse','eigenaar'],
+    A: ['GlobalID','objecttype','verschijningsvorm','ruimtelijke_context','functie','taludsteilte','is_werkpad','steilheidklasse'],
     B: ['watergang_id','complex_id','trajectcode','naam','streefbeeld_id','ecologisch_doel','beheerder'],
     C: ['beheerregime','periode','fase_zijde','bewerkingspercentage','uitvoerder','techniek','maaifrequentie','datum_gepland','datum_uitgevoerd','status','opmerking']
   },
 
   // ── Regimematrix defaults ──────────────────────────────────────────
-  matrixRegimes: ['Natuur_A','Natuur_B','Cultuur_Ext','Cultuur_Int','Kering','Buffer'],
+  matrixRegimes: ['Natuur_A','Natuur_B','OGW_Ext','OGW_Int','Kering','Buffer'],
 
   matrixData: {
     'Natuur_A|Gras- en kruidachtigen': 'Sinusbeheer, 2x/jaar, maaisel afvoeren',
     'Natuur_A|Watergang': 'Eenzijdig schonen, 1x/jaar okt',
-    'Cultuur_Ext|Gras- en kruidachtigen': '2x maaien, maaisel afvoeren',
-    'Cultuur_Int|Gras- en kruidachtigen': '4-6x maaien, klepelen',
+    'OGW_Ext|Gras- en kruidachtigen': '2x maaien, maaisel afvoeren',
+    'OGW_Int|Gras- en kruidachtigen': '4-6x maaien, klepelen',
     'Kering|Gras- en kruidachtigen': '6x maaien, gazon kort',
     'Buffer|Watergang': 'Schonen bij vulling >50%',
     'Buffer|Gras- en kruidachtigen': '1x/jaar maaien, maaisel afvoeren, schraalgrasland behouden',
     'Buffer|Watervlakte': 'Rietvegetatie in stand houden, max 30% maaien per jaar',
-    'Buffer|Elementenverharding': 'Onkruid verwijderen rondom constructies, 2x/jaar',
+    'Buffer|Elementverharding': 'Onkruid verwijderen rondom constructies, 2x/jaar',
     'Buffer|Halfverharding': 'Pad begaanbaar houden, opslag verwijderen, 1x/jaar',
     'Natuur_B|Gras- en kruidachtigen': '1x/jaar sept, niet maaien voor 15 jul'
   }

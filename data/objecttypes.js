@@ -19,7 +19,7 @@ window.OBJECT_TYPES = {
       'Glanshaverhooilanden op schrale bodem','Bloemrijk natte ruigte','Ruigte',
       'Gazon extensief','Dotterbloemhooiland (droge vorm)','Dotterbloemhooiland (Natte vorm)',
       'Heischraal grasland','Schraalgrasland','Kalkgrasland',
-      'Pimpernelhooiland','Orchidee\u00EBngrasland'
+      'Pimpernelhooiland','Orchidee\u00EBngrasland','Fauna- en kruidenrijkgrasland'
     ]
   },
   'Bos': {
@@ -46,6 +46,18 @@ window.OBJECT_TYPES = {
     category: 'groen',
     verschijningsvormen: ['Houtsingel']
   },
+  'Struweelhaag': {
+    category: 'groen',
+    verschijningsvormen: []
+  },
+  'Graft': {
+    category: 'groen',
+    verschijningsvormen: []
+  },
+  'Boom': {
+    category: 'groen',
+    verschijningsvormen: []
+  },
 
   // ── Water ──────────────────────────────────────────────────────────
   'Watergang': {
@@ -58,12 +70,46 @@ window.OBJECT_TYPES = {
   },
 
   // ── Verharding ───────────────────────────────────────────────────────
-  'Elementenverharding': {
+  'Asfaltverharding': {
     category: 'verharding',
-    verschijningsvormen: ['Natuursteen','Betonsteen','Gebakken klinkers']
+    verschijningsvormen: ['Asfaltverharding']
   },
-  'Halfverharding': {
+  'Betonverharding': {
     category: 'verharding',
-    verschijningsvormen: ['Kleischelpen','Grind','Schelpen','Puin']
+    verschijningsvormen: ['Betonverharding']
+  },
+  'Onverhard': {
+    category: 'verharding',
+    verschijningsvormen: ['Onverhard']
+  },
+  'Elementverharding': {
+    category: 'verharding',
+    verschijningsvormen: ['Elementverharding']
+  },
+
+  // ── Hekken ────────────────────────────────────────────────────────
+  'Draadraaster': {
+    category: 'hek',
+    verschijningsvormen: []
+  },
+  'Faunaraster': {
+    category: 'hek',
+    verschijningsvormen: []
+  },
+  'Gaashek': {
+    category: 'hek',
+    verschijningsvormen: []
+  },
+  'Spijlenhek': {
+    category: 'hek',
+    verschijningsvormen: []
+  },
+  'Schrikdraad': {
+    category: 'hek',
+    verschijningsvormen: []
+  },
+  'Toegangspoort': {
+    category: 'hek',
+    verschijningsvormen: ['Boerenhekwerk','Grootveehek','V-werk','Combinatiepoort','Klaphek','Draaihek','Kleinveehek']
   }
 };
