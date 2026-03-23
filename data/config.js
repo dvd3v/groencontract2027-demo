@@ -15,7 +15,14 @@ window.APP_CONFIG = {
     type_waterbodem: ['Droog','Nat'],
     breedteklasse_watergang: ['1','2','3','4','5'],
     verschijningsvorm_water: ['Beek','Sloot','Poel','Ven','Plas'],
-    fase_zijde: ['L','R']
+    fase_zijde: ['L','R'],
+    // ── Werkzaamheden domeinlijsten (Laag C redesign) ──
+    handeling: ['Maaien','Snoeien','Knippen','Opschonen','Vrijmaaien','Inspecteren'],
+    werkwijze: ['Habitatbenadering','Sinusbeheer','Klepelen','Knotten','Standaard'],
+    doel: ['Talud','Bodem','Natte Bodem','Werkpad','Berm','Constructie','Hek','Kruin'],
+    zijde: ['Links','Rechts','Beide','N.v.t.'],
+    cyclus_jaar: ['Even jaren','Oneven jaren','Elk jaar'],
+    registratie_status: ['gepland','in_uitvoering','uitgevoerd','afgekeurd']
   },
 
   // ── Kleurmappen per visualisatie-attribuut ─────────────────────────
@@ -143,6 +150,15 @@ window.APP_CONFIG = {
     "Schelpen":             {"d":"","s":"","st":"","o":"","c":"Verschijningsvormen"},
     "Puin":                 {"d":"","s":"","st":"","o":"","c":"Verschijningsvormen"},
 
+    // ── Werkzaamheden dimensies ────────────────────────────────────────
+    "Handeling":            {"d":"Het werkwoord / de hoofdactie van de werkzaamheid.","s":"WL","st":"Definitief","o":"Data","c":"Werkzaamheden"},
+    "Werkwijze":            {"d":"Kwaliteitseis of methode waarmee de handeling wordt uitgevoerd.","s":"WL","st":"Definitief","o":"Data","c":"Werkzaamheden"},
+    "Doel":                 {"d":"Het fysieke onderdeel waarop de handeling betrekking heeft.","s":"WL","st":"Definitief","o":"Data","c":"Werkzaamheden"},
+    "Zijde":                {"d":"Ruimtelijke specificatie: Links, Rechts, Beide of N.v.t.","s":"WL","st":"Definitief","o":"Data","c":"Werkzaamheden"},
+    "Cyclus_Jaar":          {"d":"Fasering over jaren: Even jaren, Oneven jaren of Elk jaar.","s":"WL","st":"Definitief","o":"Data","c":"Werkzaamheden"},
+    "Sinusbeheer":          {"d":"Gefaseerd maaibeheer: per periode wisselende zijde (L/R), 50% per beurt. Ecologisch beheer gericht op biodiversiteit.","s":"WL","st":"Definitief","o":"Ecologie","c":"Werkzaamheden"},
+    "Habitatbenadering":    {"d":"Ecologisch maaibeheer gericht op behoud en ontwikkeling van specifieke habitattypen en biodiversiteit.","s":"WL","st":"Definitief","o":"Ecologie","c":"Werkzaamheden"},
+
     // ── Type Waterbodem ──────────────────────────────────────────────
     "Droog":                {"d":"Watergang die tussen 1 april en 1 oktober bij normale omstandigheden geen of nauwelijks water afvoert.","s":"","st":"Controleren","o":"Henk","c":"Type Waterbodem"},
     "Nat":                  {"d":"Watergang die het gehele jaar bij normale omstandigheden water afvoert.","s":"","st":"Controleren","o":"Henk","c":"Type Waterbodem"}
@@ -158,7 +174,13 @@ window.APP_CONFIG = {
     ruimtelijke_context: 'Ruimtelijke Context',
     functie: 'Functie',
     breedteklasse_watergang: 'Breedteklasse Watergang',
-    type_waterbodem: 'Type Waterbodem'
+    type_waterbodem: 'Type Waterbodem',
+    handeling: 'Handeling',
+    werkwijze: 'Werkwijze',
+    doel: 'Doel',
+    zijde: 'Zijde',
+    cyclus_jaar: 'Cyclus_Jaar',
+    traject_id: 'Traject Code'
   },
 
   // ── Regimes ────────────────────────────────────────────────────────
@@ -193,7 +215,7 @@ window.APP_CONFIG = {
   defaultLayers: {
     A: ['GlobalID','objecttype','verschijningsvorm','ruimtelijke_context','functie','taludsteilte','is_werkpad','steilheidklasse','eigenaar'],
     B: ['watergang_id','complex_id','trajectcode','naam','streefbeeld_id','ecologisch_doel','beheerder'],
-    C: ['beheerregime','periode','fase_zijde','bewerkingspercentage','uitvoerder','techniek','maaifrequentie','datum_gepland','datum_uitgevoerd','status','opmerking']
+    C: ['Handeling','Werkwijze','Doel','Zijde','Periode','Cyclus_Jaar','Percentage','Afvoer','status','datum_gepland','datum_uitgevoerd','opmerking']
   },
 
   // ── Regimematrix defaults ──────────────────────────────────────────

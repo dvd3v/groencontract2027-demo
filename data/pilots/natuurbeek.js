@@ -22,7 +22,7 @@ window.PILOTS['natuurbeek'] = {
       data: { type: 'FeatureCollection', features: [] }
     },
     traject: {
-      label: 'Jaarplan',
+      label: 'Trajecten',
       color: 'var(--p)',
       data: { type: 'FeatureCollection', features: [] }
     }

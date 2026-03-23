@@ -195,14 +195,24 @@
         <div class="dm-row"><div class="dm-k">verschijningsvorm</div><div class="dm-v">Short INT<span class="dm-dom">Natuursteen, Kleischelpen, Betonsteen, Grind</span></div></div>
         <div class="dm-row"><div class="dm-k">is_werkpad</div><div class="dm-v">Boolean</div></div>
       </div>
-      <div class="dm-card"><h3><div class="dot" style="background:var(--p)"></div>Trajecten (Jaarplan)</h3>
-        <div class="dm-row"><div class="dm-k">beheerregime</div><div class="dm-v">Text</div></div>
-        <div class="dm-row"><div class="dm-k">periode</div><div class="dm-v">Text — Maaiperiode nummer</div></div>
-        <div class="dm-row"><div class="dm-k">bewerkingspercentage</div><div class="dm-v">INT</div></div>
-        <div class="dm-row"><div class="dm-k">uitvoerder</div><div class="dm-v">Text</div></div>
-        <div class="dm-row"><div class="dm-k">fase_zijde</div><div class="dm-v">Text — L/R (welke zijde deze periode)</div></div>
-        <p style="font-size:11px;color:var(--txd);margin-top:8px">&#x2139; Eenzelfde traject kan meerdere keren voorkomen (1x per periode). Elke periode heeft eigen zijde, regime en aannemer-terugmelding.</p>
-        <p style="font-size:11px;color:var(--txd);margin-top:4px">&#x2139; Bij buffers is fasering (L/R) niet van toepassing. Buffer-trajecten hebben regimes <em>Buffer_Normaal</em> (standaard onderhoud taluds/bodem) en <em>Buffer_Voorziening</em> (vrijmaaien in-/uitstroom constructies).</p>
+      <div class="dm-card"><h3><div class="dot" style="background:var(--p)"></div>Trajecten (ruimtelijke container)</h3>
+        <div class="dm-row"><div class="dm-k">Traject_ID</div><div class="dm-v">PK (text) — Unieke sleutel</div></div>
+        <div class="dm-row"><div class="dm-k">naam</div><div class="dm-v">Text — Leesbare naam</div></div>
+        <div class="dm-row"><div class="dm-k">code</div><div class="dm-v">Text — Trajectcode</div></div>
+        <p style="font-size:11px;color:var(--txd);margin-top:8px">&#x2139; Een traject is een 'domme' GIS-polygoon. De planning zit in gekoppelde werkzaamheidrecords (1:N).</p>
+      </div>
+      <div class="dm-card"><h3><div class="dot" style="background:var(--o)"></div>Traject_Werkzaamheid (plannings-engine)</h3>
+        <div class="dm-row"><div class="dm-k">Werk_ID</div><div class="dm-v">PK — Unieke sleutel planningsregel</div></div>
+        <div class="dm-row"><div class="dm-k">Traject_ID</div><div class="dm-v">FK &#x2192; Traject</div></div>
+        <div class="dm-row"><div class="dm-k">Handeling</div><div class="dm-v">WAT<span class="dm-dom">DOM_Handeling</span></div></div>
+        <div class="dm-row"><div class="dm-k">Werkwijze</div><div class="dm-v">HOE<span class="dm-dom">DOM_Werkwijze</span></div></div>
+        <div class="dm-row"><div class="dm-k">Doel</div><div class="dm-v">WAAROP<span class="dm-dom">DOM_Doel</span></div></div>
+        <div class="dm-row"><div class="dm-k">Zijde</div><div class="dm-v">WAAR<span class="dm-dom">DOM_Zijde</span></div></div>
+        <div class="dm-row"><div class="dm-k">Periode</div><div class="dm-v">INT — 1 t/m 9</div></div>
+        <div class="dm-row"><div class="dm-k">Cyclus_Jaar</div><div class="dm-v">WELK JAAR<span class="dm-dom">DOM_Cyclus_Jaar</span></div></div>
+        <div class="dm-row"><div class="dm-k">Percentage</div><div class="dm-v">INT — 0-100</div></div>
+        <div class="dm-row"><div class="dm-k">Afvoer</div><div class="dm-v">Boolean — Maaisel afvoeren</div></div>
+        <p style="font-size:11px;color:var(--txd);margin-top:8px">&#x2139; Elk record is &eacute;&eacute;n unieke, ondeelbare actie. De 15-juli L/R-wisseling wordt mechanisch afgedwongen via 4 records per traject.</p>
       </div>
       <div class="dm-card"><h3>Domeinlijsten</h3><div id="domOv"></div></div>
     </div>
@@ -225,7 +235,7 @@
           <rect x="570" y="22" width="90" height="26" rx="5" fill="#7c3aed" opacity=".12" stroke="#7c3aed" stroke-width=".8"/><text x="615" y="40" text-anchor="middle" font-size="9.5" fill="#7c3aed" font-weight="500">Regimes</text>
           <rect x="670" y="22" width="90" height="26" rx="5" fill="#7c3aed" opacity=".12" stroke="#7c3aed" stroke-width=".8"/><text x="715" y="40" text-anchor="middle" font-size="9.5" fill="#7c3aed" font-weight="500">Fasering</text>
           <rect x="770" y="22" width="90" height="26" rx="5" fill="#ea580c" opacity=".12" stroke="#ea580c" stroke-width=".8"/><text x="815" y="40" text-anchor="middle" font-size="9.5" fill="#ea580c" font-weight="500">Aannemer</text>
-          <text x="60" y="78" font-size="9" fill="#9298ad">periode, techniek, uitvoerder, datum_gepland, datum_uitgevoerd, status, fase_zijde</text>
+          <text x="60" y="78" font-size="9" fill="#9298ad">Handeling, Werkwijze, Doel, Zijde, Periode, Cyclus_Jaar, Percentage, Afvoer, Status</text>
 
           <!-- Arrow down C to B -->
           <line x1="450" y1="90" x2="450" y2="110" stroke="#c8cdd6" stroke-width="1.5" marker-end="url(#arrowhead)"/>
@@ -299,10 +309,11 @@
       <h2 style="font-size:20px;margin-bottom:4px">Beheerregime Matrix</h2>
       <p style="color:var(--txd);font-size:13px;margin-bottom:8px">Definieer per regime wat de concrete actie is per objecttype. Klik op een cel om de instructie aan te passen.</p>
       <p style="color:var(--txm);font-size:11px;margin-bottom:16px">Deze matrix vertaalt regime + objecttype &#x2192; concrete instructie. Houd het aantal regimes beperkt (6-10).</p>
-      <div style="display:flex;gap:8px;margin-bottom:14px">
+      <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
         <button class="btn btn-sm btn-p" onclick="addRegime()">+ Regime</button>
         <button class="btn btn-sm" onclick="addOTRow()">+ Objecttype</button>
         <button class="btn btn-sm btn-s" onclick="exportMatrix()">&#x2B07; Exporteer matrix</button>
+        <button class="btn btn-sm" style="background:var(--p);color:#fff" onclick="generateWerkzaamheden()">Genereer werkzaamheden</button>
       </div>
       <div style="overflow-x:auto;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);box-shadow:0 1px 4px rgba(0,0,0,.04)">
         <table class="mx-table" id="mxTable"></table>
@@ -312,8 +323,9 @@
   <!-- Jaarplan Table page -->
   <div class="plan-page" id="planPage">
     <div style="max-width:1200px;margin:0 auto">
-      <h2 style="font-size:20px;margin-bottom:4px">Jaarplan 2026 — Overzicht</h2>
-      <p style="color:var(--txd);font-size:13px;margin-bottom:16px">Planningsoverzicht per traject en periode.</p>
+      <h2 style="font-size:20px;margin-bottom:4px">Jaarplan 2027 — Werkzaamheden</h2>
+      <p style="color:var(--txd);font-size:13px;margin-bottom:8px">Planningsoverzicht per traject en werkzaamheid. Elke rij is &eacute;&eacute;n unieke actie.</p>
+      <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap" id="planFilters"></div>
       <div class="plan-summary" id="planStats"></div>
       <div style="overflow-x:auto;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);box-shadow:0 1px 4px rgba(0,0,0,.04)">
         <table class="plan-tbl" id="planTbl"></table>
@@ -379,6 +391,59 @@ let G = pilot.layers.groen  ? pilot.layers.groen.data  : {type:'FeatureCollectio
 let W = pilot.layers.water  ? pilot.layers.water.data  : {type:'FeatureCollection',features:[]};
 let T = pilot.layers.traject ? pilot.layers.traject.data : {type:'FeatureCollection',features:[]};
 
+// ===== WERKZAAMHEDEN HELPERS =====
+function getWerkzaamheden(pilotKey) {
+  return (window.PILOTS[pilotKey] || {}).werkzaamheden || [];
+}
+function getWerkzaamhedenForTraject(pilotKey, trajectId) {
+  return getWerkzaamheden(pilotKey).filter(w => w.Traject_ID === trajectId);
+}
+function getAllWerkzaamheden() {
+  const all = [];
+  for (const [pk, p] of Object.entries(window.PILOTS)) {
+    (p.werkzaamheden || []).forEach(w => all.push({...w, _pilotKey: pk, _pilotName: p.name}));
+  }
+  return all;
+}
+// Get aggregate status for a traject (for map coloring)
+function getTrajectStatus(pilotKey, trajectId) {
+  const werken = getWerkzaamhedenForTraject(pilotKey, trajectId);
+  if (!werken.length) return 'gepland';
+  const statussen = werken.map(w => {
+    const reg = registraties[w.Werk_ID];
+    return reg ? reg.status : 'gepland';
+  });
+  if (statussen.some(s => s === 'afgekeurd')) return 'afgekeurd';
+  if (statussen.every(s => s === 'uitgevoerd')) return 'uitgevoerd';
+  if (statussen.some(s => s === 'in_uitvoering' || s === 'uitgevoerd')) return 'in_uitvoering';
+  return 'gepland';
+}
+
+// ===== PERSISTENTIE (localStorage) =====
+const LS_KEY = 'groencontract_registraties';
+let registraties = {}; // keyed by Werk_ID
+function loadRegistraties() {
+  try {
+    const stored = localStorage.getItem(LS_KEY);
+    if (stored) registraties = JSON.parse(stored);
+  } catch(e) { console.warn('Kon registraties niet laden:', e); }
+}
+function saveRegistraties() {
+  try { localStorage.setItem(LS_KEY, JSON.stringify(registraties)); }
+  catch(e) { console.warn('Kon registraties niet opslaan:', e); }
+}
+function getReg(werkId) {
+  if (!registraties[werkId]) {
+    registraties[werkId] = { status:'gepland', datum_gepland:'', datum_uitgevoerd:'', opmerking:'', foto:null, fase_uitgevoerd:'', fase_afwijking_reden:'' };
+  }
+  return registraties[werkId];
+}
+function setReg(werkId, field, value) {
+  getReg(werkId)[field] = value;
+  saveRegistraties();
+}
+loadRegistraties();
+
 function getObjectLayerKeys() {
   // All layer keys except 'traject' are object layers
   return Object.keys(pilot.layers).filter(k => k !== 'traject');
@@ -405,7 +470,6 @@ function switchPilot(key) {
     vis[k] = k === 'traject' ? 0 : 1;
   }
   vis.werkpad = 0;
-  aan = {};
   activePeriod = 'all';
   renderPilotTabs();
   renderLayerControls();
@@ -449,7 +513,8 @@ function renderLayerControls() {
 }
 
 // ===== APP STATE =====
-let map,gL,wL,tL,wpL,baseLyr,vis={},cSt='objecttype',tVis=0,aTL='groen',aan={},ctx={},activePeriod='all',legOpen=true;
+let map,gL,wL,tL,wpL,baseLyr,vis={},cSt='objecttype',tVis=0,aTL='groen',ctx={},activePeriod='all',legOpen=true;
+let planFilterPeriode='all',planFilterHandeling='all',planFilterZijde='all',planFilterStatus='all';
 // Initialize vis from first pilot
 for (const k of Object.keys(pilot.layers)) { vis[k] = k === 'traject' ? 0 : 1; }
 vis.werkpad = 0;
@@ -515,11 +580,14 @@ function rL(){
   gL = mapLayerRefs.groen || null;
   wL = mapLayerRefs.water || null;
 
-  // Traject layer (special rendering)
+  // Traject layer (colored by aggregate werkzaamheden status)
   if (pilot.layers.traject) {
-    const tFeats=activePeriod==='all'?T.features:T.features.filter(f=>f.properties.periode===activePeriod);
-    const tGeo={type:'FeatureCollection',features:tFeats};
-    tL=L.geoJSON(tGeo,{style:f=>{const k='traject-'+T.features.indexOf(f);const ad=aan[k]||{};const sc=statusColors[ad.status]||'#7c3aed';return{fillColor:sc,fillOpacity:ad.status==='uitgevoerd'?.2:.12,color:sc,weight:ad.status==='uitgevoerd'?3:2,opacity:ad.status==='uitgevoerd'?.7:.5,dashArray:ad.status==='uitgevoerd'?'':'8 4'}},onEachFeature:(f,l)=>l.on('click',()=>sPop(f,'traject',T.features.indexOf(f)))});
+    tL=L.geoJSON(T,{style:f=>{
+      const tid=f.properties.Traject_ID;
+      const st=getTrajectStatus(activePilotKey,tid);
+      const sc=statusColors[st]||'#7c3aed';
+      return{fillColor:sc,fillOpacity:st==='uitgevoerd'?.2:.12,color:sc,weight:st==='uitgevoerd'?3:2,opacity:st==='uitgevoerd'?.7:.5,dashArray:st==='uitgevoerd'?'':'8 4'}
+    },onEachFeature:(f,l)=>l.on('click',()=>sPop(f,'traject',T.features.indexOf(f)))});
     mapLayerRefs.traject = tL;
     if(vis.traject)tL.addTo(map);
   }
@@ -549,8 +617,8 @@ function uLeg(){
   // Status legend for jaarplan
   let statusLeg='<div style="margin-top:6px;font-size:10.5px;font-weight:600;color:var(--txd);margin-bottom:4px">Jaarplan status</div>';
   for(const[s,c]of Object.entries(statusColors)){statusLeg+=`<div class="leg-item"><div class="leg-dot" style="background:${c}"></div>${s.replace(/_/g,' ')}</div>`}
-  // Period filter
-  const periods=[...new Set(T.features.map(f=>f.properties.periode))].sort();
+  // Period filter (from werkzaamheden)
+  const periods=[...new Set(getWerkzaamheden(activePilotKey).map(w=>String(w.Periode)))].sort();
   let perFilt='<div style="margin-top:8px;font-size:10.5px;font-weight:600;color:var(--txd);margin-bottom:4px">Periode filter</div><div class="per-tabs">';
   perFilt+=`<button class="per-tab ${activePeriod==='all'?'a':''}" onclick="activePeriod='all';rL();uLeg()">Alle</button>`;
   periods.forEach(p=>{perFilt+=`<button class="per-tab ${activePeriod===p?'a':''}" onclick="activePeriod='${p}';rL();uLeg()">Periode ${p}</button>`});
@@ -567,14 +635,18 @@ function iH(b){if(!b)return'';return`<span class="ii" onmouseenter="sT(event,'${
 
 function sPop(f,ln,i){
   ctx={f,ln,i};const p=f.properties;
-  const layerLabel=ln==='traject'?'Jaarplan':(pilot.layers[ln]?.label||ln);
-  document.getElementById('pT').innerHTML=`${layerLabel} — ${e(p.objecttype||p.trajectcode||'Object')} <span style="color:var(--txm);font-weight:400;font-size:12px">${ln==='traject'?'Periode '+p.periode:'#'+p.GlobalID}</span>`;
+  const layerLabel=ln==='traject'?'Traject':(pilot.layers[ln]?.label||ln);
+  if(ln==='traject'){
+    document.getElementById('pT').innerHTML=`${layerLabel} — ${e(p.naam||p.code||'Object')} <span style="color:var(--txm);font-weight:400;font-size:12px">${e(p.Traject_ID)}</span>`;
+  } else {
+    document.getElementById('pT').innerHTML=`${layerLabel} — ${e(p.objecttype||'Object')} <span style="color:var(--txm);font-weight:400;font-size:12px">#${p.GlobalID}</span>`;
+  }
   let tabs='<button class="ptb a" onclick="sTab(\'a\')">Attributen</button>';
-  if(ln==='traject'){tabs+='<button class="ptb" onclick="sTab(\'p\')">&#x1F527; Aannemer</button>';tabs+='<button class="ptb" onclick="sTab(\'f\')">&#x21C4; Fasering</button>';}
+  if(ln==='traject'){tabs+='<button class="ptb" onclick="sTab(\'w\')">Werkzaamheden</button>';tabs+='<button class="ptb" onclick="sTab(\'p\')">Registratie</button>';}
   document.getElementById('pTabs').innerHTML=tabs;sTab('a');document.getElementById('fPop').style.display='block';
 }
 function cPop(){document.getElementById('fPop').style.display='none'}
-function sTab(t){document.querySelectorAll('#pTabs .ptb').forEach(b=>b.classList.remove('a'));document.querySelectorAll('#pTabs .ptb').forEach(b=>{if((t==='a'&&b.textContent.includes('Attr'))||(t==='p'&&b.textContent.includes('Aannemer'))||(t==='f'&&b.textContent.includes('Fasering')))b.classList.add('a')});if(t==='a')rPA();else if(t==='p')rPP();else rPF()}
+function sTab(t){document.querySelectorAll('#pTabs .ptb').forEach(b=>b.classList.remove('a'));document.querySelectorAll('#pTabs .ptb').forEach(b=>{if((t==='a'&&b.textContent.includes('Attr'))||(t==='w'&&b.textContent.includes('Werkzaam'))||(t==='p'&&b.textContent.includes('Registratie')))b.classList.add('a')});if(t==='a')rPA();else if(t==='w')rPW();else if(t==='p')rPP()}
 
 function rPA(){
   const{f,ln}=ctx,p=f.properties;let h='<table class="ptl">';
@@ -588,42 +660,65 @@ function rPA(){
   h+=`</table><div style="margin-top:12px"><button class="btn btn-p btn-sm" onclick="oIT('${ctx.ln}');cPop()">Bewerk in tabel</button></div>`;
   document.getElementById('pB').innerHTML=h;
 }
-function rPP(){
-  const k='traject-'+ctx.i,ad=aan[k]||{datum_gepland:'',datum_uitgevoerd:'',status:'gepland',opmerking:'',foto:null};
-  const pct={gepland:25,in_uitvoering:60,uitgevoerd:100,afgekeurd:0}[ad.status]||0;
-  const sc=statusColors[ad.status]||'#7c3aed';
-  const per=ctx.f.properties.periode;
-  let h=`<div class="as"><h4>&#x1F527; Planning Periode ${per} <span class="badge badge-n">DEMO</span></h4>
-    <div class="af"><label>Datum gepland</label><input type="date" value="${ad.datum_gepland}" onchange="uA('${k}','datum_gepland',this.value)"></div>
-    <div class="af"><label>Datum uitgevoerd</label><input type="date" value="${ad.datum_uitgevoerd}" onchange="uA('${k}','datum_uitgevoerd',this.value)"></div>
-    <div class="af"><label>Status</label><select onchange="uA('${k}','status',this.value)">${['gepland','in_uitvoering','uitgevoerd','afgekeurd'].map(s=>`<option value="${s}"${ad.status===s?' selected':''}>${s.replace(/_/g,' ')}</option>`).join('')}</select></div>
-    <div class="af"><label>Opmerking</label><input type="text" value="${e(ad.opmerking||'')}" placeholder="Notities..." onchange="uA('${k}','opmerking',this.value)"></div>
-    <div class="af"><label>Foto</label><input type="file" accept="image/*" style="font-size:11px" onchange="hPh('${k}',event)"></div>`;
-  if(ad.foto)h+=`<img src="${ad.foto}" style="max-width:100%;border-radius:8px;border:1px solid var(--bd);margin-top:8px">`;
-  h+=`<div style="margin-top:10px"><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--txd);margin-bottom:3px"><span>Voortgang</span><span>${pct}%</span></div><div class="pbar"><div class="pfill" style="width:${pct}%;background:${sc}"></div></div></div></div>`;
+// Werkzaamheden popup tab — shows all werkzaamheden for clicked traject
+function rPW(){
+  const tid=ctx.f.properties.Traject_ID;
+  const werken=getWerkzaamhedenForTraject(activePilotKey,tid);
+  let h=`<div class="as"><h4>Werkzaamheden — ${e(tid)} <span class="badge badge-n">${werken.length} records</span></h4>`;
+  if(!werken.length){h+=`<p style="color:var(--txm);font-size:12px">Geen werkzaamheden gekoppeld.</p></div>`;document.getElementById('pB').innerHTML=h;return}
+  h+=`<table class="ptl" style="font-size:11px"><thead><tr><th>Handeling</th><th>Doel</th><th>Zijde</th><th>Per.</th><th>Cyclus</th><th>%</th><th>Afvoer</th><th>Status</th></tr></thead><tbody>`;
+  werken.forEach(w=>{
+    const reg=getReg(w.Werk_ID);
+    const sc=statusColors[reg.status]||'#7c3aed';
+    h+=`<tr>
+      <td style="font-weight:500">${e(w.Handeling)}</td>
+      <td>${e(w.Doel)}</td>
+      <td>${w.Zijde==='Links'?'&#x25C0; L':w.Zijde==='Rechts'?'&#x25B6; R':e(w.Zijde)}</td>
+      <td style="text-align:center">${w.Periode}</td>
+      <td style="font-size:10px">${e(w.Cyclus_Jaar)}</td>
+      <td style="text-align:center">${w.Percentage}%</td>
+      <td style="text-align:center">${w.Afvoer?'&#x2713;':'&#x2717;'}</td>
+      <td><span style="color:${sc};font-weight:500">${reg.status.replace(/_/g,' ')}</span></td>
+    </tr>`;
+  });
+  h+=`</tbody></table></div>`;
   document.getElementById('pB').innerHTML=h;
 }
-function rPF(){
-  const k='traject-'+ctx.i,ad=aan[k]||{},p=ctx.f.properties;
-  const planZijde=p.fase_zijde||'L';
-  const uitv=ad.fase_uitgevoerd||'';const afwR=ad.fase_afwijking_reden||'';
-  let h=`<div class="as"><h4>&#x21C4; Sinusbeheer — Periode ${p.periode} <span class="badge badge-n">DEMO</span></h4>
-    <p style="font-size:11px;color:var(--txd);margin-bottom:12px;line-height:1.5">Gedragscode: gefaseerd maaien. Per periode wordt &eacute;&eacute;n zijde gemaaid. Volgend jaar draait het om.</p>
-    <div style="font-size:12px;font-weight:600;margin-bottom:6px">Geplande zijde deze periode</div>
-    <div style="margin-bottom:12px"><span class="fase-side fase-${planZijde}" style="font-size:12px;padding:3px 10px">${planZijde==='L'?'&#x25C0; Links (L)':'&#x25B6; Rechts (R)'}</span></div>
-    <div style="font-size:12px;font-weight:600;margin-bottom:8px;color:var(--o)">Terugmelding aannemer</div>
-    <div class="af"><label>Uitgevoerde zijde</label><select onchange="uAF('${k}','fase_uitgevoerd',this.value)"><option value="">-</option>${['L','R','afgeweken'].map(s=>`<option value="${s}"${uitv===s?' selected':''}>${s}</option>`).join('')}</select></div>`;
-  if(uitv==='afgeweken'){h+=`<div class="af"><label>Reden afwijking</label><input type="text" value="${e(afwR)}" placeholder="Bijv. onbereikbaar..." onchange="uAF('${k}','fase_afwijking_reden',this.value)"></div>`}
-  if(uitv){
-    const ok=uitv===planZijde;
-    h+=`<div style="margin-top:10px;padding:8px 10px;background:var(--sf2);border-radius:8px;font-size:11px">${ok?'&#x2705; <span style="color:var(--g)">Conform planning</span>':uitv==='afgeweken'?'&#x26A0;&#xFE0F; <span style="color:var(--r)">Afgeweken van planning</span>':'&#x26A0;&#xFE0F; <span style="color:var(--o)">Andere zijde dan gepland</span>'}${afwR?`<div style="margin-top:3px;color:var(--txm);font-style:italic">Reden: ${e(afwR)}</div>`:''}</div>`;
-  }
-  h+=`</div>`;document.getElementById('pB').innerHTML=h;
+
+// Registratie popup tab — per werkzaamheid status/datum/opmerking
+function rPP(){
+  const tid=ctx.f.properties.Traject_ID;
+  const werken=getWerkzaamhedenForTraject(activePilotKey,tid);
+  let h=`<div class="as"><h4>Registratie — ${e(tid)} <span class="badge badge-n">DEMO</span></h4>`;
+  if(!werken.length){h+=`<p style="color:var(--txm)">Geen werkzaamheden.</p></div>`;document.getElementById('pB').innerHTML=h;return}
+  werken.forEach(w=>{
+    const reg=getReg(w.Werk_ID);
+    const sc=statusColors[reg.status]||'#7c3aed';
+    const pct={gepland:25,in_uitvoering:60,uitgevoerd:100,afgekeurd:0}[reg.status]||0;
+    h+=`<div style="border:1px solid var(--bd);border-radius:8px;padding:10px;margin-bottom:10px;background:var(--sf)">
+      <div style="font-weight:600;font-size:12px;margin-bottom:6px">${e(w.Handeling)} — ${e(w.Doel)} ${w.Zijde!=='N.v.t.'?w.Zijde:''} <span style="color:var(--txm);font-weight:400">P${w.Periode}</span></div>
+      <div class="af"><label>Status</label><select onchange="setReg('${w.Werk_ID}','status',this.value);rPP();rL()">${['gepland','in_uitvoering','uitgevoerd','afgekeurd'].map(s=>`<option value="${s}"${reg.status===s?' selected':''}>${s.replace(/_/g,' ')}</option>`).join('')}</select></div>
+      <div class="af"><label>Datum gepland</label><input type="date" value="${reg.datum_gepland}" onchange="setReg('${w.Werk_ID}','datum_gepland',this.value)"></div>
+      <div class="af"><label>Datum uitgevoerd</label><input type="date" value="${reg.datum_uitgevoerd}" onchange="setReg('${w.Werk_ID}','datum_uitgevoerd',this.value)"></div>
+      <div class="af"><label>Opmerking</label><input type="text" value="${e(reg.opmerking||'')}" placeholder="Notities..." onchange="setReg('${w.Werk_ID}','opmerking',this.value)"></div>`;
+    // Fasering terugmelding voor werkzaamheden met zijde
+    if(w.Zijde==='Links'||w.Zijde==='Rechts'){
+      const uitv=reg.fase_uitgevoerd||'';
+      h+=`<div class="af"><label>Uitgevoerde zijde</label><select onchange="setReg('${w.Werk_ID}','fase_uitgevoerd',this.value);rPP()"><option value="">-</option>${['Links','Rechts','afgeweken'].map(s=>`<option value="${s}"${uitv===s?' selected':''}>${s}</option>`).join('')}</select></div>`;
+      if(uitv==='afgeweken'){h+=`<div class="af"><label>Reden afwijking</label><input type="text" value="${e(reg.fase_afwijking_reden||'')}" placeholder="Bijv. onbereikbaar..." onchange="setReg('${w.Werk_ID}','fase_afwijking_reden',this.value)"></div>`}
+      if(uitv){
+        const ok=uitv===w.Zijde;
+        h+=`<div style="margin-top:4px;padding:4px 8px;background:var(--sf2);border-radius:6px;font-size:10px">${ok?'&#x2705; Conform':'&#x26A0;&#xFE0F; Afwijking'}</div>`;
+      }
+    }
+    h+=`<div style="margin-top:6px"><div style="display:flex;justify-content:space-between;font-size:10px;color:var(--txd);margin-bottom:2px"><span>Voortgang</span><span>${pct}%</span></div><div class="pbar"><div class="pfill" style="width:${pct}%;background:${sc}"></div></div></div>
+    </div>`;
+  });
+  h+=`</div>`;
+  document.getElementById('pB').innerHTML=h;
 }
 
-function uA(k,f,v){if(!aan[k])aan[k]={datum_gepland:'',datum_uitgevoerd:'',status:'gepland',opmerking:'',foto:null};aan[k][f]=v;rPP();rL();uLeg()}
-function uAF(k,f,v){if(!aan[k])aan[k]={};aan[k][f]=v;rPF()}
-function hPh(k,ev){const f=ev.target.files[0];if(!f)return;const r=new FileReader();r.onload=x=>{if(!aan[k])aan[k]={};aan[k].foto=x.target.result;rPP()};r.readAsDataURL(f)}
+function hPh(k,ev){const f=ev.target.files[0];if(!f)return;const r=new FileReader();r.onload=x=>{setReg(k,'foto',x.target.result);rPP()};r.readAsDataURL(f)}
 function sReg(n){const r=regimes[n];if(!r)return;document.getElementById('rT').textContent=r.t;document.getElementById('rB').innerHTML=`<div class="ri" style="border-color:var(--p)"><div class="rr"><span class="rl">Type</span><span>${r.ty}</span></div><div class="rr"><span class="rl">Frequentie</span><span>${r.fr}</span></div><div class="rr"><span class="rl">Maaisel</span><span>${r.ma}</span></div><div class="rr"><span class="rl">Bewerkings%</span><span>${r.bp}</span></div><p class="rd" style="margin-top:8px">${r.ds}</p></div>`;document.getElementById('rPop').style.display='block'}
 function cReg(){document.getElementById('rPop').style.display='none'}
 
@@ -652,7 +747,11 @@ function rTbl(){
 function cC(ln,fi,k,v){const dm=getDataMap()[ln];let p=v;if(v==='true')p=true;else if(v==='false')p=false;else if(v===''||v==='null')p=null;else if(!isNaN(Number(v))&&v.trim()!=='')p=Number(v);dm.features[fi].properties[k]=p;if(k==='objecttype'){dm.features[fi].properties.verschijningsvorm=null}rL();uLeg();rTbl()}
 function addA(){const n=prompt('Nieuwe attribuut naam:');if(!n)return;getDataMap()[aTL].features.forEach(f=>{if(!(n in f.properties))f.properties[n]=null});rTbl()}
 function rmA(){const dm=getDataMap()[aTL];const ks=[...new Set(dm.features.flatMap(f=>Object.keys(f.properties)))];const n=prompt('Verwijder attribuut:\n'+ks.join(', '));if(!n||!ks.includes(n))return;dm.features.forEach(f=>{delete f.properties[n]});rTbl();rL()}
-function exportCSV(){const dms=getDataMap();let c='';for(const[ln,d]of Object.entries(dms)){const ks=[...new Set(d.features.flatMap(f=>Object.keys(f.properties)))];c+=`# ${ln}\n`+['_laag',...ks].join(';')+'\n';d.features.forEach(f=>{c+=[ln,...ks.map(k=>{const v=f.properties[k];return v==null?'':String(v)})].join(';')+'\n'});c+='\n'}c+='# Aannemer\n_key;status;datum_gepland;datum_uitgevoerd;opmerking;fase_uitgevoerd;fase_afwijking_reden\n';for(const[k,a]of Object.entries(aan))c+=`${k};${a.status||''};${a.datum_gepland||''};${a.datum_uitgevoerd||''};${a.opmerking||''};${a.fase_uitgevoerd||''};${a.fase_afwijking_reden||''}\n`;const b=new Blob([c],{type:'text/csv;charset=utf-8;'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='groenbeheer_'+new Date().toISOString().slice(0,10)+'.csv';a.click()}
+function exportCSV(){const dms=getDataMap();let c='';for(const[ln,d]of Object.entries(dms)){const ks=[...new Set(d.features.flatMap(f=>Object.keys(f.properties)))];c+=`# ${ln}\n`+['_laag',...ks].join(';')+'\n';d.features.forEach(f=>{c+=[ln,...ks.map(k=>{const v=f.properties[k];return v==null?'':String(v)})].join(';')+'\n'});c+='\n'}
+  // Werkzaamheden export
+  c+='# Werkzaamheden\nWerk_ID;Traject_ID;Handeling;Werkwijze;Doel;Zijde;Periode;Cyclus_Jaar;Percentage;Afvoer;Status;Datum_gepland;Datum_uitgevoerd;Opmerking\n';
+  getAllWerkzaamheden().forEach(w=>{const r=getReg(w.Werk_ID);c+=`${w.Werk_ID};${w.Traject_ID};${w.Handeling};${w.Werkwijze};${w.Doel};${w.Zijde};${w.Periode};${w.Cyclus_Jaar};${w.Percentage};${w.Afvoer};${r.status};${r.datum_gepland};${r.datum_uitgevoerd};${r.opmerking}\n`});
+  const b=new Blob([c],{type:'text/csv;charset=utf-8;'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='groenbeheer_'+new Date().toISOString().slice(0,10)+'.csv';a.click()}
 
 // ===== BEGRIPPEN PAGE =====
 function rBeg(){/* no-op: begrippen moved to dedicated page */}
@@ -796,59 +895,103 @@ function addOTRow(){const n=prompt('Objecttype toevoegen:');if(!n)return;if(!obj
 function rmRegime(r){if(!confirm('Regime "'+r+'" verwijderen?'))return;mxRegimes=mxRegimes.filter(x=>x!==r);renderMatrix()}
 function exportMatrix(){let c='objecttype;'+mxRegimes.join(';')+'\n';objectTypes.forEach(ot=>{c+=ot+';'+mxRegimes.map(r=>'"'+(mxData[r+'|'+ot]||'')+'"').join(';')+'\n'});const b=new Blob([c],{type:'text/csv'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='regimematrix_'+new Date().toISOString().slice(0,10)+'.csv';a.click()}
 
-// ===== JAARPLAN TABLE =====
-function getAllTrajecten(){
-  // Collect trajecten from ALL pilots, keyed by pilotKey-index for unique aan[] references
-  const all=[];
-  for(const[pk,p]of Object.entries(window.PILOTS)){
-    const tData=p.layers.traject?p.layers.traject.data:null;
-    if(!tData||!tData.features)continue;
-    tData.features.forEach((f,i)=>{all.push({feature:f,pilotKey:pk,pilotName:p.name,idx:i,aanKey:pk+'-traject-'+i})});
-  }
-  return all;
+// Werkzaamheden generator vanuit regimematrix
+function generateWerkzaamheden(){
+  const regime=prompt('Regime selecteren:\n'+mxRegimes.join(', '));
+  if(!regime||!mxRegimes.includes(regime))return;
+  const tid=prompt('Traject_ID (bijv. WL-TR-1045):');
+  if(!tid)return;
+  const pk=prompt('Pilot:\n'+Object.keys(window.PILOTS).join(', '),activePilotKey);
+  if(!pk||!window.PILOTS[pk])return;
+  if(!window.PILOTS[pk].werkzaamheden)window.PILOTS[pk].werkzaamheden=[];
+  const existing=window.PILOTS[pk].werkzaamheden;
+  let count=0;
+  objectTypes.forEach(ot=>{
+    const instr=mxData[regime+'|'+ot];
+    if(!instr)return;
+    // Parse instruction into werkzaamheid defaults
+    const wid='W-GEN-'+Date.now()+'-'+(count++);
+    existing.push({
+      Werk_ID:wid, Traject_ID:tid,
+      Handeling:instr.includes('maaien')||instr.includes('Maaien')?'Maaien':instr.includes('Schonen')||instr.includes('schonen')?'Opschonen':'Maaien',
+      Werkwijze:instr.includes('Sinusbeheer')?'Sinusbeheer':instr.includes('klepelen')||instr.includes('Klepelen')?'Klepelen':'Standaard',
+      Doel:ot==='Watergang'?'Bodem':ot==='Watervlakte'?'Natte Bodem':'Talud',
+      Zijde:'Beide', Periode:1, Cyclus_Jaar:'Elk jaar',
+      Percentage:100, Afvoer:instr.includes('afvoeren')
+    });
+  });
+  alert(`${count} werkzaamheden gegenereerd voor ${tid} in ${pk} (regime: ${regime}).`);
+  if(document.getElementById('planPage').style.display==='block')renderPlan();
+}
+
+// ===== JAARPLAN TABLE (werkzaamheidrecords) =====
+function renderPlanFilters(){
+  const allW=getAllWerkzaamheden();
+  const periodes=[...new Set(allW.map(w=>w.Periode))].sort();
+  const handelingen=[...new Set(allW.map(w=>w.Handeling))].sort();
+  const zijdes=[...new Set(allW.map(w=>w.Zijde))].sort();
+  let h='';
+  h+=`<select style="font-size:11px;padding:4px 8px;border:1px solid var(--bd);border-radius:6px" onchange="planFilterPeriode=this.value;renderPlan()"><option value="all">Alle periodes</option>${periodes.map(p=>`<option value="${p}"${planFilterPeriode==p?' selected':''}>Periode ${p}</option>`).join('')}</select>`;
+  h+=`<select style="font-size:11px;padding:4px 8px;border:1px solid var(--bd);border-radius:6px" onchange="planFilterHandeling=this.value;renderPlan()"><option value="all">Alle handelingen</option>${handelingen.map(x=>`<option value="${e(x)}"${planFilterHandeling===x?' selected':''}>${e(x)}</option>`).join('')}</select>`;
+  h+=`<select style="font-size:11px;padding:4px 8px;border:1px solid var(--bd);border-radius:6px" onchange="planFilterZijde=this.value;renderPlan()"><option value="all">Alle zijdes</option>${zijdes.map(x=>`<option value="${e(x)}"${planFilterZijde===x?' selected':''}>${e(x)}</option>`).join('')}</select>`;
+  h+=`<select style="font-size:11px;padding:4px 8px;border:1px solid var(--bd);border-radius:6px" onchange="planFilterStatus=this.value;renderPlan()"><option value="all">Alle statussen</option>${['gepland','in_uitvoering','uitgevoerd','afgekeurd'].map(s=>`<option value="${s}"${planFilterStatus===s?' selected':''}>${s.replace(/_/g,' ')}</option>`).join('')}</select>`;
+  document.getElementById('planFilters').innerHTML=h;
 }
 function renderPlan(){
-  const allT=getAllTrajecten();
+  renderPlanFilters();
+  let allW=getAllWerkzaamheden();
+  // Apply filters
+  if(planFilterPeriode!=='all')allW=allW.filter(w=>String(w.Periode)===String(planFilterPeriode));
+  if(planFilterHandeling!=='all')allW=allW.filter(w=>w.Handeling===planFilterHandeling);
+  if(planFilterZijde!=='all')allW=allW.filter(w=>w.Zijde===planFilterZijde);
+  if(planFilterStatus!=='all')allW=allW.filter(w=>(getReg(w.Werk_ID).status||'gepland')===planFilterStatus);
+
   // Summary stats
-  const total=allT.length;
-  let nGepland=0,nUitv=0,nAfgek=0;
-  allT.forEach(t=>{const ad=aan[t.aanKey]||{};if(ad.status==='uitgevoerd')nUitv++;else if(ad.status==='afgekeurd')nAfgek++;else nGepland++});
+  const total=allW.length;
+  let nGepland=0,nUitv=0,nAfgek=0,nInUitv=0;
+  allW.forEach(w=>{const s=getReg(w.Werk_ID).status;if(s==='uitgevoerd')nUitv++;else if(s==='afgekeurd')nAfgek++;else if(s==='in_uitvoering')nInUitv++;else nGepland++});
   document.getElementById('planStats').innerHTML=`
-    <div class="plan-stat"><div class="num">${total}</div><div class="lbl">Totaal trajecten</div></div>
-    <div class="plan-stat"><div class="num" style="color:var(--p)">${nGepland}</div><div class="lbl">Gepland / in uitvoering</div></div>
+    <div class="plan-stat"><div class="num">${total}</div><div class="lbl">Werkzaamheden</div></div>
+    <div class="plan-stat"><div class="num" style="color:var(--p)">${nGepland}</div><div class="lbl">Gepland</div></div>
+    <div class="plan-stat"><div class="num" style="color:var(--o)">${nInUitv}</div><div class="lbl">In uitvoering</div></div>
     <div class="plan-stat"><div class="num" style="color:var(--g)">${nUitv}</div><div class="lbl">Uitgevoerd</div></div>
     <div class="plan-stat"><div class="num" style="color:var(--r)">${nAfgek}</div><div class="lbl">Afgekeurd</div></div>`;
 
-  let h='<thead><tr><th>Gebied</th><th>Traject</th><th>Naam</th><th>Periode</th><th>Regime</th><th>Zijde</th><th>Bewerkings%</th><th>Uitvoerder</th><th>Status</th><th>Datum gepland</th><th>Datum uitgevoerd</th><th>Opmerking</th></tr></thead><tbody>';
-  let lastPilot='';
-  allT.forEach(t=>{
-    const p=t.feature.properties,ak=t.aanKey,ad=aan[ak]||{datum_gepland:'',datum_uitgevoerd:'',status:'gepland',opmerking:''};
-    const sc=statusColors[ad.status]||'#7c3aed';
+  let h='<thead><tr><th>Gebied</th><th>Traject</th><th>Handeling</th><th>Werkwijze</th><th>Doel</th><th>Zijde</th><th>Per.</th><th>Cyclus</th><th>%</th><th>Afvoer</th><th>Status</th><th>Datum gepland</th><th>Datum uitgevoerd</th><th>Opmerking</th></tr></thead><tbody>';
+  let lastPilot='',lastTraject='';
+  allW.forEach(w=>{
+    const reg=getReg(w.Werk_ID);
+    const sc=statusColors[reg.status]||'#7c3aed';
     // Pilot group header
-    if(t.pilotKey!==lastPilot){
-      lastPilot=t.pilotKey;
-      h+=`<tr><td colspan="12" style="background:var(--sf2);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--txd);padding:10px 12px">${e(t.pilotName)}</td></tr>`;
+    if(w._pilotKey!==lastPilot){
+      lastPilot=w._pilotKey;lastTraject='';
+      h+=`<tr><td colspan="14" style="background:var(--sf2);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--txd);padding:10px 12px">${e(w._pilotName)}</td></tr>`;
+    }
+    // Traject sub-header
+    if(w.Traject_ID!==lastTraject){
+      lastTraject=w.Traject_ID;
+      h+=`<tr><td colspan="14" style="background:rgba(124,58,237,.04);font-size:11px;font-weight:500;color:var(--p);padding:6px 12px;border-left:3px solid var(--p)">${e(w.Traject_ID)}</td></tr>`;
     }
     h+=`<tr>
-      <td style="font-size:11px;color:var(--txm)">${e(t.pilotName)}</td>
-      <td style="font-weight:500">${e(p.trajectcode||'')}</td>
-      <td style="font-size:11px;color:var(--txd)">${e(p.naam||'')}</td>
-      <td style="text-align:center">${e(p.periode||'')}</td>
-      <td><span class="cr" onclick="sReg('${e(p.beheerregime)}')">${e(p.beheerregime||'')}</span></td>
-      <td>${p.fase_zijde?`<span class="fase-side fase-${p.fase_zijde}">${p.fase_zijde==='L'?'&#x25C0; L':'&#x25B6; R'}</span>`:'<span style="color:var(--txm);font-size:11px">n.v.t.</span>'}</td>
-      <td style="text-align:center">${p.bewerkingspercentage!=null?p.bewerkingspercentage+'%':'-'}</td>
-      <td>${e(p.uitvoerder||'')}</td>
-      <td><select onchange="uAP2('${ak}','status',this.value);renderPlan()" style="color:${sc};font-weight:500">${['gepland','in_uitvoering','uitgevoerd','afgekeurd'].map(s=>`<option value="${s}"${ad.status===s?' selected':''}>${s.replace(/_/g,' ')}</option>`).join('')}</select></td>
-      <td><input type="date" value="${ad.datum_gepland}" onchange="uAP2('${ak}','datum_gepland',this.value)"></td>
-      <td><input type="date" value="${ad.datum_uitgevoerd}" onchange="uAP2('${ak}','datum_uitgevoerd',this.value)"></td>
-      <td><input type="text" value="${e(ad.opmerking||p.opmerking_uitvoering||'')}" placeholder="..." onchange="uAP2('${ak}','opmerking',this.value)"></td>
+      <td style="font-size:10px;color:var(--txm)">${e(w._pilotName)}</td>
+      <td style="font-size:11px">${e(w.Traject_ID)}</td>
+      <td style="font-weight:500">${e(w.Handeling)}</td>
+      <td style="font-size:11px">${e(w.Werkwijze)}</td>
+      <td>${e(w.Doel)}</td>
+      <td>${w.Zijde==='Links'?'<span class="fase-side fase-L">&#x25C0; L</span>':w.Zijde==='Rechts'?'<span class="fase-side fase-R">&#x25B6; R</span>':`<span style="color:var(--txm);font-size:11px">${e(w.Zijde)}</span>`}</td>
+      <td style="text-align:center">${w.Periode}</td>
+      <td style="font-size:10px">${e(w.Cyclus_Jaar)}</td>
+      <td style="text-align:center">${w.Percentage}%</td>
+      <td style="text-align:center">${w.Afvoer?'&#x2713;':'&#x2717;'}</td>
+      <td><select onchange="setReg('${w.Werk_ID}','status',this.value);renderPlan();rL()" style="color:${sc};font-weight:500;font-size:11px">${['gepland','in_uitvoering','uitgevoerd','afgekeurd'].map(s=>`<option value="${s}"${reg.status===s?' selected':''}>${s.replace(/_/g,' ')}</option>`).join('')}</select></td>
+      <td><input type="date" value="${reg.datum_gepland}" onchange="setReg('${w.Werk_ID}','datum_gepland',this.value)" style="font-size:11px"></td>
+      <td><input type="date" value="${reg.datum_uitgevoerd}" onchange="setReg('${w.Werk_ID}','datum_uitgevoerd',this.value)" style="font-size:11px"></td>
+      <td><input type="text" value="${e(reg.opmerking||'')}" placeholder="..." onchange="setReg('${w.Werk_ID}','opmerking',this.value)" style="font-size:11px"></td>
     </tr>`;
   });
   h+='</tbody>';
   document.getElementById('planTbl').innerHTML=h;
 }
-function uAP(i,f,v){const k='traject-'+i;if(!aan[k])aan[k]={datum_gepland:'',datum_uitgevoerd:'',status:'gepland',opmerking:''};aan[k][f]=v;rL();uLeg()}
-function uAP2(ak,f,v){if(!aan[ak])aan[ak]={datum_gepland:'',datum_uitgevoerd:'',status:'gepland',opmerking:''};aan[ak][f]=v;rL();uLeg()}
 
 function showPage(p){
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('a'));
