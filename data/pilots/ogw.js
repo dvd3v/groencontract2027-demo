@@ -23,12 +23,22 @@ window.PILOTS['ogw'] = {
       data: {"type":"FeatureCollection","features":[{"type":"Feature","properties":{"GlobalID":1,"naam":"WL beek","trajectcode":"WL123","objecttype":"Watergang","verschijningsvorm":"Sloot","ruimtelijke_context":"Natte Bodem","functie":"Omgevingsgericht water","breedteklasse_watergang":2},"geometry":{"type":"MultiPolygon","coordinates":[[[[5.850787,51.320902],[5.850797,51.320902],[5.850805,51.320900],[5.850811,51.320892],[5.850809,51.320888],[5.850442,51.320606],[5.849736,51.320057],[5.849007,51.319494],[5.848924,51.319429],[5.848899,51.319409],[5.848312,51.318949],[5.847819,51.318573],[5.847788,51.318554],[5.847777,51.318560],[5.847768,51.318566],[5.847786,51.318579],[5.848172,51.318881],[5.848349,51.319020],[5.849211,51.319685],[5.850232,51.320476],[5.850787,51.320902]]]]}}]}
     },
     traject: {
-      label: 'Jaarplan',
+      label: 'Trajecten',
       color: 'var(--p)',
-      data: {"type":"FeatureCollection","features":[
-        {"type":"Feature","properties":{"GlobalID":1,"trajectcode":"WL123","beheerregime":"OGW_Ext","periode":"1","bewerkingspercentage":50,"uitvoerder":"Aannemer Zuid","opmerking_uitvoering":"Sinusbeheer linkerzijde. Schraalgrasland talud maaien, maaisel afvoeren. Watergang eenzijdig schonen (linkeroever).","fase_zijde":"L"},"geometry":{"type":"MultiPolygon","coordinates":[[[[5.850829,51.320904],[5.850834,51.320905],[5.850839,51.320892],[5.850836,51.320880],[5.850464,51.320595],[5.849758,51.320046],[5.849029,51.319482],[5.848334,51.318937],[5.847840,51.318561],[5.847808,51.318542],[5.847756,51.318550],[5.847740,51.318568],[5.847742,51.318572],[5.847764,51.318590],[5.848149,51.318892],[5.848326,51.319032],[5.849189,51.319697],[5.850210,51.320488],[5.850766,51.320914],[5.850800,51.320920],[5.850800,51.320916],[5.850816,51.320912],[5.850829,51.320904]]]]}},
-        {"type":"Feature","properties":{"GlobalID":2,"trajectcode":"WL123","beheerregime":"OGW_Ext","periode":"2","bewerkingspercentage":50,"uitvoerder":"Aannemer Zuid","opmerking_uitvoering":"Sinusbeheer rechterzijde. Schraalgrasland talud maaien, maaisel afvoeren. Watergang eenzijdig schonen (rechteroever).","fase_zijde":"R"},"geometry":{"type":"MultiPolygon","coordinates":[[[[5.850829,51.320904],[5.850834,51.320905],[5.850839,51.320892],[5.850836,51.320880],[5.850464,51.320595],[5.849758,51.320046],[5.849029,51.319482],[5.848334,51.318937],[5.847840,51.318561],[5.847808,51.318542],[5.847756,51.318550],[5.847740,51.318568],[5.847742,51.318572],[5.847764,51.318590],[5.848149,51.318892],[5.848326,51.319032],[5.849189,51.319697],[5.850210,51.320488],[5.850766,51.320914],[5.850800,51.320920],[5.850800,51.320916],[5.850816,51.320912],[5.850829,51.320904]]]]}}
-      ]}
+      data: {"type":"FeatureCollection","features":[{"type":"Feature","properties":{"Traject_ID":"WL-TR-OGW1","naam":"OGW beek segment Noord","code":"WL123-N"},"geometry":{"type":"MultiPolygon","coordinates":[[[[5.850829,51.320904],[5.850834,51.320905],[5.850839,51.320892],[5.850836,51.32088],[5.850464,51.320595],[5.849758,51.320046],[5.849029,51.319482],[5.848334,51.318937],[5.84784,51.318561],[5.847808,51.318542],[5.847756,51.31855],[5.84774,51.318568],[5.847742,51.318572],[5.847764,51.31859],[5.848149,51.318892],[5.848326,51.319032],[5.849189,51.319697],[5.85021,51.320488],[5.850766,51.320914],[5.8508,51.32092],[5.8508,51.320916],[5.850816,51.320912],[5.850829,51.320904]]]]}}]}
     }
-  }
+  },
+
+  // Werkzaamheden — Traject_Werkzaamheid records (1:N relatie met traject)
+  werkzaamheden: [
+    // OGW beek segment Noord — Sinusbeheer (15-juli regel, L/R-wisseling per periode)
+    { Werk_ID:'W-OGW-001', Traject_ID:'WL-TR-OGW1', Handeling:'Maaien',     Werkwijze:'Habitatbenadering',       Doel:'Talud',       Zijde:'Links',  Periode:1, Percentage:100,  Afvoer:true  },
+    { Werk_ID:'W-OGW-002', Traject_ID:'WL-TR-OGW1', Handeling:'Maaien',     Werkwijze:'Habitatbenadering',       Doel:'Talud',       Zijde:'Rechts', Periode:2, Percentage:100,  Afvoer:true  },
+    { Werk_ID:'W-OGW-003', Traject_ID:'WL-TR-OGW1', Handeling:'Opschonen',  Werkwijze:'Standaard',         Doel:'Bodem',       Zijde:'N.v.t.', Periode:2, Percentage:100, Afvoer:true  },
+    { Werk_ID:'W-OGW-006', Traject_ID:'WL-TR-OGW1', Handeling:'Maaien', Werkwijze:'Standaard',         Doel:'Werkpad',     Zijde:'N.v.t.', Periode:1, Percentage:100, Afvoer:false },
+    { Werk_ID:'W-OGW-007', Traject_ID:'WL-TR-OGW1', Handeling:'Maaien', Werkwijze:'Sinusbeheer',         Doel:'Meterstrook',     Zijde:'Links', Periode:1, Percentage:33, Afvoer:false },
+  ],
+
+  // Aannemersregistratie (persistent via localStorage)
+  registraties: []
 };

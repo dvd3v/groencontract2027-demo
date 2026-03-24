@@ -14,10 +14,16 @@ window.APP_CONFIG = {
     is_werkpad: ['true','false'],
     breedteklasse_watergang: ['1','2','3','4','5'],
     verschijningsvorm_water: ['Beek','Sloot','Poel','Ven','Plas'],
+    fase_zijde: ['L','R'],
     verschijningsvorm_verharding: ['Asfaltverharding','Betonverharding','Halfverharding','Onverhard','Elementverharding'],
     verschijningsvorm_hek: ['Boerenhekwerk','Grootveehek','V-werk','Combinatiepoort','Klaphek','Draaihek','Kleinveehek'],
     objecttype_hek: ['Draadraaster','Faunaraster','Gaashek','Spijlenhek','Schrikdraad','Toegangspoort'],
-    fase_zijde: ['L','R']
+    // ── Werkzaamheden domeinlijsten (Laag C redesign) ──
+    handeling: ['Maaien','Snoeien','Knippen','Opschonen','Vrijmaaien','Inspecteren'],
+    werkwijze: ['Habitatbenadering','Sinusbeheer','Klepelen','Knotten','Standaard'],
+    doel: ['Talud','Bodem','Natte Bodem','Werkpad','Berm','Constructie','Hek','Kruin'],
+    zijde: ['Links','Rechts','Beide','N.v.t.'],
+    registratie_status: ['gepland','in_uitvoering','uitgevoerd','afgekeurd']
   },
 
   // ── Kleurmappen per visualisatie-attribuut ─────────────────────────
@@ -144,6 +150,14 @@ window.APP_CONFIG = {
     "Bomen en struikvormers":{"d":"Bomen en struikvormers als verschijningsvorm van bosplantsoen.","s":"","st":"Te bepalen","o":"Max","c":"Verschijningsvormen"},
     "Struweel (verschijningsvorm)":{"d":"Struweel als verschijningsvorm.","s":"","st":"Te bepalen","o":"Max","c":"Verschijningsvormen"},
 
+    // ── Werkzaamheden dimensies ────────────────────────────────────────
+    "Handeling":            {"d":"Het werkwoord / de hoofdactie van de werkzaamheid.","s":"WL","st":"Definitief","o":"Data","c":"Werkzaamheden"},
+    "Werkwijze":            {"d":"Kwaliteitseis of methode waarmee de handeling wordt uitgevoerd.","s":"WL","st":"Definitief","o":"Data","c":"Werkzaamheden"},
+    "Doel":                 {"d":"Het fysieke onderdeel waarop de handeling betrekking heeft.","s":"WL","st":"Definitief","o":"Data","c":"Werkzaamheden"},
+    "Zijde":                {"d":"Ruimtelijke specificatie: Links, Rechts, Beide of N.v.t.","s":"WL","st":"Definitief","o":"Data","c":"Werkzaamheden"},
+    "Sinusbeheer":          {"d":"Gefaseerd maaibeheer: per periode wisselende zijde (L/R), 50% per beurt. Ecologisch beheer gericht op biodiversiteit.","s":"WL","st":"Definitief","o":"Ecologie","c":"Werkzaamheden"},
+    "Habitatbenadering":    {"d":"Ecologisch maaibeheer gericht op behoud en ontwikkeling van specifieke habitattypen en biodiversiteit.","s":"WL","st":"Definitief","o":"Ecologie","c":"Werkzaamheden"},
+
     // ── Verhardingsobjecten ─────────────────────────────────────────
     "Asfaltverharding":     {"d":"Verharding van asfalt.","s":"","st":"Te bepalen","o":"Vaos","c":"Objecttypen"},
     "Betonverharding":      {"d":"Verharding van beton.","s":"","st":"Te bepalen","o":"Vaos","c":"Objecttypen"},
@@ -172,7 +186,11 @@ window.APP_CONFIG = {
     "Betonverharding (verschijningsvorm)":{"d":"Betonverharding als verschijningsvorm.","s":"","st":"Te bepalen","o":"Vaos","c":"Verschijningsvormen"},
     "Halfverharding (verschijningsvorm)":{"d":"Halfverharding als verschijningsvorm.","s":"","st":"Te bepalen","o":"Vaos","c":"Verschijningsvormen"},
     "Onverhard (verschijningsvorm)":{"d":"Onverharde ondergrond als verschijningsvorm.","s":"","st":"Te bepalen","o":"Vaos","c":"Verschijningsvormen"},
-    "Elementverharding (verschijningsvorm)":{"d":"Elementverharding als verschijningsvorm.","s":"","st":"Te bepalen","o":"Vaos","c":"Verschijningsvormen"}
+    "Elementverharding (verschijningsvorm)":{"d":"Elementverharding als verschijningsvorm.","s":"","st":"Te bepalen","o":"Vaos","c":"Verschijningsvormen"},
+
+    // ── Type Waterbodem ──────────────────────────────────────────────
+    "Droog":                {"d":"Watergang die tussen 1 april en 1 oktober bij normale omstandigheden geen of nauwelijks water afvoert.","s":"","st":"Controleren","o":"Henk","c":"Type Waterbodem"},
+    "Nat":                  {"d":"Watergang die het gehele jaar bij normale omstandigheden water afvoert.","s":"","st":"Controleren","o":"Henk","c":"Type Waterbodem"}
   },
 
   // ── Property → begrip mapping ──────────────────────────────────────
@@ -184,7 +202,13 @@ window.APP_CONFIG = {
     verschijningsvorm: 'Verschijningsvorm',
     ruimtelijke_context: 'Ruimtelijke Context',
     functie: 'Functie',
-    breedteklasse_watergang: 'Breedteklasse Watergang'
+    breedteklasse_watergang: 'Breedteklasse Watergang',
+    type_waterbodem: 'Type Waterbodem',
+    handeling: 'Handeling',
+    werkwijze: 'Werkwijze',
+    doel: 'Doel',
+    zijde: 'Zijde',
+    traject_id: 'Traject Code'
   },
 
   // ── Regimes ────────────────────────────────────────────────────────
@@ -219,7 +243,7 @@ window.APP_CONFIG = {
   defaultLayers: {
     A: ['GlobalID','objecttype','verschijningsvorm','ruimtelijke_context','functie','taludsteilte','is_werkpad','steilheidklasse'],
     B: ['watergang_id','complex_id','trajectcode','naam','streefbeeld_id','ecologisch_doel','beheerder'],
-    C: ['beheerregime','periode','fase_zijde','bewerkingspercentage','uitvoerder','techniek','maaifrequentie','datum_gepland','datum_uitgevoerd','status','opmerking']
+    C: ['Handeling','Werkwijze','Doel','Zijde','Periode','Percentage','Afvoer','status','datum_gepland','datum_uitgevoerd','opmerking']
   },
 
   // ── Regimematrix defaults ──────────────────────────────────────────
