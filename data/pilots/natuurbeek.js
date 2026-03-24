@@ -1,8 +1,7 @@
 /**
  * Pilot: Natuurbeek (placeholder)
  *
- * Voeg hier GeoJSON data toe voor het pilotgebied Natuurbeek.
- * Kopieer de structuur van ogw.js als voorbeeld.
+ * Voeg GeoJSON data toe in data/pilots/natuurbeek/ om dit pilotgebied te activeren.
  */
 window.PILOTS = window.PILOTS || {};
 window.PILOTS['natuurbeek'] = {
@@ -14,17 +13,23 @@ window.PILOTS['natuurbeek'] = {
     groen: {
       label: 'Groenobjecten',
       color: 'var(--g)',
-      data: { type: 'FeatureCollection', features: [] }
+      src: 'data/pilots/natuurbeek/groen.geojson',
+      data: null
     },
     water: {
       label: 'Waterobjecten',
       color: 'var(--b)',
-      data: { type: 'FeatureCollection', features: [] }
+      src: 'data/pilots/natuurbeek/water.geojson',
+      data: null
     },
     traject: {
       label: 'Trajecten',
       color: 'var(--p)',
-      data: { type: 'FeatureCollection', features: [] }
+      src: 'data/pilots/natuurbeek/traject.geojson',
+      data: null
     }
-  }
+  },
+
+  werkzaamheden: [],
+  registraties: []
 };

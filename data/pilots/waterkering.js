@@ -1,8 +1,7 @@
 /**
  * Pilot: Waterkering (placeholder)
  *
- * Voeg hier GeoJSON data toe voor het pilotgebied Waterkering.
- * Kopieer de structuur van ogw.js als voorbeeld.
+ * Voeg GeoJSON data toe in data/pilots/waterkering/ om dit pilotgebied te activeren.
  */
 window.PILOTS = window.PILOTS || {};
 window.PILOTS['waterkering'] = {
@@ -14,17 +13,23 @@ window.PILOTS['waterkering'] = {
     groen: {
       label: 'Groenobjecten',
       color: 'var(--g)',
-      data: { type: 'FeatureCollection', features: [] }
+      src: 'data/pilots/waterkering/groen.geojson',
+      data: null
     },
     water: {
       label: 'Waterobjecten',
       color: 'var(--b)',
-      data: { type: 'FeatureCollection', features: [] }
+      src: 'data/pilots/waterkering/water.geojson',
+      data: null
     },
     traject: {
       label: 'Trajecten',
       color: 'var(--p)',
-      data: { type: 'FeatureCollection', features: [] }
+      src: 'data/pilots/waterkering/traject.geojson',
+      data: null
     }
-  }
+  },
+
+  werkzaamheden: [],
+  registraties: []
 };

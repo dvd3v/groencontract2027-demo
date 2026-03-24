@@ -73,7 +73,7 @@
 .beg-cat-hdr{background:var(--sf2);font-weight:600;color:var(--txd);font-size:11px;text-transform:uppercase;letter-spacing:.5px}
 .beg-del{cursor:pointer;color:var(--txm);font-size:11px;text-align:center}.beg-del:hover{color:var(--r)}
 </style>
-<!-- Data: config, objecttypes, pilots -->
+<!-- Data: config, objecttypes, pilots (metadata only — GeoJSON loaded async) -->
 <script src="data/config.js"></script>
 <script src="data/objecttypes.js"></script>
 <script src="data/pilots/ogw.js"></script>
@@ -465,12 +465,31 @@ for (const [name, def] of Object.entries(OT)) {
 dom.objecttype = Object.keys(OT);
 
 // ===== PILOT STATE =====
+const EMPTY_FC = {type:'FeatureCollection',features:[]};
 let activePilotKey = Object.keys(window.PILOTS)[0] || 'ogw';
 let pilot = window.PILOTS[activePilotKey];
 // Mutable data references (reassigned on pilot switch)
-let G = pilot.layers.groen  ? pilot.layers.groen.data  : {type:'FeatureCollection',features:[]};
-let W = pilot.layers.water  ? pilot.layers.water.data  : {type:'FeatureCollection',features:[]};
-let T = pilot.layers.traject ? pilot.layers.traject.data : {type:'FeatureCollection',features:[]};
+let G = pilot.layers.groen?.data  || EMPTY_FC;
+let W = pilot.layers.water?.data  || EMPTY_FC;
+let T = pilot.layers.traject?.data || EMPTY_FC;
+
+// ===== ASYNC GEOJSON LOADING =====
+async function loadPilotData(pilotKey) {
+  const p = window.PILOTS[pilotKey];
+  if (!p) return;
+  const promises = [];
+  for (const [k, lyr] of Object.entries(p.layers)) {
+    if (lyr.data && lyr.data.features && lyr.data.features.length > 0) continue; // already loaded
+    if (!lyr.src) { lyr.data = lyr.data || {type:'FeatureCollection',features:[]}; continue; }
+    promises.push(
+      fetch(lyr.src)
+        .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status} for ${lyr.src}`); return r.json(); })
+        .then(geojson => { lyr.data = geojson; })
+        .catch(err => { console.warn(`Could not load ${lyr.src}:`, err); lyr.data = {type:'FeatureCollection',features:[]}; })
+    );
+  }
+  await Promise.all(promises);
+}
 
 // ===== WERKZAAMHEDEN HELPERS =====
 function getWerkzaamheden(pilotKey) {
@@ -538,13 +557,15 @@ function getAllFeatures() {
   return feats;
 }
 
-function switchPilot(key) {
+async function switchPilot(key) {
   if (!window.PILOTS[key]) return;
   activePilotKey = key;
   pilot = window.PILOTS[key];
-  G = pilot.layers.groen  ? pilot.layers.groen.data  : {type:'FeatureCollection',features:[]};
-  W = pilot.layers.water  ? pilot.layers.water.data  : {type:'FeatureCollection',features:[]};
-  T = pilot.layers.traject ? pilot.layers.traject.data : {type:'FeatureCollection',features:[]};
+  // Load GeoJSON data if not yet loaded
+  await loadPilotData(key);
+  G = pilot.layers.groen?.data  || EMPTY_FC;
+  W = pilot.layers.water?.data  || EMPTY_FC;
+  T = pilot.layers.traject?.data || EMPTY_FC;
   // Reset visibility: object layers on, traject/werkpad off
   vis = {};
   for (const k of Object.keys(pilot.layers)) {
@@ -566,7 +587,7 @@ function renderPilotTabs() {
   const keys = Object.keys(window.PILOTS);
   el.innerHTML = keys.map(k => {
     const p = window.PILOTS[k];
-    const hasData = Object.values(p.layers).some(l => l.data && l.data.features && l.data.features.length > 0);
+    const hasData = Object.values(p.layers).some(l => l.src || (l.data && l.data.features && l.data.features.length > 0));
     const active = k === activePilotKey;
     return `<button class="dtab${active ? ' a' : ''}${!hasData && !active ? ' ph' : ''}" onclick="switchPilot('${k}')">${p.name}</button>`;
   }).join('');
@@ -621,9 +642,14 @@ function gDom(k,ln,p){
   return null;
 }
 
-function initMap(){
+async function initMap(){
   map=L.map('map',{zoomControl:true}).setView(pilot.mapCenter,pilot.mapZoom);
   baseLyr=L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'&copy; OSM &copy; CARTO',maxZoom:22}).addTo(map);
+  // Load GeoJSON for initial pilot
+  await loadPilotData(activePilotKey);
+  G = pilot.layers.groen?.data  || EMPTY_FC;
+  W = pilot.layers.water?.data  || EMPTY_FC;
+  T = pilot.layers.traject?.data || EMPTY_FC;
   renderPilotTabs();renderLayerControls();
   rL();rBeg();uLeg();rDomOv();
 }
