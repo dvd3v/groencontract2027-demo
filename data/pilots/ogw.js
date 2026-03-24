@@ -32,19 +32,11 @@ window.PILOTS['ogw'] = {
   // Werkzaamheden — Traject_Werkzaamheid records (1:N relatie met traject)
   werkzaamheden: [
     // OGW beek segment Noord — Sinusbeheer (15-juli regel, L/R-wisseling per periode)
-    { Werk_ID:'W-OGW-001', Traject_ID:'WL-TR-OGW1', Handeling:'Maaien',     Werkwijze:'Sinusbeheer',       Doel:'Talud',       Zijde:'Links',  Periode:1, Percentage:50,  Afvoer:true  },
-    { Werk_ID:'W-OGW-002', Traject_ID:'WL-TR-OGW1', Handeling:'Maaien',     Werkwijze:'Sinusbeheer',       Doel:'Talud',       Zijde:'Rechts', Periode:2, Percentage:50,  Afvoer:true  },
+    { Werk_ID:'W-OGW-001', Traject_ID:'WL-TR-OGW1', Handeling:'Maaien',     Werkwijze:'Habitatbenadering',       Doel:'Talud',       Zijde:'Links',  Periode:1, Percentage:100,  Afvoer:true  },
+    { Werk_ID:'W-OGW-002', Traject_ID:'WL-TR-OGW1', Handeling:'Maaien',     Werkwijze:'Habitatbenadering',       Doel:'Talud',       Zijde:'Rechts', Periode:2, Percentage:100,  Afvoer:true  },
     { Werk_ID:'W-OGW-003', Traject_ID:'WL-TR-OGW1', Handeling:'Opschonen',  Werkwijze:'Standaard',         Doel:'Bodem',       Zijde:'N.v.t.', Periode:2, Percentage:100, Afvoer:true  },
-    { Werk_ID:'W-OGW-004', Traject_ID:'WL-TR-OGW1', Handeling:'Inspecteren',Werkwijze:'Standaard',         Doel:'Constructie', Zijde:'N.v.t.', Periode:1, Percentage:100, Afvoer:false },
-    { Werk_ID:'W-OGW-005', Traject_ID:'WL-TR-OGW1', Handeling:'Snoeien',    Werkwijze:'Habitatbenadering', Doel:'Berm',        Zijde:'Beide',  Periode:1, Percentage:30,  Afvoer:true  },
-    { Werk_ID:'W-OGW-006', Traject_ID:'WL-TR-OGW1', Handeling:'Vrijmaaien', Werkwijze:'Standaard',         Doel:'Werkpad',     Zijde:'N.v.t.', Periode:1, Percentage:100, Afvoer:false },
-    // Tweede periode sinusbeheer (andere zijde)
-    { Werk_ID:'W-OGW-007', Traject_ID:'WL-TR-OGW1', Handeling:'Maaien',     Werkwijze:'Sinusbeheer',       Doel:'Talud',       Zijde:'Rechts', Periode:1, Percentage:50,  Afvoer:true  },
-    { Werk_ID:'W-OGW-008', Traject_ID:'WL-TR-OGW1', Handeling:'Maaien',     Werkwijze:'Sinusbeheer',       Doel:'Talud',       Zijde:'Links',  Periode:2, Percentage:50,  Afvoer:true  },
-    // Knippen houtige opslag
-    { Werk_ID:'W-OGW-009', Traject_ID:'WL-TR-OGW1', Handeling:'Knippen',    Werkwijze:'Standaard',         Doel:'Berm',        Zijde:'Beide',  Periode:2, Percentage:100, Afvoer:true  },
-    // Vrijmaaien periode 2 (nazomer)
-    { Werk_ID:'W-OGW-010', Traject_ID:'WL-TR-OGW1', Handeling:'Vrijmaaien', Werkwijze:'Standaard',         Doel:'Werkpad',     Zijde:'N.v.t.', Periode:2, Percentage:100, Afvoer:false }
+    { Werk_ID:'W-OGW-006', Traject_ID:'WL-TR-OGW1', Handeling:'Maaien', Werkwijze:'Standaard',         Doel:'Werkpad',     Zijde:'N.v.t.', Periode:1, Percentage:100, Afvoer:false },
+    { Werk_ID:'W-OGW-007', Traject_ID:'WL-TR-OGW1', Handeling:'Maaien', Werkwijze:'Sinusbeheer',         Doel:'Meterstrook',     Zijde:'Links', Periode:1, Percentage:33, Afvoer:false },
   ],
 
   // Aannemersregistratie (persistent via localStorage)

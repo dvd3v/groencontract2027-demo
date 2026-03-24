@@ -37,25 +37,18 @@ window.PILOTS['waterbuffer'] = {
   // Werkzaamheden — Traject_Werkzaamheid records (1:N relatie met traject)
   werkzaamheden: [
     // Buffer Groot (WL-TR-WB1) — standaard onderhoud
-    { Werk_ID:'W-WB-001', Traject_ID:'WL-TR-WB1', Handeling:'Maaien',     Werkwijze:'Standaard', Doel:'Talud',        Zijde:'Beide',  Periode:1, Percentage:100, Afvoer:true },
-    { Werk_ID:'W-WB-002', Traject_ID:'WL-TR-WB1', Handeling:'Maaien',     Werkwijze:'Standaard', Doel:'Natte Bodem',  Zijde:'N.v.t.', Periode:1, Percentage:100, Afvoer:true },
+    { Werk_ID:'W-WB-001', Traject_ID:'WL-TR-WB1', Handeling:'Maaien',     Werkwijze:'Sinusbeheer', Doel:'Gehele traject',        Zijde:'N.v.t',  Periode:1, Percentage:33, Afvoer:true },
+    { Werk_ID:'W-WB-002', Traject_ID:'WL-TR-WB1', Handeling:'Opschonen',     Werkwijze:'Standaard', Doel:'Natte Bodem',  Zijde:'N.v.t.', Periode:1, Percentage:100, Afvoer:true },
     // Buffer Groot — constructie-onderhoud (2x/jaar)
-    { Werk_ID:'W-WB-003', Traject_ID:'WL-TR-WB1', Handeling:'Vrijmaaien', Werkwijze:'Standaard', Doel:'Constructie',  Zijde:'N.v.t.', Periode:1, Percentage:100, Afvoer:false },
+    { Werk_ID:'W-WB-003', Traject_ID:'WL-TR-WB1', Handeling:'Vrijmaaien', Werkwijze:'Standaard', Doel:'Hek',  Zijde:'N.v.t.', Periode:1, Percentage:100, Afvoer:false },
     { Werk_ID:'W-WB-004', Traject_ID:'WL-TR-WB1', Handeling:'Vrijmaaien', Werkwijze:'Standaard', Doel:'Constructie',  Zijde:'N.v.t.', Periode:2, Percentage:100, Afvoer:false },
-    { Werk_ID:'W-WB-005', Traject_ID:'WL-TR-WB1', Handeling:'Inspecteren',Werkwijze:'Standaard', Doel:'Constructie',  Zijde:'N.v.t.', Periode:1, Percentage:100, Afvoer:false },
-    { Werk_ID:'W-WB-006', Traject_ID:'WL-TR-WB1', Handeling:'Inspecteren',Werkwijze:'Standaard', Doel:'Constructie',  Zijde:'N.v.t.', Periode:2, Percentage:100, Afvoer:false },
-    // Buffer Groot — berm habitatbeheer
-    { Werk_ID:'W-WB-007', Traject_ID:'WL-TR-WB1', Handeling:'Maaien',     Werkwijze:'Habitatbenadering', Doel:'Berm',        Zijde:'Beide',  Periode:2, Percentage:30,  Afvoer:false },
-    // Buffer Groot — opschonen natte bodem
-    { Werk_ID:'W-WB-008', Traject_ID:'WL-TR-WB1', Handeling:'Opschonen',  Werkwijze:'Standaard',         Doel:'Natte Bodem', Zijde:'N.v.t.', Periode:2, Percentage:100, Afvoer:true  },
+    { Werk_ID:'W-WB-004', Traject_ID:'WL-TR-WB1', Handeling:'Uitdunnen', Werkwijze:'Standaard', Doel:'Struweel',  Zijde:'N.v.t.', Periode:4, Percentage:0, Afvoer:false },
+    { Werk_ID:'W-WB-004', Traject_ID:'WL-TR-WB1', Handeling:'Snoeien', Werkwijze:'Standaard', Doel:'Haag',  Zijde:'N.v.t.', Periode:4, Percentage:0, Afvoer:false },
     // Buffer Klein (WL-TR-WB2) — standaard onderhoud
-    { Werk_ID:'W-WB-009', Traject_ID:'WL-TR-WB2', Handeling:'Maaien',     Werkwijze:'Standaard',         Doel:'Talud',        Zijde:'Beide',  Periode:1, Percentage:100, Afvoer:true  },
-    { Werk_ID:'W-WB-010', Traject_ID:'WL-TR-WB2', Handeling:'Maaien',     Werkwijze:'Standaard',         Doel:'Natte Bodem',  Zijde:'N.v.t.', Periode:1, Percentage:100, Afvoer:true  },
+    { Werk_ID:'W-WB-009', Traject_ID:'WL-TR-WB2', Handeling:'Maaien',     Werkwijze:'Sinusbeheer',         Doel:'Gehele traject',        Zijde:'N.v.t',  Periode:1, Percentage:33, Afvoer:true  },
+    { Werk_ID:'W-WB-010', Traject_ID:'WL-TR-WB2', Handeling:'Opschonen',     Werkwijze:'Standaard',         Doel:'Natte Bodem',  Zijde:'N.v.t.', Periode:1, Percentage:100, Afvoer:true  },
     // Buffer Klein — constructie-onderhoud
-    { Werk_ID:'W-WB-011', Traject_ID:'WL-TR-WB2', Handeling:'Vrijmaaien', Werkwijze:'Standaard',         Doel:'Constructie',  Zijde:'N.v.t.', Periode:1, Percentage:100, Afvoer:false },
-    { Werk_ID:'W-WB-012', Traject_ID:'WL-TR-WB2', Handeling:'Inspecteren',Werkwijze:'Standaard',         Doel:'Constructie',  Zijde:'N.v.t.', Periode:2, Percentage:100, Afvoer:false },
-    // Buffer Klein — opschonen bodem
-    { Werk_ID:'W-WB-013', Traject_ID:'WL-TR-WB2', Handeling:'Opschonen',  Werkwijze:'Standaard',         Doel:'Bodem',        Zijde:'N.v.t.', Periode:2, Percentage:100, Afvoer:true  }
+    { Werk_ID:'W-WB-011', Traject_ID:'WL-TR-WB2', Handeling:'Vrijmaaien', Werkwijze:'Standaard',         Doel:'Hek',  Zijde:'N.v.t.', Periode:1, Percentage:100, Afvoer:false },
   ],
 
   // Aannemersregistratie (persistent via localStorage)
