@@ -64,18 +64,18 @@ window.SchemaLoader = {
     for (const section of ['objecttypen', 'verschijningsvormen', 'ruimtelijke_contexten', 'functies', 'type_waterbodem']) {
       if (this._schema[section]?.[term]) {
         const entry = this._schema[section][term];
-        return { d: entry.definitie, s: entry.standaard, st: entry.status, o: entry.eigenaar, c: section };
+        return { d: entry.definitie, s: entry.standaard, st: entry.status, c: section };
       }
     }
     // Check werkzaamheden meta
     if (this._schema.werkzaamheden?.meta?.[term]) {
       const entry = this._schema.werkzaamheden.meta[term];
-      return { d: entry.definitie, s: entry.standaard, st: entry.status, o: entry.eigenaar, c: 'Werkzaamheden' };
+      return { d: entry.definitie, s: entry.standaard, st: entry.status, c: 'Werkzaamheden' };
     }
     // Check velden
     for (const [, v] of Object.entries(this._schema.velden)) {
       if (v.label === term) {
-        return { d: v.definitie, s: v.standaard, st: v.status, o: v.eigenaar, c: 'Velden' };
+        return { d: v.definitie, s: v.standaard, st: v.status, c: 'Velden' };
       }
     }
     return null;
@@ -132,7 +132,7 @@ window.SchemaLoader = {
           d: def.definitie || '',
           s: def.standaard || '',
           st: def.status || '',
-          o: def.eigenaar || '',
+
           c: categoryLabel
         };
       }
@@ -150,7 +150,7 @@ window.SchemaLoader = {
           d: v.definitie,
           s: v.standaard || '',
           st: v.status || '',
-          o: v.eigenaar || '',
+
           c: 'Velden'
         };
       }

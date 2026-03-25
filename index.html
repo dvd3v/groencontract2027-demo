@@ -2347,13 +2347,13 @@
       const grouped = {};
       entries.forEach(([t, i]) => { const c = i.c || 'Overig'; if (!grouped[c]) grouped[c] = []; grouped[c].push([t, i]) });
       // Render table
-      let h = '<thead><tr><th style="width:180px">Begrip</th><th style="min-width:280px">Definitie / Toelichting</th><th style="width:130px">Standaard</th><th style="width:100px">Eigenaar</th><th style="width:110px">Status</th><th style="width:36px"></th></tr></thead><tbody>';
+      let h = '<thead><tr><th style="width:180px">Begrip</th><th style="min-width:280px">Definitie / Toelichting</th><th style="width:130px">Standaard</th><th style="width:110px">Status</th><th style="width:36px"></th></tr></thead><tbody>';
       const catOrder = ['Velden', 'Functie', 'Ruimtelijke Context', 'Objecttypen', 'Verschijningsvormen', 'Type Waterbodem', 'Overig'];
       const sortedCats = [...new Set([...catOrder.filter(c => grouped[c]), ...Object.keys(grouped)])];
       let total = 0;
       sortedCats.forEach(cat => {
         const items = grouped[cat]; if (!items) return;
-        h += `<tr><td colspan="6" class="beg-cat-hdr">${e(cat)} (${items.length})</td></tr>`;
+        h += `<tr><td colspan="5" class="beg-cat-hdr">${e(cat)} (${items.length})</td></tr>`;
         items.forEach(([t, i]) => {
           total++;
           const stColor = i.st === 'Definitief' ? 'rgba(22,163,74,.06)' : i.st === 'Controleren' ? 'rgba(217,119,6,.06)' : i.st === 'Te bepalen' ? 'rgba(146,152,173,.06)' : '';
@@ -2362,7 +2362,6 @@
         <td><input value="${e(t)}" onchange="renameBegrip('${e(t)}',this.value)" style="font-weight:500"></td>
         <td><textarea rows="1" onchange="updateBegrip('${e(t)}','d',this.value)" onfocus="this.rows=3" onblur="this.rows=1">${e(i.d || '')}</textarea></td>
         <td><input value="${e(i.s || '')}" onchange="updateBegrip('${e(t)}','s',this.value)"></td>
-        <td><input value="${e(i.o || '')}" onchange="updateBegrip('${e(t)}','o',this.value)"></td>
         <td><select onchange="updateBegrip('${e(t)}','st',this.value);renderBegPage()" style="font-weight:600;color:${stSelColor}">
           <option value=""${!i.st ? ' selected' : ''}>(leeg)</option>
           <option value="Definitief"${i.st === 'Definitief' ? ' selected' : ''}>Definitief</option>
@@ -2393,9 +2392,9 @@
       renderBegPage();
     }
     function exportBegrippen() {
-      let csv = 'Begrip;Definitie / Toelichting;Verwijzing Standaard;Eigenaar;Status;Categorie\n';
+      let csv = 'Begrip;Definitie / Toelichting;Verwijzing Standaard;Status;Categorie\n';
       for (const [t, i] of Object.entries(beg)) {
-        csv += [t, i.d || '', i.s || '', i.o || '', i.st || '', i.c || ''].map(v => '"' + String(v).replace(/"/g, '""') + '"').join(';') + '\n';
+        csv += [t, i.d || '', i.s || '', i.st || '', i.c || ''].map(v => '"' + String(v).replace(/"/g, '""') + '"').join(';') + '\n';
       }
       const b = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
       const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'begrippenlijst_' + new Date().toISOString().slice(0, 10) + '.csv'; a.click();
@@ -2684,7 +2683,7 @@
               h += `<div style="margin-bottom:8px;color:var(--txd);line-height:1.5">${e(ot.definitie || '')}</div>`;
               h += `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">`;
               h += `<span style="font-size:10px;color:var(--txm)">Standaard: <strong>${e(ot.standaard || '—')}</strong></span>`;
-              h += `<span style="font-size:10px;color:var(--txm)">Eigenaar: <strong>${e(ot.eigenaar || '—')}</strong></span>`;
+
               h += `</div>`;
               if (vvs.length) {
                 h += `<div style="font-size:11px;font-weight:600;margin-bottom:4px;color:var(--txd)">Verschijningsvormen</div><div style="display:flex;flex-wrap:wrap;gap:2px">`;
@@ -2836,10 +2835,10 @@
       // === SECTION: VELDEN ===
       h += `<div class="dm-section">
     <div class="dm-section-title">&#x1F4CB; Velddefinities</div>
-    <div class="dm-section-sub">Alle generieke velden uit het datamodel met definitie, standaard en eigenaar.</div>
-    <div class="dm-card" style="padding:0;overflow:hidden"><table class="dm-plan-tbl"><thead><tr><th>Veld</th><th>Label</th><th>Definitie</th><th>Standaard</th><th>Status</th><th>Eigenaar</th></tr></thead><tbody>`;
+    <div class="dm-section-sub">Alle generieke velden uit het datamodel met definitie, standaard en status.</div>
+    <div class="dm-card" style="padding:0;overflow:hidden"><table class="dm-plan-tbl"><thead><tr><th>Veld</th><th>Label</th><th>Definitie</th><th>Standaard</th><th>Status</th></tr></thead><tbody>`;
       Object.entries(VL).forEach(([key, v]) => {
-        h += `<tr><td style="font-family:var(--m);font-weight:500">${e(key)}</td><td>${e(v.label || '')}</td><td style="font-size:10.5px;color:var(--txd)">${e(v.definitie || '')}</td><td style="font-size:10px">${e(v.standaard || '')}</td><td>${dmBadge(v.status)}</td><td style="font-size:10px">${e(v.eigenaar || '')}</td></tr>`;
+        h += `<tr><td style="font-family:var(--m);font-weight:500">${e(key)}</td><td>${e(v.label || '')}</td><td style="font-size:10.5px;color:var(--txd)">${e(v.definitie || '')}</td><td style="font-size:10px">${e(v.standaard || '')}</td><td>${dmBadge(v.status)}</td></tr>`;
       });
       h += `</tbody></table></div></div>`;
       document.getElementById('dmContent').innerHTML = h;

@@ -34,7 +34,6 @@
       "definitie": "Gras: terrein met grasvegetatie, niet primair in gebruik voor grasproductie. Kruidachtige: door inheemse kruidensoorten bepaalde grasachtige vegetatie.",
       "standaard": "IMBOR 2025",
       "status": "Definitief",
-      "eigenaar": "Max",
       "verschijningsvormen": [
         "Rietvegetatie",
         "Zoomvegetatie",
@@ -59,7 +58,6 @@
       "definitie": "Begroeiing die bestaat uit een dusdanig aantal bomen dat deze een min of meer gesloten geheel vormen of, na volgroeiing, zullen vormen.",
       "standaard": "WL",
       "status": "Definitief",
-      "eigenaar": "Max",
       "verschijningsvormen": [
         "Bos"
       ]
@@ -70,7 +68,6 @@
       "definitie": "Een bosplantsoen wordt gekenmerkt door veelal boomsoorten met enkele struwelen die aanwezig zijn in de ondergroei.",
       "standaard": "WL",
       "status": "Definitief",
-      "eigenaar": "Max",
       "verschijningsvormen": [
         "Bomen en struikvormers"
       ]
@@ -81,7 +78,6 @@
       "definitie": "Struweel wordt gekenmerkt door veelal struweelsoorten (struikvormers) met enkele aanwezige bomen die boven het struweel uitgroeien.",
       "standaard": "WL",
       "status": "Definitief",
-      "eigenaar": "Max",
       "verschijningsvormen": [
         "Struweel"
       ]
@@ -92,7 +88,6 @@
       "definitie": "Gesloten lijnvormige beplanting, waarvan de hoogte en breedte door middel van knippen in stand wordt gehouden.",
       "standaard": "IMBOR 2025",
       "status": "Controleren",
-      "eigenaar": "Max",
       "verschijningsvormen": [
         "Geschoren haag",
         "Losse haag"
@@ -104,7 +99,6 @@
       "definitie": "Een overgangsgebied tussen water en land, vaak in drassige omstandigheden. Gekenmerkt door altijd vochtige en/of natte omstandigheden.",
       "standaard": "WL",
       "status": "Definitief",
-      "eigenaar": "Max",
       "verschijningsvormen": [
         "Doorstroommoeras"
       ]
@@ -115,7 +109,6 @@
       "definitie": "Een brede strook met bomen en struiken als afscheiding tussen weilanden en akkers en ook wel langs beken en waterlopen. Lijnvormig landschapselement van 4 tot 20 meter breed.",
       "standaard": "IMBOR 2025",
       "status": "Definitief",
-      "eigenaar": "Max",
       "verschijningsvormen": [
         "Houtsingel"
       ]
@@ -126,7 +119,6 @@
       "definitie": "Een lijnvormige, smalle, lage haag van inheemse, vaak doornachtige struiken (zoals meidoorn en sleedoorn), die zorgt voor een ondoordringbare afscheiding en hoge biodiversiteit.",
       "standaard": "WL",
       "status": "Definitief",
-      "eigenaar": "Max",
       "verschijningsvormen": []
     },
     "Graft": {
@@ -135,7 +127,6 @@
       "definitie": "Steile rand met bos of struikgewas op hellingen voornamelijk gelegen in agrarische terreinen of natuurgebieden. Een knik of mini-terras op een helling.",
       "standaard": "IMBOR 2025",
       "status": "Te bepalen",
-      "eigenaar": "Max",
       "verschijningsvormen": []
     },
     "Boom": {
@@ -144,7 +135,6 @@
       "definitie": "Een houtachtig gewas (loofboom of conifeer) met een wortelgestel en een enkele, stevige, houtige stam, die zich boven de grond vertakt.",
       "standaard": "IMBOR 2025",
       "status": "Definitief",
-      "eigenaar": "Max",
       "verschijningsvormen": []
     },
     "Watergang": {
@@ -153,7 +143,6 @@
       "definitie": "Een voor de waterbeheersing bestemde geul met een vlakke bodem die meestal permanent water bevat.",
       "standaard": "IMBOR 2025",
       "status": "Definitief",
-      "eigenaar": "Max",
       "verschijningsvormen": [
         "Beek",
         "Sloot"
@@ -165,7 +154,6 @@
       "definitie": "Een aan het oppervlak gelegen, niet lijnvormige, natuurlijke dan wel kunstmatige verdieping van de bodem die, eventueel periodiek, gevuld is met water.",
       "standaard": "IMBOR 2025",
       "status": "Controleren",
-      "eigenaar": "Max",
       "verschijningsvormen": [
         "Poel",
         "Ven",
@@ -178,7 +166,6 @@
       "definitie": "Verharding van asfalt.",
       "standaard": "",
       "status": "Te bepalen",
-      "eigenaar": "Vaos",
       "verschijningsvormen": [
         "Asfaltverharding"
       ]
@@ -189,7 +176,6 @@
       "definitie": "Verharding van beton.",
       "standaard": "",
       "status": "Te bepalen",
-      "eigenaar": "Vaos",
       "verschijningsvormen": [
         "Betonverharding"
       ]
@@ -200,7 +186,6 @@
       "definitie": "Onverharde ondergrond.",
       "standaard": "",
       "status": "Te bepalen",
-      "eigenaar": "Vaos",
       "verschijningsvormen": [
         "Onverhard"
       ]
@@ -211,7 +196,6 @@
       "definitie": "Verharding samengesteld uit individuele elementen.",
       "standaard": "",
       "status": "Te bepalen",
-      "eigenaar": "Vaos",
       "verschijningsvormen": [
         "Elementverharding"
       ]
@@ -222,7 +206,6 @@
       "definitie": "Hekwerk van draad.",
       "standaard": "",
       "status": "Te bepalen",
-      "eigenaar": "Vaos",
       "verschijningsvormen": []
     },
     "Faunaraster": {
@@ -231,7 +214,6 @@
       "definitie": "Raster specifiek bedoeld om fauna te geleiden of te weren.",
       "standaard": "",
       "status": "Te bepalen",
-      "eigenaar": "Vaos",
       "verschijningsvormen": []
     },
     "Gaashek": {
@@ -240,7 +222,6 @@
       "definitie": "Hekwerk van gaas.",
       "standaard": "",
       "status": "Te bepalen",
-      "eigenaar": "Vaos",
       "verschijningsvormen": []
     },
     "Spijlenhek": {
@@ -249,7 +230,6 @@
       "definitie": "Hekwerk van spijlen.",
       "standaard": "",
       "status": "Te bepalen",
-      "eigenaar": "Vaos",
       "verschijningsvormen": []
     },
     "Schrikdraad": {
@@ -258,7 +238,6 @@
       "definitie": "Elektrisch geladen draad als afrastering.",
       "standaard": "",
       "status": "Te bepalen",
-      "eigenaar": "Vaos",
       "verschijningsvormen": []
     },
     "Toegangspoort": {
@@ -267,7 +246,6 @@
       "definitie": "Poort die toegang verschaft.",
       "standaard": "",
       "status": "Te bepalen",
-      "eigenaar": "Vaos",
       "verschijningsvormen": [
         "Boerenhekwerk",
         "Grootveehek",
@@ -284,267 +262,229 @@
       "color": "#57534e",
       "definitie": "Verharding van asfalt.",
       "standaard": "",
-      "status": "Te bepalen",
-      "eigenaar": "Vaos"
+      "status": "Te bepalen"
     },
     "Beek": {
       "color": "#0ea5e9",
       "definitie": "Een min of meer natuurlijke stroom ondiep water die vanuit een oorsprong, vaak een bron, stroomafwaarts vloeit.",
       "standaard": "IMBOR 2025",
-      "status": "Definitief",
-      "eigenaar": "Max"
+      "status": "Definitief"
     },
     "Betonverharding": {
       "color": "#a1a1aa",
       "definitie": "Verharding van beton.",
       "standaard": "",
-      "status": "Te bepalen",
-      "eigenaar": "Vaos"
+      "status": "Te bepalen"
     },
     "Bloemrijk natte ruigte": {
       "color": "#86efac",
       "definitie": "Een perceel in een natte omgeving bestaande uit kruidachtige planten die groter worden dan een meter en rijk zijn aan bloemen.",
       "standaard": "IMBOR 2025",
-      "status": "Definitief",
-      "eigenaar": "Max"
+      "status": "Definitief"
     },
     "Boerenhekwerk": {
       "color": "#92400e",
       "definitie": "Traditioneel hekwerk bij agrarische percelen.",
       "standaard": "",
-      "status": "Te bepalen",
-      "eigenaar": "Vaos"
+      "status": "Te bepalen"
     },
     "Bomen en struikvormers": {
       "color": "#15803d",
       "definitie": "Bomen en struikvormers als verschijningsvorm van bosplantsoen.",
       "standaard": "",
-      "status": "Te bepalen",
-      "eigenaar": "Max"
+      "status": "Te bepalen"
     },
     "Bos": {
       "color": "#166534",
       "definitie": "Begroeiing die bestaat uit een dusdanig aantal bomen dat deze een min of meer gesloten geheel vormen of, na volgroeiing, zullen vormen.",
       "standaard": "WL",
-      "status": "Definitief",
-      "eigenaar": "Max"
+      "status": "Definitief"
     },
     "Combinatiepoort": {
       "color": "#ca8a04",
       "definitie": "Poort die meerdere functies combineert.",
       "standaard": "",
-      "status": "Te bepalen",
-      "eigenaar": "Vaos"
+      "status": "Te bepalen"
     },
     "Doorstroommoeras": {
       "color": "#0d9488",
       "definitie": "Een moeras dat ontstaat doordat een of meer diffuse waterstromen door een wat lager gelegen zone stromen. Bos-, zoommantelzones-, zeggenvegetaties en kruidenvegetaties.",
       "standaard": "WL",
-      "status": "Definitief",
-      "eigenaar": "Max"
+      "status": "Definitief"
     },
     "Dotterbloemhooiland (Natte vorm)": {
       "color": "#34d399",
       "definitie": "Een drassig grasland met een weelderige hoeveelheid bloemen uit graslanden, broekbossen en moerassen, waar sprake is van invloed van grondwater.",
       "standaard": "IMBOR 2025",
-      "status": "Definitief",
-      "eigenaar": "Max"
+      "status": "Definitief"
     },
     "Dotterbloemhooiland (droge vorm)": {
       "color": "#a3e635",
       "definitie": "Een niet drassig grasland met een weelderige hoeveelheid bloemen uit graslanden, broekbossen en moerassen, waar sprake is van invloed van grondwater.",
       "standaard": "IMBOR 2025",
-      "status": "Definitief",
-      "eigenaar": "Max"
+      "status": "Definitief"
     },
     "Draaihek": {
       "color": "#854d0e",
       "definitie": "Hek dat draait om doorgang te verlenen.",
       "standaard": "",
-      "status": "Te bepalen",
-      "eigenaar": "Vaos"
+      "status": "Te bepalen"
     },
     "Elementverharding": {
       "color": "#78716c",
       "definitie": "Verharding samengesteld uit individuele elementen.",
       "standaard": "",
-      "status": "Te bepalen",
-      "eigenaar": "Vaos"
+      "status": "Te bepalen"
     },
     "Fauna- en kruidenrijkgrasland": {
       "color": "#6b7280",
       "definitie": "Kruiden- en faunarijk grasland omvat graslanden die kruidenrijk zijn, maar niet tot de schraallanden, vochtig hooiland, zilt grasland en overstromingsgrasland of glanshaverhooiland behoren.",
       "standaard": "WL",
-      "status": "Definitief",
-      "eigenaar": "Max"
+      "status": "Definitief"
     },
     "Gazon extensief": {
       "color": "#bef264",
       "definitie": "Grasterrein met relatief uniform grasmengsel dat extensief bewerkt wordt, jaarlijks 4-6x gemaaid.",
       "standaard": "WL",
-      "status": "Definitief",
-      "eigenaar": "Max"
+      "status": "Definitief"
     },
     "Geschoren haag": {
       "color": "#84cc16",
       "definitie": "Al of niet gemengde smalle heesterbeplanting die aan de bovenkant en de zijkant(en) wordt geknipt.",
       "standaard": "WL",
-      "status": "Controleren",
-      "eigenaar": "Max"
+      "status": "Controleren"
     },
     "Glanshaverhooilanden op schrale bodem": {
       "color": "#16a34a",
       "definitie": "Hooilanden gelegen op vochtige gronden. Kenmerkend is een hoog opgroeiende (zeer) bloem-/kruidenrijke vegetatie met een hoge abundantie van glanshaver.",
       "standaard": "WL",
-      "status": "Definitief",
-      "eigenaar": "Max"
+      "status": "Definitief"
     },
     "Grootveehek": {
       "color": "#b45309",
       "definitie": "Hek geschikt voor het keren van groot vee.",
       "standaard": "",
-      "status": "Te bepalen",
-      "eigenaar": "Vaos"
+      "status": "Te bepalen"
     },
     "Heischraal grasland": {
       "color": "#d9f99d",
       "definitie": "Graslanden gelegen op droge, zure, laagproductieve en meestal zandachtige gronden. Kenmerkt zich door afwezigheid van dwergstruiken.",
       "standaard": "WL",
-      "status": "Definitief",
-      "eigenaar": "Max"
+      "status": "Definitief"
     },
     "Houtsingel": {
       "color": "#4d7c0f",
       "definitie": "Een brede strook met bomen en struiken als afscheiding tussen weilanden en akkers en ook wel langs beken en waterlopen. Lijnvormig landschapselement van 4 tot 20 meter breed.",
       "standaard": "IMBOR 2025",
-      "status": "Definitief",
-      "eigenaar": "Max"
+      "status": "Definitief"
     },
     "Kalkgrasland": {
       "color": "#fde68a",
       "definitie": "Droge half-natuurlijke graslanden op kalkhoudende bodems. Veelal op zonnige hellingen.",
       "standaard": "WL",
-      "status": "Te bepalen",
-      "eigenaar": "Max"
+      "status": "Te bepalen"
     },
     "Klaphek": {
       "color": "#eab308",
       "definitie": "Hek dat open en dicht klapt.",
       "standaard": "",
-      "status": "Te bepalen",
-      "eigenaar": "Vaos"
+      "status": "Te bepalen"
     },
     "Kleinveehek": {
       "color": "#d97706",
       "definitie": "Hek geschikt voor het keren van klein vee.",
       "standaard": "",
-      "status": "Te bepalen",
-      "eigenaar": "Vaos"
+      "status": "Te bepalen"
     },
     "Losse haag": {
       "color": "#a3e635",
       "definitie": "Een of maximaal twee rijen (sier)heesters al dan niet van dezelfde soort die samen een lijnvormig element (haag) vormen. Deze haag wordt niet geknipt.",
       "standaard": "IMBOR 2025",
-      "status": "Definitief",
-      "eigenaar": "Max"
+      "status": "Definitief"
     },
     "Onverhard": {
       "color": "#d6d3d1",
       "definitie": "Onverharde ondergrond.",
       "standaard": "",
-      "status": "Te bepalen",
-      "eigenaar": "Vaos"
+      "status": "Te bepalen"
     },
     "Orchideeëngrasland": {
       "color": "#f0abfc",
       "definitie": "Graslanden gelegen op (meestal) vochtige, schrale en laagproductieve gronden. Kenmerken zich door hoge dichtheden orchideeën.",
       "standaard": "WL",
-      "status": "Definitief",
-      "eigenaar": "Max"
+      "status": "Definitief"
     },
     "Pimpernelhooiland": {
       "color": "#fbbf24",
       "definitie": "Specifieke flora en insecten (grote pimpernel, donker pimpernelblauwtje en steekmieren).",
       "standaard": "IMBOR 2025",
-      "status": "Definitief",
-      "eigenaar": "Max"
+      "status": "Definitief"
     },
     "Plas": {
       "color": "#22d3ee",
       "definitie": "Jaarrond waterhoudende regenwaterbufferbodem.",
       "standaard": "WL",
-      "status": "Te bepalen",
-      "eigenaar": ""
+      "status": "Te bepalen"
     },
     "Poel": {
       "color": "#06b6d4",
       "definitie": "Een door mens gegraven geïsoleerde waterpartij die stilstaand en veelal ondiep water (max 150cm) bevat. De poel dient een leefgebied te zijn voor verschillende macrofauna-/amfibieën- en plantensoorten.",
       "standaard": "WL",
-      "status": "Controleren",
-      "eigenaar": "Max"
+      "status": "Controleren"
     },
     "Rietvegetatie": {
       "color": "#84cc16",
       "definitie": "Een vegetatie met als hoofdsoort een of meerdere soorten riet, kan zowel een natte als een droge ondergrond hebben.",
       "standaard": "IMBOR 2025",
-      "status": "Definitief",
-      "eigenaar": "Max"
+      "status": "Definitief"
     },
     "Ruige glanshaverhooilanden": {
       "color": "#4ade80",
       "definitie": "Hooilanden gelegen op vochtige gronden tot gronden die periodiek overstroomd worden. Kenmerkend is een hoog opgroeiende ruige grasvegetatie.",
       "standaard": "WL",
-      "status": "Definitief",
-      "eigenaar": "Max"
+      "status": "Definitief"
     },
     "Ruigte": {
       "color": "#eab308",
       "definitie": "Gevarieerd grasmengsel met beperkt aantal soorten van hoog opgaande, meerjarige kruidachtige planten zoals distels, gewone berenklauw, brandnetels, bramen.",
       "standaard": "IMBOR 2025",
-      "status": "Definitief",
-      "eigenaar": "Max"
+      "status": "Definitief"
     },
     "Schraalgrasland": {
       "color": "#22c55e",
       "definitie": "Graslanden gelegen op droge, laagproductieve en meestal zandachtige gronden. Soortenrijke korte vegetaties met hoge soortenrijkdom.",
       "standaard": "WL",
-      "status": "Definitief",
-      "eigenaar": "Max"
+      "status": "Definitief"
     },
     "Sloot": {
       "color": "#3b82f6",
       "definitie": "Een gegraven watergang die dient om overtollig water af te voeren. Algemene benaming voor een waterloop van beperkte breedte die stilstaand of langzaam stromend water bevat.",
       "standaard": "IMBOR 2025",
-      "status": "Controleren",
-      "eigenaar": "Max"
+      "status": "Controleren"
     },
     "Struweel": {
       "color": "#65a30d",
       "definitie": "Struweel wordt gekenmerkt door veelal struweelsoorten (struikvormers) met enkele aanwezige bomen die boven het struweel uitgroeien.",
       "standaard": "WL",
-      "status": "Definitief",
-      "eigenaar": "Max"
+      "status": "Definitief"
     },
     "V-werk": {
       "color": "#a16207",
       "definitie": "V-vormige constructie als veekering.",
       "standaard": "",
-      "status": "Te bepalen",
-      "eigenaar": "Vaos"
+      "status": "Te bepalen"
     },
     "Ven": {
       "color": "#67e8f9",
       "definitie": "Een klein, meestal ondiep meer, dat voorkomt op Pleistocene zandgronden. Wisselende waterstanden, zelden groter dan enkele hectaren.",
       "standaard": "IMBOR 2025",
-      "status": "Controleren",
-      "eigenaar": "Max"
+      "status": "Controleren"
     },
     "Zoomvegetatie": {
       "color": "#a3e635",
       "definitie": "Een zoom vormt de overgang tussen bos en grasland die bestaat uit een ruigere gras-/kruidenvegetatie.",
       "standaard": "WL",
-      "status": "Definitief",
-      "eigenaar": "Max"
+      "status": "Definitief"
     }
   },
   "ruimtelijke_contexten": {
@@ -552,85 +492,73 @@
       "color": "#ea580c",
       "definitie": "Onder helling gelegen vlak.",
       "standaard": "kennisbank",
-      "status": "Controleren",
-      "eigenaar": "Vaos"
+      "status": "Controleren"
     },
     "Boven Talud": {
       "color": "#f97316",
       "definitie": "Onder helling gelegen vlak, niet aan de watergang zijde maar aan de landzijde van het onderhoudspad. Voorkomend bij verlaagde onderhoudspaden.",
       "standaard": "WL",
-      "status": "Controleren",
-      "eigenaar": "Vaos"
+      "status": "Controleren"
     },
     "Wegberm": {
       "color": "#a3a3a3",
       "definitie": "Plat of iets onderhelling gelegen terreindeel naast een verharde of onverharde weg wat tevens dient als werkpad om het onderhoud van de watergang te kunnen uitvoeren.",
       "standaard": "WL",
-      "status": "Controleren",
-      "eigenaar": "Vaos"
+      "status": "Controleren"
     },
     "Meterstrook": {
       "color": "#d4d4d4",
       "definitie": "Strook aan een of beide zijde van de watergang van ca. 1m breed om het onderhoud te kunnen uitvoeren en of maaisel op te deponeren.",
       "standaard": "WL",
-      "status": "Controleren",
-      "eigenaar": "Vaos"
+      "status": "Controleren"
     },
     "Bodem": {
       "color": "#78716c",
       "definitie": "Het laagst gelegen vlak in een terrein.",
       "standaard": "WL",
-      "status": "Controleren",
-      "eigenaar": "Vaos"
+      "status": "Controleren"
     },
     "Natte Bodem": {
       "color": "#0ea5e9",
       "definitie": "Bodems van regenwaterbuffers die niet permanent water bevatten maar door de duur van de periode dat er water staat als nat/vochtig beschouwt kunnen worden.",
       "standaard": "WL",
-      "status": "Te bepalen",
-      "eigenaar": "Vaos"
+      "status": "Te bepalen"
     },
     "Winterbed": {
       "color": "#7dd3fc",
       "definitie": "De oppervlakte tussen het zomerbed van een bovenrivier en de buitenkruinlijn van de hoogwaterkerende dijk dan wel de hoge gronden, die het water bij hoge standen keren.",
       "standaard": "kennisbank",
-      "status": "Controleren",
-      "eigenaar": "Vaos"
+      "status": "Controleren"
     },
     "Instroom Voorziening": {
       "color": "#f59e0b",
       "definitie": "Constructie die ervoor gemaakt is om te zorgen dat het regenwater de buffer in stroomt.",
       "standaard": "WL",
-      "status": "Controleren",
-      "eigenaar": "Vaos"
+      "status": "Controleren"
     },
     "Uitstroom Voorziening": {
       "color": "#fbbf24",
       "definitie": "Constructie die ervoor gemaakt is om te zorgen dat het regenwater de buffer uit stroomt.",
       "standaard": "WL",
-      "status": "Controleren",
-      "eigenaar": "Vaos"
+      "status": "Controleren"
     },
     "Kruin": {
       "color": "#a16207",
       "definitie": "Horizontale of licht hellende strook grond die bovenop de waterkering ligt of het hoogst gelegen deel van de waterkering.",
       "standaard": "WL",
-      "status": "Controleren",
-      "eigenaar": "Vaos"
+      "status": "Controleren"
     },
     "Toegang & bereikbaarheid": {
       "color": "#6b7280",
       "definitie": "",
       "standaard": "",
-      "status": "Te bepalen",
-      "eigenaar": ""
+      "status": "Te bepalen"
     },
     "Overlaat": {
       "color": "#6b7280",
       "definitie": "",
       "standaard": "",
-      "status": "Te bepalen",
-      "eigenaar": ""
+      "status": "Te bepalen"
     }
   },
   "functies": {
@@ -638,64 +566,55 @@
       "color": "#10b981",
       "definitie": "Door de provincie toegekende functie aan een watergang waarvan de ontwikkeling is gericht op behalen en behouden van de ecologische doelen vanuit KRW, Natura 2000 en het overig Natuurnetwerk met een hoofdfunctie natuur.",
       "standaard": "PWP & Waterbeheerprogramma",
-      "status": "Controleren",
-      "eigenaar": "Tamira"
+      "status": "Controleren"
     },
     "Aanvoersloot": {
       "color": "#6366f1",
       "definitie": "Watergangen in Noord- en Midden-Limburg om Maaswater naar landbouwgebieden te brengen.",
       "standaard": "Waterbeheerprogramma",
-      "status": "Controleren",
-      "eigenaar": "Tamira"
+      "status": "Controleren"
     },
     "Omgevingsgericht water": {
       "color": "#0ea5e9",
       "definitie": "Beken waarbij het dominante landgebruik in de omgeving de werking van het watersysteem bepaald.",
       "standaard": "PWP",
-      "status": "Controleren",
-      "eigenaar": "Tamira"
+      "status": "Controleren"
     },
     "Buffer": {
       "color": "#f59e0b",
       "definitie": "Een regenwaterbuffer is een opvangbassin dat bij hevige regen het teveel aan water tijdelijk opvangt en geleidelijk weer loost.",
       "standaard": "Waterbeheerprogramma / DAMO",
-      "status": "Controleren",
-      "eigenaar": "Tamira"
+      "status": "Controleren"
     },
     "Waterbuffer": {
       "color": "#ea580c",
       "definitie": "Voorziening voor tijdelijke berging van water bij piekafvoer.",
       "standaard": "WL",
-      "status": "Controleren",
-      "eigenaar": "Tamira"
+      "status": "Controleren"
     },
     "Bronbeek": {
       "color": "#14b8a6",
       "definitie": "Bovenloop van een watergang die worden gevoed door (semi-)permanent stromende bronnen of kwelzones.",
       "standaard": "Waterbeheerprogramma",
-      "status": "Controleren",
-      "eigenaar": "Tamira"
+      "status": "Controleren"
     },
     "Vispassage": {
       "color": "#f43f5e",
       "definitie": "Waterbouwkundig constructie dat vissen toegang geeft tot een door een dijk, dam, stuw of sluis ontoegankelijk geworden achterland.",
       "standaard": "IMBOR 2025",
-      "status": "Controleren",
-      "eigenaar": "Tamira"
+      "status": "Controleren"
     }
   },
   "type_waterbodem": {
     "Droog": {
       "definitie": "Watergang die tussen 1 april en 1 oktober bij normale omstandigheden geen of nauwelijks water afvoert.",
       "standaard": "",
-      "status": "Controleren",
-      "eigenaar": "Henk"
+      "status": "Controleren"
     },
     "Nat": {
       "definitie": "Watergang die het gehele jaar bij normale omstandigheden water afvoert.",
       "standaard": "",
-      "status": "Controleren",
-      "eigenaar": "Henk"
+      "status": "Controleren"
     }
   },
   "velden": {
@@ -703,29 +622,25 @@
       "label": "Uniek ID (GlobalID)",
       "definitie": "Een door het systeem gegenereerde code die uniek is. Cruciaal voor relaties tussen tabellen en systemen.",
       "standaard": "GUID/ArcGIS",
-      "status": "Definitief",
-      "eigenaar": "Data"
+      "status": "Definitief"
     },
     "naam": {
       "label": "Naam",
       "definitie": "Naam van de watergang en/of traject.",
       "standaard": "WL",
-      "status": "Controleren",
-      "eigenaar": "Assetmanagement"
+      "status": "Controleren"
     },
     "trajectcode": {
       "label": "Traject Code",
       "definitie": "Logisch opgebouwde betekenisvolle trajectcode (traject, zijde, onderdeel etc).",
       "standaard": "WL",
-      "status": "Definitief",
-      "eigenaar": "Data"
+      "status": "Definitief"
     },
     "objecttype": {
       "label": "Object Type",
       "definitie": "De hoofdklasse van het groen; bepaalt welke verdere kenmerken (verschijningsvormen) mogelijk zijn.",
       "standaard": "IMBOR 2025",
       "status": "Definitief",
-      "eigenaar": "Data",
       "domein": "objecttypen"
     },
     "verschijningsvorm": {
@@ -733,7 +648,6 @@
       "definitie": "Toplaag van het object op basis van bepaalde eigenschappen.",
       "standaard": "IMBOR 2025",
       "status": "Controleren",
-      "eigenaar": "Data",
       "domein": "verschijningsvormen"
     },
     "ruimtelijke_context": {
@@ -741,7 +655,6 @@
       "definitie": "De omgeving of constructieve situatie waarin het object zich bevindt.",
       "standaard": "WL",
       "status": "Controleren",
-      "eigenaar": "Data",
       "domein": "ruimtelijke_contexten"
     },
     "functie": {
@@ -749,29 +662,25 @@
       "definitie": "De functie (natuurbeek, aanvoersloot, omgevingsgericht water, buffer etc).",
       "standaard": "WL",
       "status": "Controleren",
-      "eigenaar": "Ecologie",
       "domein": "functies"
     },
     "beheerder": {
       "label": "Beheerder",
       "definitie": "De partij die juridisch en financieel verantwoordelijk is voor het onderhoud.",
       "standaard": "WL",
-      "status": "Controleren",
-      "eigenaar": "Data"
+      "status": "Controleren"
     },
     "breedteklasse_watergang": {
       "label": "Breedteklasse Watergang",
       "definitie": "Klasseindeling voor de bovenbreedte van de watergang. Afstand tussen de twee insteken.",
       "standaard": "IMBOR 2025",
-      "status": "Definitief",
-      "eigenaar": "Data"
+      "status": "Definitief"
     },
     "bodembreedte": {
       "label": "Bodembreedte",
       "definitie": "Bodembreedte van teen tot teen.",
       "standaard": "WL",
-      "status": "Definitief",
-      "eigenaar": "Data"
+      "status": "Definitief"
     }
   },
   "werkzaamheden": {
@@ -816,38 +725,32 @@
       "Handeling": {
         "definitie": "Het werkwoord / de hoofdactie van de werkzaamheid.",
         "standaard": "WL",
-        "status": "Definitief",
-        "eigenaar": "Data"
+        "status": "Definitief"
       },
       "Werkwijze": {
         "definitie": "Kwaliteitseis of methode waarmee de handeling wordt uitgevoerd.",
         "standaard": "WL",
-        "status": "Definitief",
-        "eigenaar": "Data"
+        "status": "Definitief"
       },
       "Doel": {
         "definitie": "Het fysieke onderdeel waarop de handeling betrekking heeft.",
         "standaard": "WL",
-        "status": "Definitief",
-        "eigenaar": "Data"
+        "status": "Definitief"
       },
       "Zijde": {
         "definitie": "Ruimtelijke specificatie: Links, Rechts, Beide of N.v.t.",
         "standaard": "WL",
-        "status": "Definitief",
-        "eigenaar": "Data"
+        "status": "Definitief"
       },
       "Sinusbeheer": {
         "definitie": "Gefaseerd maaibeheer: per periode wisselende zijde (L/R), 50% per beurt. Ecologisch beheer gericht op biodiversiteit.",
         "standaard": "WL",
-        "status": "Definitief",
-        "eigenaar": "Ecologie"
+        "status": "Definitief"
       },
       "Habitatbenadering": {
         "definitie": "Ecologisch maaibeheer gericht op behoud en ontwikkeling van specifieke habitattypen en biodiversiteit.",
         "standaard": "WL",
-        "status": "Definitief",
-        "eigenaar": "Ecologie"
+        "status": "Definitief"
       }
     }
   },
