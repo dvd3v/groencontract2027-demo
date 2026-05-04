@@ -2763,34 +2763,59 @@
       });
       h += `<div style="margin-top:8px;padding:6px 8px;background:rgba(139,92,246,.05);border-radius:6px;font-size:10.5px;color:#8b5cf6"><strong>&#x2139;</strong> Functie geldt voor een groep objecten (bijv. alle vlakken langs een OGW-beek).</div></div>`;
       h += `</div></div>`;
-      // === SECTION 6: LAAG C — Planning ===
+      // === SECTION 6: LAAG C — Planning (Traject + Maatregel) ===
+      const PL = SC.planning || {};
+      const PLent = PL.entiteiten || {};
+      const PLdom = PL.domeinen || {};
+      const renderField = (key, v, color) => {
+        const dom = v.domein ? `<span class="dm-dom">${e(v.domein)}</span>` : '';
+        const typ = v.type ? `<span style="font-size:10px;color:var(--txm);font-style:italic">${e(v.type)}</span>` : '';
+        const tip = v.toelichting ? `<div style="font-size:10px;color:var(--txm);margin-top:2px">${e(v.toelichting)}</div>` : '';
+        return `<div class="dm-row"><div class="dm-k">${e(key)}</div><div class="dm-v">${typ} ${dom}${tip}</div></div>`;
+      };
       h += `<div class="dm-section" id="dmSecC">
     <div class="dm-section-title" style="color:#7c3aed">&#x1F4C5; Laag C — Planningsmodel</div>
-    <div class="dm-section-sub">Hoe trajecten, werkzaamheden en regimes zijn gemodelleerd.</div>
+    <div class="dm-section-sub">Twee entiteiten: een <strong>Traject</strong> heeft één of meerdere <strong>Maatregelen</strong>. Domeinen zijn afzonderlijk gedefinieerd.</div>
     <div class="dm-ctx-grid">`;
       // Left: Traject entity
+      const trj = PLent.Traject || { velden: {} };
       h += `<div class="dm-ctx-panel">
-      <h4 style="font-size:13px;font-weight:600;margin-bottom:8px;color:#7c3aed">Traject (ruimtelijke container)</h4>
-      <div class="dm-row"><div class="dm-k">Traject_ID</div><div class="dm-v">PK (text) — Unieke sleutel</div></div>
-      <div class="dm-row"><div class="dm-k">naam</div><div class="dm-v">Text — Leesbare naam</div></div>
-      <div class="dm-row"><div class="dm-k">code</div><div class="dm-v">Text — Trajectcode</div></div>
-      <div style="margin-top:8px;padding:6px 8px;background:rgba(124,58,237,.05);border-radius:6px;font-size:10.5px;color:#7c3aed"><strong>&#x2139;</strong> Een traject is een 'domme' GIS-polygoon. De planning zit in gekoppelde werkzaamheidrecords (1:N).</div>
+      <h4 style="font-size:13px;font-weight:600;margin-bottom:6px;color:#7c3aed">Traject</h4>
+      <div style="font-size:11px;color:var(--txd);margin-bottom:8px">${e(trj.definitie || '')}</div>`;
+      Object.entries(trj.velden || {}).forEach(([k, v]) => { h += renderField(k, v, '#7c3aed'); });
+      h += `<div style="margin-top:8px;padding:6px 8px;background:rgba(124,58,237,.05);border-radius:6px;font-size:10.5px;color:#7c3aed"><strong>&#x2139;</strong> Een traject is een GIS-polygoon. De planning zit in gekoppelde maatregelrecords (1:N).</div>
     </div>`;
-      // Right: Werkzaamheid entity
+      // Right: Maatregel entity, gesplitst in planning- vs aannemer-velden
+      const mtr = PLent.Maatregel || { velden: {} };
+      const mtrEntries = Object.entries(mtr.velden || {});
+      const planFields = mtrEntries.filter(([, v]) => !v.aannemer);
+      const aannemerFields = mtrEntries.filter(([, v]) => v.aannemer);
       h += `<div class="dm-ctx-panel">
-      <h4 style="font-size:13px;font-weight:600;margin-bottom:8px;color:#ea580c">Traject_Werkzaamheid (plannings-engine)</h4>
-      <div class="dm-row"><div class="dm-k">Werk_ID</div><div class="dm-v">PK — Unieke sleutel planningsregel</div></div>
-      <div class="dm-row"><div class="dm-k">Traject_ID</div><div class="dm-v">FK &#x2192; Traject</div></div>
-      <div class="dm-row"><div class="dm-k">Handeling</div><div class="dm-v">WAT <span class="dm-dom">${(WZ.handeling || []).join(', ')}</span></div></div>
-      <div class="dm-row"><div class="dm-k">Werkwijze</div><div class="dm-v">HOE <span class="dm-dom">${(WZ.werkwijze || []).join(', ')}</span></div></div>
-      <div class="dm-row"><div class="dm-k">Doel</div><div class="dm-v">WAAROP <span class="dm-dom">${(WZ.doel || []).join(', ')}</span></div></div>
-      <div class="dm-row"><div class="dm-k">Zijde</div><div class="dm-v">WAAR <span class="dm-dom">${(WZ.zijde || []).join(', ')}</span></div></div>
-      <div class="dm-row"><div class="dm-k">Periode</div><div class="dm-v">INT — 1 t/m 9</div></div>
-      <div class="dm-row"><div class="dm-k">Percentage</div><div class="dm-v">INT — 0-100</div></div>
-      <div class="dm-row"><div class="dm-k">Afvoer</div><div class="dm-v">Boolean — Maaisel afvoeren</div></div>
-      <div style="margin-top:8px;padding:6px 8px;background:rgba(234,88,12,.05);border-radius:6px;font-size:10.5px;color:#ea580c"><strong>&#x2139;</strong> Elk record is &eacute;&eacute;n unieke, ondeelbare actie. L/R-wisseling via 4 records per traject.</div>
+      <h4 style="font-size:13px;font-weight:600;margin-bottom:6px;color:#ea580c">Maatregel</h4>
+      <div style="font-size:11px;color:var(--txd);margin-bottom:8px">${e(mtr.definitie || '')}</div>
+      <div style="font-size:10.5px;font-weight:600;color:var(--txd);margin:4px 0">Planning</div>`;
+      planFields.forEach(([k, v]) => { h += renderField(k, v, '#ea580c'); });
+      if (aannemerFields.length) {
+        h += `<div style="font-size:10.5px;font-weight:600;color:var(--txd);margin:10px 0 4px">In te vullen door aannemer</div>`;
+        aannemerFields.forEach(([k, v]) => { h += renderField(k, v, '#ea580c'); });
+      }
+      h += `<div style="margin-top:8px;padding:6px 8px;background:rgba(234,88,12,.05);border-radius:6px;font-size:10.5px;color:#ea580c"><strong>&#x2139;</strong> Elke maatregel is &eacute;&eacute;n concrete actie binnen het traject.</div>
     </div>`;
-      h += `</div></div>`;
+      h += `</div>`;
+      // Domeinwaarden-grid
+      if (Object.keys(PLdom).length) {
+        h += `<div style="margin-top:14px"><h4 style="font-size:12px;font-weight:600;margin-bottom:8px;color:var(--txd)">&#x1F4DA; Domeinwaarden</h4>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px">`;
+        Object.entries(PLdom).forEach(([dKey, dVals]) => {
+          h += `<div style="background:var(--sf);border:1px solid var(--bd);border-radius:8px;padding:8px 10px">
+        <div style="font-family:var(--m);font-size:10.5px;font-weight:600;color:#7c3aed;margin-bottom:6px">${e(dKey)} <span style="color:var(--txm);font-weight:400">(${dVals.length})</span></div>
+        <div style="display:flex;flex-wrap:wrap;gap:3px">`;
+          dVals.forEach(val => { h += `<span class="dm-tag" style="font-size:10px">${e(val)}</span>`; });
+          h += `</div></div>`;
+        });
+        h += `</div></div>`;
+      }
+      h += `</div>`;
       // === SECTION 7: ER DIAGRAM ===
       h += `<div class="dm-section">
     <div class="dm-section-title">&#x1F517; Samenhang &amp; Relaties</div>
@@ -2823,22 +2848,34 @@
         <path d="M370,139 L330,285" fill="none" stroke="#9298ad" stroke-width="1" marker-end="url(#ah3)"/>
         <text x="330" y="270" font-size="9" fill="#9298ad">N objecten delen 1 functie</text>
         <rect x="490" y="290" width="200" height="38" rx="8" fill="#7c3aed" opacity=".06" stroke="#7c3aed" stroke-width="1" stroke-dasharray="4 3"/>
-        <text x="590" y="314" text-anchor="middle" font-size="11" font-weight="500" fill="#7c3aed">Werkzaamheid</text>
+        <text x="590" y="314" text-anchor="middle" font-size="11" font-weight="500" fill="#7c3aed">Maatregel</text>
         <path d="M560,54 Q730,54 730,250 Q730,309 690,309" fill="none" stroke="#7c3aed" stroke-width=".8" stroke-dasharray="4 3" marker-end="url(#ah3)"/>
         <text x="740" y="180" font-size="9" fill="#7c3aed">1:N</text>
         <rect x="80" y="360" width="720" height="44" rx="8" fill="var(--sf2)" stroke="var(--bd)" stroke-width=".5"/>
         <text x="100" y="378" font-size="10" font-weight="600" fill="#5c6077">Relaties:</text>
-        <text x="100" y="394" font-size="9.5" fill="#5c6077">&#x2022; Traject omvat meerdere Objecten (M:N)  &#x2022; Object heeft 1 Objecttype en 1 Verschijningsvorm  &#x2022; Object kan 1 Ruimtelijke Context hebben  &#x2022; N Objecten delen 1 Functie</text>
+        <text x="100" y="394" font-size="9.5" fill="#5c6077">&#x2022; Traject omvat meerdere Objecten (M:N) en heeft 1:N Maatregelen  &#x2022; Object heeft 1 Objecttype en 1 Verschijningsvorm  &#x2022; Object kan 1 Ruimtelijke Context hebben  &#x2022; N Objecten delen 1 Functie</text>
       </svg>
     </div>
   </div>`;
       // === SECTION: VELDEN ===
       h += `<div class="dm-section">
     <div class="dm-section-title">&#x1F4CB; Velddefinities</div>
-    <div class="dm-section-sub">Alle generieke velden uit het datamodel met definitie, standaard en status.</div>
-    <div class="dm-card" style="padding:0;overflow:hidden"><table class="dm-plan-tbl"><thead><tr><th>Veld</th><th>Label</th><th>Definitie</th><th>Standaard</th><th>Status</th></tr></thead><tbody>`;
+    <div class="dm-section-sub">Alle attributen per objectcategorie met type, domein, definitie, standaard en status.</div>
+    <div class="dm-card" style="padding:0;overflow:hidden"><table class="dm-plan-tbl"><thead><tr><th>Veld</th><th>Label</th><th>Type</th><th>Domein</th><th>Definitie</th><th>Standaard</th><th>Status</th></tr></thead><tbody>`;
+      const veldCatOrder = ['Algemeen', 'Groenobjecten / Verhardingsobjecten', 'Waterobjecten', 'Vegetatieobjecten'];
+      const veldByCat = {};
       Object.entries(VL).forEach(([key, v]) => {
-        h += `<tr><td style="font-family:var(--m);font-weight:500">${e(key)}</td><td>${e(v.label || '')}</td><td style="font-size:10.5px;color:var(--txd)">${e(v.definitie || '')}</td><td style="font-size:10px">${e(v.standaard || '')}</td><td>${dmBadge(v.status)}</td></tr>`;
+        const c = v.category || 'Overig';
+        (veldByCat[c] = veldByCat[c] || []).push([key, v]);
+      });
+      const sortedVeldCats = [...new Set([...veldCatOrder.filter(c => veldByCat[c]), ...Object.keys(veldByCat)])];
+      sortedVeldCats.forEach(cat => {
+        const rows = veldByCat[cat]; if (!rows) return;
+        h += `<tr><td colspan="7" class="beg-cat-hdr">${e(cat)} (${rows.length})</td></tr>`;
+        rows.forEach(([key, v]) => {
+          const dom = v.domein ? `<span class="dm-dom" style="font-size:9.5px">${e(v.domein)}</span>` : '<span style="color:var(--txm);font-size:10px">—</span>';
+          h += `<tr><td style="font-family:var(--m);font-weight:500">${e(key)}</td><td>${e(v.label || '')}</td><td style="font-size:10px;color:var(--txd)">${e(v.type || '')}</td><td>${dom}</td><td style="font-size:10.5px;color:var(--txd)">${e(v.definitie || '')}</td><td style="font-size:10px">${e(v.standaard || '')}</td><td>${dmBadge(v.status)}</td></tr>`;
+        });
       });
       h += `</tbody></table></div></div>`;
       document.getElementById('dmContent').innerHTML = h;
