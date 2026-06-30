@@ -32,14 +32,87 @@ window.PILOTS['ogw'] = {
     }
   },
 
-  // Werkzaamheden — Traject_Werkzaamheid records (1:N relatie met traject)
-  werkzaamheden: [
-    // OGW beek segment Noord — Sinusbeheer (15-juli regel, L/R-wisseling per periode)
-    { Werk_ID:'W-OGW-001', Traject_ID:'WL-TR-OGW1', Handeling:'Maaien',     Werkwijze:'Habitatbenadering',       Doel:'Talud',       Zijde:'Links',  Periode:1, Percentage:100,  Afvoer:true  },
-    { Werk_ID:'W-OGW-002', Traject_ID:'WL-TR-OGW1', Handeling:'Maaien',     Werkwijze:'Habitatbenadering',       Doel:'Talud',       Zijde:'Rechts', Periode:2, Percentage:100,  Afvoer:true  },
-    { Werk_ID:'W-OGW-003', Traject_ID:'WL-TR-OGW1', Handeling:'Opschonen',  Werkwijze:'Standaard',         Doel:'Bodem',       Zijde:'N.v.t.', Periode:2, Percentage:100, Afvoer:true  },
-    { Werk_ID:'W-OGW-006', Traject_ID:'WL-TR-OGW1', Handeling:'Maaien', Werkwijze:'Standaard',         Doel:'Werkpad',     Zijde:'N.v.t.', Periode:1, Percentage:100, Afvoer:false },
-    { Werk_ID:'W-OGW-007', Traject_ID:'WL-TR-OGW1', Handeling:'Maaien', Werkwijze:'Sinusbeheer',         Doel:'Meterstrook',     Zijde:'Links', Periode:1, Percentage:33, Afvoer:false },
+  trajecten: [
+    { guid: 'tr-ogw-001', traject_code: 'OGW-001', naam_traject: 'OGW beek segment Noord' }
+  ],
+
+  regimes: {
+    M8: {
+      regime_code: 'M8',
+      regime_naam: 'Maaien watergangprofiel habitatbenadering',
+      categorie: 'Maaien',
+      werkinstructie: 'Watergangprofiel volgens habitatbenadering maaien. Zijde en bodempercentage bepalen welk deel wordt geraakt; maaisel afvoeren conform afvoerkeuze.'
+    },
+    M15: {
+      regime_code: 'M15',
+      regime_naam: 'Vrijmaaien kunstwerken',
+      categorie: 'Maaien',
+      werkinstructie: 'Kunstwerken, in- en uitstroomvoorzieningen vrijmaken en maaien, inclusief directe bereikbaarheid voor inspectie en onderhoud.'
+    }
+  },
+
+  // Maatregelen — GC2027 datamodel (1:N relatie via traject_guid)
+  maatregelen: [
+    {
+      traject_guid: 'tr-ogw-001',
+      maatregel_guid: 'mt-ogw-001',
+      wl_regime: 'M8',
+      wl_werkperiode: 13,
+      wl_zijde: 'Links',
+      wl_bodempercentage: '75%',
+      wl_afvoeren: 'Direct afvoeren',
+      wl_uitvoeringswijze_maaien: 'Maaien',
+      wl_soortspecifiek: 'Ja',
+      wl_locatiebezoek: 'Ja',
+      wl_planstatus: 'Gereed voor uitvoering',
+      wl_toelichting: 'Eerste habitatronde: linker talud en bodemstrook uitvoeren, rechterzijde sparen.',
+      wl_steekproef_status: 'Nog niet gecontroleerd',
+      wl_acceptatie_status: 'Nog niet aangeboden',
+      anm_status_maatregel: 'Gepland',
+      anm_periode_gepland: 13,
+      anm_datum_uitvoering: '',
+      anm_opmerking: ''
+    },
+    {
+      traject_guid: 'tr-ogw-001',
+      maatregel_guid: 'mt-ogw-002',
+      wl_regime: 'M8',
+      wl_werkperiode: 17,
+      wl_zijde: 'Rechts',
+      wl_bodempercentage: '75%',
+      wl_afvoeren: 'Na 24 uur afvoeren',
+      wl_uitvoeringswijze_maaien: 'Maaien',
+      wl_soortspecifiek: 'Ja',
+      wl_locatiebezoek: 'Nee',
+      wl_planstatus: 'Concept',
+      wl_toelichting: 'Tweede habitatronde: zijde wisselen ten opzichte van P13.',
+      wl_steekproef_status: 'Nog niet gecontroleerd',
+      wl_acceptatie_status: 'Nog niet aangeboden',
+      anm_status_maatregel: 'Gepland',
+      anm_periode_gepland: 17,
+      anm_datum_uitvoering: '',
+      anm_opmerking: ''
+    },
+    {
+      traject_guid: 'tr-ogw-001',
+      maatregel_guid: 'mt-ogw-003',
+      wl_regime: 'M15',
+      wl_werkperiode: 12,
+      wl_zijde: 'N.v.t.',
+      wl_bodempercentage: 'N.v.t.',
+      wl_afvoeren: 'Direct afvoeren',
+      wl_uitvoeringswijze_maaien: 'Handmatig',
+      wl_soortspecifiek: 'Nee',
+      wl_locatiebezoek: 'Ja',
+      wl_planstatus: 'Gereed voor uitvoering',
+      wl_toelichting: 'Kunstwerken en inspectiepunten vrijmaaien voor bereikbaarheid.',
+      wl_steekproef_status: 'Nog niet gecontroleerd',
+      wl_acceptatie_status: 'Nog niet aangeboden',
+      anm_status_maatregel: 'Gepland',
+      anm_periode_gepland: 12,
+      anm_datum_uitvoering: '',
+      anm_opmerking: ''
+    }
   ],
 
   // Aannemersregistratie (persistent via localStorage)

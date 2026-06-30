@@ -797,6 +797,138 @@
       transition: width .3s
     }
 
+    .maatregel-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px
+    }
+
+    .maatregel-card {
+      border: 1px solid var(--bd);
+      border-radius: 8px;
+      background: var(--sf);
+      overflow: hidden
+    }
+
+    .maatregel-head {
+      width: 100%;
+      border: none;
+      background: var(--sf);
+      padding: 11px 12px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      text-align: left;
+      cursor: pointer;
+      font-family: var(--f)
+    }
+
+    .maatregel-head:hover {
+      background: var(--sf2)
+    }
+
+    .maatregel-title {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      min-width: 0
+    }
+
+    .regime-code {
+      flex-shrink: 0;
+      padding: 2px 7px;
+      border-radius: 6px;
+      background: rgba(124, 58, 237, .09);
+      color: var(--p);
+      font: 600 10.5px var(--m)
+    }
+
+    .maatregel-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--tx);
+      overflow-wrap: anywhere
+    }
+
+    .maatregel-meta {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 6px
+    }
+
+    .measure-chip {
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: var(--sf2);
+      color: var(--txd);
+      font-size: 10.5px;
+      font-weight: 500
+    }
+
+    .measure-chip.ok {
+      background: var(--gb);
+      color: var(--g)
+    }
+
+    .measure-chip.warn {
+      background: rgba(217, 119, 6, .1);
+      color: var(--y)
+    }
+
+    .maatregel-status {
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+      align-self: start
+    }
+
+    .maatregel-detail {
+      display: none;
+      border-top: 1px solid var(--bd);
+      padding: 11px 12px 12px;
+      background: rgba(240, 241, 244, .45)
+    }
+
+    .maatregel-card.open .maatregel-detail {
+      display: block
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px 12px;
+      margin-bottom: 10px
+    }
+
+    .detail-item {
+      min-width: 0
+    }
+
+    .detail-label {
+      font-size: 10px;
+      color: var(--txm);
+      text-transform: uppercase;
+      letter-spacing: .4px;
+      margin-bottom: 2px
+    }
+
+    .detail-value {
+      font-size: 12px;
+      color: var(--tx);
+      overflow-wrap: anywhere
+    }
+
+    .instruction-box {
+      border-left: 3px solid var(--wl);
+      background: var(--sf);
+      padding: 8px 10px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      line-height: 1.45;
+      color: var(--txd)
+    }
+
     .cr {
       cursor: pointer;
       color: var(--p);
@@ -1813,7 +1945,7 @@
           <button class="btn btn-sm" onclick="addOTRow()">+ Objecttype</button>
           <button class="btn btn-sm btn-s" onclick="exportMatrix()">&#x2B07; Exporteer matrix</button>
           <button class="btn btn-sm" style="background:var(--p);color:#fff" onclick="generateWerkzaamheden()">Genereer
-            werkzaamheden</button>
+            maatregelen</button>
         </div>
         <div
           style="overflow-x:auto;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);box-shadow:0 1px 4px rgba(0,0,0,.04)">
@@ -1824,8 +1956,8 @@
     <!-- Jaarplan Table page -->
     <div class="plan-page" id="planPage">
       <div style="max-width:1200px;margin:0 auto">
-        <h2 style="font-size:20px;margin-bottom:4px">Jaarplan 2027 — Werkzaamheden</h2>
-        <p style="color:var(--txd);font-size:13px;margin-bottom:8px">Planningsoverzicht per traject en werkzaamheid.
+        <h2 style="font-size:20px;margin-bottom:4px">Jaarplan 2027 — Maatregelen</h2>
+        <p style="color:var(--txd);font-size:13px;margin-bottom:8px">Planningsoverzicht per traject en maatregel.
           Elke rij is &eacute;&eacute;n unieke actie.</p>
         <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap" id="planFilters"></div>
         <div class="plan-summary" id="planStats"></div>
@@ -1939,17 +2071,77 @@
       await Promise.all(promises);
     }
 
-    // ===== WERKZAAMHEDEN HELPERS =====
-    function getWerkzaamheden(pilotKey) {
-      return (window.PILOTS[pilotKey] || {}).werkzaamheden || [];
+    // ===== MAATREGELEN HELPERS =====
+    function getRawMaatregelen(pilotKey) {
+      const p = window.PILOTS[pilotKey] || {};
+      return p.maatregelen || p.werkzaamheden || [];
     }
-    function getWerkzaamhedenForTraject(pilotKey, trajectId) {
-      return getWerkzaamheden(pilotKey).filter(w => w.Traject_ID === trajectId);
+    function getTrajectKeyFromProps(p = {}) {
+      return p.guid || p.Traject_ID || p.traject_code || '';
+    }
+    function getTrajectLabelFromProps(p = {}) {
+      return p.naam_traject || p.naam || p.traject_code || p.code || 'Traject';
+    }
+    function getPilotTrajectMeta(pilotKey, guid) {
+      const p = window.PILOTS[pilotKey] || {};
+      const fromList = (p.trajecten || []).find(t => t.guid === guid || t.traject_code === guid);
+      if (fromList) return fromList;
+      const feats = p.layers?.traject?.data?.features || [];
+      const feat = feats.find(f => getTrajectKeyFromProps(f.properties) === guid || f.properties.traject_code === guid);
+      return feat ? feat.properties : {};
+    }
+    function getRegimeInfo(pilotKey, code) {
+      const p = window.PILOTS[pilotKey] || {};
+      return p.regimes?.[code] || { regime_code: code || '', regime_naam: code || 'Maatregel', categorie: 'Maatregel', werkinstructie: '' };
+    }
+    function statusToKey(status) {
+      const s = String(status || '').toLowerCase().replace(/\s+/g, '_');
+      const map = { 'gepland': 'gepland', 'in_uitvoering': 'in_uitvoering', 'uitgevoerd': 'uitgevoerd', 'deels_uitgevoerd': 'in_uitvoering', 'niet_uitgevoerd': 'afgekeurd', 'afgekeurd': 'afgekeurd' };
+      return map[s] || 'gepland';
+    }
+    function statusToLabel(status) {
+      const map = { gepland: 'Gepland', in_uitvoering: 'In uitvoering', uitgevoerd: 'Uitgevoerd', afgekeurd: 'Niet uitgevoerd' };
+      return map[statusToKey(status)] || 'Gepland';
+    }
+    function isAfvoeren(v) {
+      if (v === true) return true;
+      const s = String(v || '').toLowerCase();
+      return s.includes('afvoeren') && !s.includes('n.v.t') && !s.includes('laten liggen');
+    }
+    function periodLabel(p) {
+      return p ? `P${p}` : '-';
+    }
+    function normalizeMaatregel(pilotKey, w) {
+      if (w.Werk_ID) return w;
+      const regime = getRegimeInfo(pilotKey, w.wl_regime);
+      const traject = getPilotTrajectMeta(pilotKey, w.traject_guid);
+      return {
+        ...w,
+        _raw: w,
+        _regime: regime,
+        Werk_ID: w.maatregel_guid,
+        Traject_ID: traject.traject_code || w.traject_guid,
+        TrajectNaam: traject.naam_traject || '',
+        Handeling: regime.categorie || 'Maatregel',
+        Werkwijze: w.wl_uitvoeringswijze_maaien || 'N.v.t.',
+        Doel: regime.regime_naam || w.wl_regime,
+        Zijde: w.wl_zijde || 'N.v.t.',
+        Periode: w.wl_werkperiode || w.anm_periode_gepland || '',
+        Percentage: w.wl_bodempercentage || 'N.v.t.',
+        Afvoer: isAfvoeren(w.wl_afvoeren),
+        status: statusToKey(w.anm_status_maatregel)
+      };
+    }
+    function getWerkzaamheden(pilotKey) {
+      return getRawMaatregelen(pilotKey).map(w => normalizeMaatregel(pilotKey, w));
+    }
+    function getWerkzaamhedenForTraject(pilotKey, trajectKey) {
+      return getWerkzaamheden(pilotKey).filter(w => w.traject_guid === trajectKey || w.Traject_ID === trajectKey);
     }
     function getAllWerkzaamheden() {
       const all = [];
       for (const [pk, p] of Object.entries(window.PILOTS)) {
-        (p.werkzaamheden || []).forEach(w => all.push({ ...w, _pilotKey: pk, _pilotName: p.name }));
+        getWerkzaamheden(pk).forEach(w => all.push({ ...w, _pilotKey: pk, _pilotName: p.name }));
       }
       return all;
     }
@@ -1959,7 +2151,7 @@
       if (!werken.length) return 'gepland';
       const statussen = werken.map(w => {
         const reg = registraties[w.Werk_ID];
-        return reg ? reg.status : 'gepland';
+        return reg ? reg.status : (w.status || 'gepland');
       });
       if (statussen.some(s => s === 'afgekeurd')) return 'afgekeurd';
       if (statussen.every(s => s === 'uitgevoerd')) return 'uitgevoerd';
@@ -1969,7 +2161,7 @@
 
     // ===== PERSISTENTIE (localStorage) =====
     const LS_KEY = 'groencontract_registraties';
-    let registraties = {}; // keyed by Werk_ID
+    let registraties = {}; // keyed by maatregel_guid / legacy Werk_ID
     function loadRegistraties() {
       try {
         const stored = localStorage.getItem(LS_KEY);
@@ -2135,11 +2327,11 @@
       gL = mapLayerRefs.groen || null;
       wL = mapLayerRefs.water || null;
 
-      // Traject layer (colored by aggregate werkzaamheden status)
+      // Traject layer (colored by aggregate maatregelstatus)
       if (pilot.layers.traject) {
         tL = L.geoJSON(T, {
           style: f => {
-            const tid = f.properties.Traject_ID;
+            const tid = getTrajectKeyFromProps(f.properties);
             const st = getTrajectStatus(activePilotKey, tid);
             const sc = statusColors[st] || '#7c3aed';
             return { fillColor: sc, fillOpacity: st === 'uitgevoerd' ? .2 : .12, color: sc, weight: st === 'uitgevoerd' ? 3 : 2, opacity: st === 'uitgevoerd' ? .7 : .5, dashArray: st === 'uitgevoerd' ? '' : '8 4' }
@@ -2176,7 +2368,7 @@
       // Status legend for jaarplan
       let statusLeg = '<div style="margin-top:6px;font-size:10.5px;font-weight:600;color:var(--txd);margin-bottom:4px">Jaarplan status</div>';
       for (const [s, c] of Object.entries(statusColors)) { statusLeg += `<div class="leg-item"><div class="leg-dot" style="background:${c}"></div>${s.replace(/_/g, ' ')}</div>` }
-      // Period filter (from werkzaamheden)
+      // Period filter (from maatregelen)
       const periods = [...new Set(getWerkzaamheden(activePilotKey).map(w => String(w.Periode)))].sort();
       let perFilt = '<div style="margin-top:8px;font-size:10.5px;font-weight:600;color:var(--txd);margin-bottom:4px">Periode filter</div><div class="per-tabs">';
       perFilt += `<button class="per-tab ${activePeriod === 'all' ? 'a' : ''}" onclick="activePeriod='all';rL();uLeg()">Alle</button>`;
@@ -2196,16 +2388,16 @@
       ctx = { f, ln, i }; const p = f.properties;
       const layerLabel = ln === 'traject' ? 'Traject' : (pilot.layers[ln]?.label || ln);
       if (ln === 'traject') {
-        document.getElementById('pT').innerHTML = `${layerLabel} — ${e(p.naam || p.code || 'Object')} <span style="color:var(--txm);font-weight:400;font-size:12px">${e(p.Traject_ID)}</span>`;
+        document.getElementById('pT').innerHTML = `${layerLabel} — ${e(getTrajectLabelFromProps(p))} <span style="color:var(--txm);font-weight:400;font-size:12px">${e(p.traject_code || p.guid || '')}</span>`;
       } else {
         document.getElementById('pT').innerHTML = `${layerLabel} — ${e(p.objecttype || 'Object')} <span style="color:var(--txm);font-weight:400;font-size:12px">#${p.GlobalID}</span>`;
       }
       let tabs = '<button class="ptb a" onclick="sTab(\'a\')">Attributen</button>';
-      if (ln === 'traject') { tabs += '<button class="ptb" onclick="sTab(\'w\')">Werkzaamheden</button>'; tabs += '<button class="ptb" onclick="sTab(\'p\')">Registratie</button>'; }
+      if (ln === 'traject') { tabs += '<button class="ptb" onclick="sTab(\'w\')">Maatregelen</button>'; tabs += '<button class="ptb" onclick="sTab(\'p\')">Registratie</button>'; }
       document.getElementById('pTabs').innerHTML = tabs; sTab('a'); document.getElementById('fPop').style.display = 'block';
     }
     function cPop() { document.getElementById('fPop').style.display = 'none' }
-    function sTab(t) { document.querySelectorAll('#pTabs .ptb').forEach(b => b.classList.remove('a')); document.querySelectorAll('#pTabs .ptb').forEach(b => { if ((t === 'a' && b.textContent.includes('Attr')) || (t === 'w' && b.textContent.includes('Werkzaam')) || (t === 'p' && b.textContent.includes('Registratie'))) b.classList.add('a') }); if (t === 'a') rPA(); else if (t === 'w') rPW(); else if (t === 'p') rPP() }
+    function sTab(t) { document.querySelectorAll('#pTabs .ptb').forEach(b => b.classList.remove('a')); document.querySelectorAll('#pTabs .ptb').forEach(b => { if ((t === 'a' && b.textContent.includes('Attr')) || (t === 'w' && b.textContent.includes('Maatregel')) || (t === 'p' && b.textContent.includes('Registratie'))) b.classList.add('a') }); if (t === 'a') rPA(); else if (t === 'w') rPW(); else if (t === 'p') rPP() }
 
     function rPA() {
       const { f, ln } = ctx, p = f.properties; let h = '<table class="ptl">';
@@ -2221,36 +2413,62 @@
       h += `</table><div style="margin-top:12px"><button class="btn btn-p btn-sm" onclick="oIT('${ctx.ln}');cPop()">Bewerk in tabel</button></div>`;
       document.getElementById('pB').innerHTML = h;
     }
-    // Werkzaamheden popup tab — shows all werkzaamheden for clicked traject
+    // Maatregelen popup tab — shows all maatregelen for clicked traject
     function rPW() {
-      const tid = ctx.f.properties.Traject_ID;
+      const props = ctx.f.properties;
+      const tid = getTrajectKeyFromProps(props);
+      const label = props.traject_code || tid;
       const werken = getWerkzaamhedenForTraject(activePilotKey, tid);
-      let h = `<div class="as"><h4>Werkzaamheden — ${e(tid)} <span class="badge badge-n">${werken.length} records</span></h4>`;
-      if (!werken.length) { h += `<p style="color:var(--txm);font-size:12px">Geen werkzaamheden gekoppeld.</p></div>`; document.getElementById('pB').innerHTML = h; return }
-      h += `<table class="ptl" style="font-size:11px"><thead><tr><th>Handeling</th><th>Doel</th><th>Zijde</th><th>Per.</th><th>%</th><th>Afvoer</th><th>Status</th></tr></thead><tbody>`;
+      let h = `<div class="as"><h4>Maatregelen — ${e(label)} <span class="badge badge-n">${werken.length} records</span></h4>`;
+      if (!werken.length) { h += `<p style="color:var(--txm);font-size:12px">Geen maatregelen gekoppeld.</p></div>`; document.getElementById('pB').innerHTML = h; return }
+      h += '<div class="maatregel-list">';
       werken.forEach(w => {
         const reg = getReg(w.Werk_ID);
         const sc = statusColors[reg.status] || '#7c3aed';
-        h += `<tr>
-      <td style="font-weight:500">${e(w.Handeling)}</td>
-      <td>${e(w.Doel)}</td>
-      <td>${w.Zijde === 'Links' ? '&#x25C0; L' : w.Zijde === 'Rechts' ? '&#x25B6; R' : e(w.Zijde)}</td>
-      <td style="text-align:center">${w.Periode}</td>
-      <td style="text-align:center">${w.Percentage}%</td>
-      <td style="text-align:center">${w.Afvoer ? '&#x2713;' : '&#x2717;'}</td>
-      <td><span style="color:${sc};font-weight:500">${reg.status.replace(/_/g, ' ')}</span></td>
-    </tr>`;
+        const regime = w._regime || getRegimeInfo(activePilotKey, w.wl_regime);
+        const cardId = `maat-${w.Werk_ID}`;
+        const afvoer = w.wl_afvoeren || (w.Afvoer ? 'Afvoeren' : 'Niet afvoeren');
+        h += `<div class="maatregel-card" id="${e(cardId)}">
+      <button class="maatregel-head" onclick="document.getElementById('${e(cardId)}').classList.toggle('open')">
+        <div>
+          <div class="maatregel-title"><span class="regime-code">${e(regime.regime_code || w.wl_regime || '')}</span><span class="maatregel-name">${e(regime.regime_naam || w.Doel)}</span></div>
+          <div class="maatregel-meta">
+            <span class="measure-chip">${e(periodLabel(w.wl_werkperiode || w.Periode))}</span>
+            <span class="measure-chip">${e(w.wl_zijde || w.Zijde)}</span>
+            <span class="measure-chip">${e(w.wl_bodempercentage || w.Percentage)}</span>
+            <span class="measure-chip ${w.Afvoer ? 'ok' : 'warn'}">${e(afvoer)}</span>
+          </div>
+        </div>
+        <span class="maatregel-status" style="color:${sc}">${e(statusToLabel(reg.status))}</span>
+      </button>
+      <div class="maatregel-detail">
+        <div class="detail-grid">
+          <div class="detail-item"><div class="detail-label">Maatregel GUID</div><div class="detail-value">${e(w.maatregel_guid || w.Werk_ID)}</div></div>
+          <div class="detail-item"><div class="detail-label">Traject GUID</div><div class="detail-value">${e(w.traject_guid || tid)}</div></div>
+          <div class="detail-item"><div class="detail-label">Uitvoeringswijze</div><div class="detail-value">${e(w.wl_uitvoeringswijze_maaien || w.Werkwijze)}</div></div>
+          <div class="detail-item"><div class="detail-label">Planstatus WL</div><div class="detail-value">${e(w.wl_planstatus || '-')}</div></div>
+          <div class="detail-item"><div class="detail-label">Soortspecifiek</div><div class="detail-value">${e(w.wl_soortspecifiek || '-')}</div></div>
+          <div class="detail-item"><div class="detail-label">Locatiebezoek</div><div class="detail-value">${e(w.wl_locatiebezoek || '-')}</div></div>
+          <div class="detail-item"><div class="detail-label">Steekproefstatus</div><div class="detail-value">${e(w.wl_steekproef_status || '-')}</div></div>
+          <div class="detail-item"><div class="detail-label">Acceptatiestatus</div><div class="detail-value">${e(w.wl_acceptatie_status || '-')}</div></div>
+          <div class="detail-item"><div class="detail-label">Aannemer gepland</div><div class="detail-value">${e(periodLabel(w.anm_periode_gepland || w.Periode))}</div></div>
+          <div class="detail-item"><div class="detail-label">Datum uitvoering</div><div class="detail-value">${e(reg.datum_uitgevoerd || w.anm_datum_uitvoering || '-')}</div></div>
+        </div>
+        ${w.wl_toelichting ? `<div class="instruction-box" style="margin-bottom:8px"><strong>Toelichting WL</strong><br>${e(w.wl_toelichting)}</div>` : ''}
+        ${regime.werkinstructie ? `<div class="instruction-box"><strong>Werkinstructie regime</strong><br>${e(regime.werkinstructie)}</div>` : ''}
+      </div>
+    </div>`;
       });
-      h += `</tbody></table></div>`;
+      h += `</div></div>`;
       document.getElementById('pB').innerHTML = h;
     }
 
     // Registratie popup tab — per werkzaamheid status/datum/opmerking
     function rPP() {
-      const tid = ctx.f.properties.Traject_ID;
+      const tid = getTrajectKeyFromProps(ctx.f.properties);
       const werken = getWerkzaamhedenForTraject(activePilotKey, tid);
-      let h = `<div class="as"><h4>Registratie — ${e(tid)} <span class="badge badge-n">DEMO</span></h4>`;
-      if (!werken.length) { h += `<p style="color:var(--txm)">Geen werkzaamheden.</p></div>`; document.getElementById('pB').innerHTML = h; return }
+      let h = `<div class="as"><h4>Registratie — ${e(ctx.f.properties.traject_code || tid)} <span class="badge badge-n">DEMO</span></h4>`;
+      if (!werken.length) { h += `<p style="color:var(--txm)">Geen maatregelen.</p></div>`; document.getElementById('pB').innerHTML = h; return }
       werken.forEach(w => {
         const reg = getReg(w.Werk_ID);
         const sc = statusColors[reg.status] || '#7c3aed';
@@ -2261,7 +2479,7 @@
       <div class="af"><label>Datum gepland</label><input type="date" value="${reg.datum_gepland}" onchange="setReg('${w.Werk_ID}','datum_gepland',this.value)"></div>
       <div class="af"><label>Datum uitgevoerd</label><input type="date" value="${reg.datum_uitgevoerd}" onchange="setReg('${w.Werk_ID}','datum_uitgevoerd',this.value)"></div>
       <div class="af"><label>Opmerking</label><input type="text" value="${e(reg.opmerking || '')}" placeholder="Notities..." onchange="setReg('${w.Werk_ID}','opmerking',this.value)"></div>`;
-        // Fasering terugmelding voor werkzaamheden met zijde
+        // Fasering terugmelding voor maatregelen met zijde
         if (w.Zijde === 'Links' || w.Zijde === 'Rechts') {
           const uitv = reg.fase_uitgevoerd || '';
           h += `<div class="af"><label>Uitgevoerde zijde</label><select onchange="setReg('${w.Werk_ID}','fase_uitgevoerd',this.value);rPP()"><option value="">-</option>${['Links', 'Rechts', 'afgeweken'].map(s => `<option value="${s}"${uitv === s ? ' selected' : ''}>${s}</option>`).join('')}</select></div>`;
@@ -2313,9 +2531,9 @@
     function rmA() { const dm = getDataMap()[aTL]; const ks = [...new Set(dm.features.flatMap(f => Object.keys(f.properties)))]; const n = prompt('Verwijder attribuut:\n' + ks.join(', ')); if (!n || !ks.includes(n)) return; dm.features.forEach(f => { delete f.properties[n] }); rTbl(); rL() }
     function exportCSV() {
       const dms = getDataMap(); let c = ''; for (const [ln, d] of Object.entries(dms)) { const ks = [...new Set(d.features.flatMap(f => Object.keys(f.properties)))]; c += `# ${ln}\n` + ['_laag', ...ks].join(';') + '\n'; d.features.forEach(f => { c += [ln, ...ks.map(k => { const v = f.properties[k]; return v == null ? '' : String(v) })].join(';') + '\n' }); c += '\n' }
-      // Werkzaamheden export
-      c += '# Werkzaamheden\nWerk_ID;Traject_ID;Handeling;Werkwijze;Doel;Zijde;Periode;Percentage;Afvoer;Status;Datum_gepland;Datum_uitgevoerd;Opmerking\n';
-      getAllWerkzaamheden().forEach(w => { const r = getReg(w.Werk_ID); c += `${w.Werk_ID};${w.Traject_ID};${w.Handeling};${w.Werkwijze};${w.Doel};${w.Zijde};${w.Periode};${w.Percentage};${w.Afvoer};${r.status};${r.datum_gepland};${r.datum_uitgevoerd};${r.opmerking}\n` });
+      // Maatregelen export
+      c += '# Maatregelen\nmaatregel_guid;traject_guid;traject_code;wl_regime;regime_naam;wl_werkperiode;wl_zijde;wl_bodempercentage;wl_afvoeren;wl_uitvoeringswijze_maaien;wl_planstatus;anm_status_maatregel;anm_periode_gepland;anm_datum_uitvoering;anm_opmerking\n';
+      getAllWerkzaamheden().forEach(w => { const r = getReg(w.Werk_ID); const reg = w._regime || getRegimeInfo(w._pilotKey, w.wl_regime); c += `${w.Werk_ID};${w.traject_guid || ''};${w.Traject_ID};${w.wl_regime || ''};${reg.regime_naam || ''};${w.wl_werkperiode || ''};${w.wl_zijde || ''};${w.wl_bodempercentage || ''};${w.wl_afvoeren || ''};${w.wl_uitvoeringswijze_maaien || ''};${w.wl_planstatus || ''};${statusToLabel(r.status)};${w.anm_periode_gepland || ''};${r.datum_uitgevoerd || w.anm_datum_uitvoering || ''};${r.opmerking || w.anm_opmerking || ''}\n` });
       const b = new Blob([c], { type: 'text/csv;charset=utf-8;' }); const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'groenbeheer_' + new Date().toISOString().slice(0, 10) + '.csv'; a.click()
     }
 
@@ -2430,44 +2648,54 @@
     function rmRegime(r) { if (!confirm('Regime "' + r + '" verwijderen?')) return; mxRegimes = mxRegimes.filter(x => x !== r); renderMatrix() }
     function exportMatrix() { let c = 'objecttype;' + mxRegimes.join(';') + '\n'; objectTypes.forEach(ot => { c += ot + ';' + mxRegimes.map(r => '"' + (mxData[r + '|' + ot] || '') + '"').join(';') + '\n' }); const b = new Blob([c], { type: 'text/csv' }); const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'regimematrix_' + new Date().toISOString().slice(0, 10) + '.csv'; a.click() }
 
-    // Werkzaamheden generator vanuit regimematrix
+    // Maatregelen generator vanuit regimematrix
     function generateWerkzaamheden() {
       const regime = prompt('Regime selecteren:\n' + mxRegimes.join(', '));
       if (!regime || !mxRegimes.includes(regime)) return;
-      const tid = prompt('Traject_ID (bijv. WL-TR-1045):');
+      const tid = prompt('traject_guid of traject_code (bijv. tr-ogw-001):');
       if (!tid) return;
       const pk = prompt('Pilot:\n' + Object.keys(window.PILOTS).join(', '), activePilotKey);
       if (!pk || !window.PILOTS[pk]) return;
-      if (!window.PILOTS[pk].werkzaamheden) window.PILOTS[pk].werkzaamheden = [];
-      const existing = window.PILOTS[pk].werkzaamheden;
+      if (!window.PILOTS[pk].maatregelen) window.PILOTS[pk].maatregelen = [];
+      const existing = window.PILOTS[pk].maatregelen;
       let count = 0;
       objectTypes.forEach(ot => {
         const instr = mxData[regime + '|' + ot];
         if (!instr) return;
-        // Parse instruction into werkzaamheid defaults
-        const wid = 'W-GEN-' + Date.now() + '-' + (count++);
+        // Parse instruction into maatregel defaults
+        const wid = 'mt-gen-' + Date.now() + '-' + (count++);
         existing.push({
-          Werk_ID: wid, Traject_ID: tid,
-          Handeling: instr.includes('maaien') || instr.includes('Maaien') ? 'Maaien' : instr.includes('Schonen') || instr.includes('schonen') ? 'Opschonen' : 'Maaien',
-          Werkwijze: instr.includes('Sinusbeheer') ? 'Sinusbeheer' : instr.includes('klepelen') || instr.includes('Klepelen') ? 'Klepelen' : 'Standaard',
-          Doel: ot === 'Watergang' ? 'Bodem' : ot === 'Watervlakte' ? 'Natte Bodem' : 'Talud',
-          Zijde: 'Beide', Periode: 1,
-          Percentage: 100, Afvoer: instr.includes('afvoeren')
+          traject_guid: tid,
+          maatregel_guid: wid,
+          wl_regime: regime,
+          wl_werkperiode: 1,
+          wl_zijde: 'Beide zijden',
+          wl_bodempercentage: '100%',
+          wl_afvoeren: instr.includes('afvoeren') ? 'Direct afvoeren' : 'N.v.t.',
+          wl_uitvoeringswijze_maaien: instr.includes('klepelen') || instr.includes('Klepelen') ? 'Klepelen' : 'Maaien',
+          wl_soortspecifiek: 'Nee',
+          wl_locatiebezoek: 'Nee',
+          wl_planstatus: 'Concept',
+          wl_toelichting: instr,
+          anm_status_maatregel: 'Gepland',
+          anm_periode_gepland: 1,
+          anm_datum_uitvoering: '',
+          anm_opmerking: ''
         });
       });
-      alert(`${count} werkzaamheden gegenereerd voor ${tid} in ${pk} (regime: ${regime}).`);
+      alert(`${count} maatregelen gegenereerd voor ${tid} in ${pk} (regime: ${regime}).`);
       if (document.getElementById('planPage').style.display === 'block') renderPlan();
     }
 
-    // ===== JAARPLAN TABLE (werkzaamheidrecords) =====
+    // ===== JAARPLAN TABLE (maatregelrecords) =====
     function renderPlanFilters() {
       const allW = getAllWerkzaamheden();
       const periodes = [...new Set(allW.map(w => w.Periode))].sort();
-      const handelingen = [...new Set(allW.map(w => w.Handeling))].sort();
+      const handelingen = [...new Set(allW.map(w => w.wl_regime || w.Handeling))].sort();
       const zijdes = [...new Set(allW.map(w => w.Zijde))].sort();
       let h = '';
       h += `<select style="font-size:11px;padding:4px 8px;border:1px solid var(--bd);border-radius:6px" onchange="planFilterPeriode=this.value;renderPlan()"><option value="all">Alle periodes</option>${periodes.map(p => `<option value="${p}"${planFilterPeriode == p ? ' selected' : ''}>Periode ${p}</option>`).join('')}</select>`;
-      h += `<select style="font-size:11px;padding:4px 8px;border:1px solid var(--bd);border-radius:6px" onchange="planFilterHandeling=this.value;renderPlan()"><option value="all">Alle handelingen</option>${handelingen.map(x => `<option value="${e(x)}"${planFilterHandeling === x ? ' selected' : ''}>${e(x)}</option>`).join('')}</select>`;
+      h += `<select style="font-size:11px;padding:4px 8px;border:1px solid var(--bd);border-radius:6px" onchange="planFilterHandeling=this.value;renderPlan()"><option value="all">Alle regimes</option>${handelingen.map(x => `<option value="${e(x)}"${planFilterHandeling === x ? ' selected' : ''}>${e(x)}</option>`).join('')}</select>`;
       h += `<select style="font-size:11px;padding:4px 8px;border:1px solid var(--bd);border-radius:6px" onchange="planFilterZijde=this.value;renderPlan()"><option value="all">Alle zijdes</option>${zijdes.map(x => `<option value="${e(x)}"${planFilterZijde === x ? ' selected' : ''}>${e(x)}</option>`).join('')}</select>`;
       h += `<select style="font-size:11px;padding:4px 8px;border:1px solid var(--bd);border-radius:6px" onchange="planFilterStatus=this.value;renderPlan()"><option value="all">Alle statussen</option>${['gepland', 'in_uitvoering', 'uitgevoerd', 'afgekeurd'].map(s => `<option value="${s}"${planFilterStatus === s ? ' selected' : ''}>${s.replace(/_/g, ' ')}</option>`).join('')}</select>`;
       document.getElementById('planFilters').innerHTML = h;
@@ -2481,7 +2709,7 @@
       let allW = getAllWerkzaamheden();
       // Apply filters
       if (planFilterPeriode !== 'all') allW = allW.filter(w => String(w.Periode) === String(planFilterPeriode));
-      if (planFilterHandeling !== 'all') allW = allW.filter(w => w.Handeling === planFilterHandeling);
+      if (planFilterHandeling !== 'all') allW = allW.filter(w => (w.wl_regime || w.Handeling) === planFilterHandeling);
       if (planFilterZijde !== 'all') allW = allW.filter(w => w.Zijde === planFilterZijde);
       if (planFilterStatus !== 'all') allW = allW.filter(w => (getReg(w.Werk_ID).status || 'gepland') === planFilterStatus);
 
@@ -2490,7 +2718,7 @@
       let nGepland = 0, nUitv = 0, nAfgek = 0, nInUitv = 0;
       allW.forEach(w => { const s = getReg(w.Werk_ID).status; if (s === 'uitgevoerd') nUitv++; else if (s === 'afgekeurd') nAfgek++; else if (s === 'in_uitvoering') nInUitv++; else nGepland++ });
       document.getElementById('planStats').innerHTML = `
-    <div class="plan-stat"><div class="num">${total}</div><div class="lbl">Werkzaamheden</div></div>
+    <div class="plan-stat"><div class="num">${total}</div><div class="lbl">Maatregelen</div></div>
     <div class="plan-stat"><div class="num" style="color:var(--p)">${nGepland}</div><div class="lbl">Gepland</div></div>
     <div class="plan-stat"><div class="num" style="color:var(--o)">${nInUitv}</div><div class="lbl">In uitvoering</div></div>
     <div class="plan-stat"><div class="num" style="color:var(--g)">${nUitv}</div><div class="lbl">Uitgevoerd</div></div>
@@ -2510,7 +2738,7 @@
       }
 
       // Build sortable header
-      const cols = [['_pilotName', 'Gebied'], ['Traject_ID', 'Traject'], ['Handeling', 'Handeling'], ['Werkwijze', 'Werkwijze'], ['Doel', 'Doel'], ['Zijde', 'Zijde'], ['Periode', 'Per.'], ['Percentage', '%'], ['Afvoer', 'Afvoer'], ['status', 'Status'], ['datum_gepland', 'Datum gepland'], ['datum_uitgevoerd', 'Datum uitgevoerd'], ['opmerking', 'Opmerking']];
+      const cols = [['_pilotName', 'Gebied'], ['Traject_ID', 'Traject'], ['wl_regime', 'Regime'], ['Doel', 'Maatregel'], ['Periode', 'Per. WL'], ['Zijde', 'Zijde'], ['Percentage', 'Bodem%'], ['wl_afvoeren', 'Afvoeren'], ['Werkwijze', 'Wijze'], ['wl_planstatus', 'Planstatus'], ['status', 'Status'], ['datum_uitgevoerd', 'Datum uitvoering'], ['opmerking', 'Opmerking']];
       let h = '<thead><tr>';
       cols.forEach(([key, label]) => {
         const sorted = planSortCol === key;
@@ -2551,15 +2779,15 @@
             h += `<tr>
           <td style="font-size:10px;color:var(--txm)">${e(w._pilotName)}</td>
           <td style="font-size:11px">${e(w.Traject_ID)}</td>
-          <td style="font-weight:500">${e(w.Handeling)}</td>
-          <td style="font-size:11px">${e(w.Werkwijze)}</td>
+          <td style="font-weight:600;color:var(--p)">${e(w.wl_regime || '')}</td>
           <td>${e(w.Doel)}</td>
+          <td style="text-align:center">${periodLabel(w.Periode)}</td>
           <td>${w.Zijde === 'Links' ? '<span class="fase-side fase-L">&#x25C0; L</span>' : w.Zijde === 'Rechts' ? '<span class="fase-side fase-R">&#x25B6; R</span>' : `<span style="color:var(--txm);font-size:11px">${e(w.Zijde)}</span>`}</td>
-          <td style="text-align:center">${w.Periode}</td>
-          <td style="text-align:center">${w.Percentage}%</td>
-          <td style="text-align:center">${w.Afvoer ? '&#x2713;' : '&#x2717;'}</td>
+          <td style="text-align:center">${e(w.Percentage)}</td>
+          <td style="font-size:11px">${e(w.wl_afvoeren || (w.Afvoer ? 'Afvoeren' : 'Niet afvoeren'))}</td>
+          <td style="font-size:11px">${e(w.Werkwijze)}</td>
+          <td style="font-size:11px">${e(w.wl_planstatus || '-')}</td>
           <td><select onchange="setReg('${w.Werk_ID}','status',this.value);renderPlan();rL()" style="color:${sc};font-weight:500;font-size:11px">${['gepland', 'in_uitvoering', 'uitgevoerd', 'afgekeurd'].map(s => `<option value="${s}"${reg.status === s ? ' selected' : ''}>${s.replace(/_/g, ' ')}</option>`).join('')}</select></td>
-          <td><input type="date" value="${reg.datum_gepland}" onchange="setReg('${w.Werk_ID}','datum_gepland',this.value)" style="font-size:11px"></td>
           <td><input type="date" value="${reg.datum_uitgevoerd}" onchange="setReg('${w.Werk_ID}','datum_uitgevoerd',this.value)" style="font-size:11px"></td>
           <td><input type="text" value="${e(reg.opmerking || '')}" placeholder="..." onchange="setReg('${w.Werk_ID}','opmerking',this.value)" style="font-size:11px"></td>
         </tr>`;
@@ -2624,7 +2852,7 @@
       <div class="dm-layer-bar" style="background:rgba(124,58,237,.05);border-color:#7c3aed" onclick="document.getElementById('dmSecC').scrollIntoView({behavior:'smooth'})">
         <div style="display:flex;align-items:center;gap:10px">
           <div style="width:36px;height:36px;border-radius:8px;background:rgba(124,58,237,.1);display:flex;align-items:center;justify-content:center;font-size:16px">&#x1F4C5;</div>
-          <div><div style="font-weight:600;font-size:13px;color:#7c3aed">Laag C — Planning &amp; Uitvoering</div><div style="font-size:11px;color:var(--txd)">"Wat doen we wanneer?" — Trajecten, werkzaamheden, regimes, fasering.</div></div>
+          <div><div style="font-weight:600;font-size:13px;color:#7c3aed">Laag C — Planning &amp; Uitvoering</div><div style="font-size:11px;color:var(--txd)">"Wat doen we wanneer?" — Trajecten, maatregelen, regimes, fasering.</div></div>
         </div>
       </div>
     </div>
@@ -2766,29 +2994,29 @@
       // === SECTION 6: LAAG C — Planning ===
       h += `<div class="dm-section" id="dmSecC">
     <div class="dm-section-title" style="color:#7c3aed">&#x1F4C5; Laag C — Planningsmodel</div>
-    <div class="dm-section-sub">Hoe trajecten, werkzaamheden en regimes zijn gemodelleerd.</div>
+    <div class="dm-section-sub">Hoe trajecten, maatregelen en regimes zijn gemodelleerd.</div>
     <div class="dm-ctx-grid">`;
       // Left: Traject entity
       h += `<div class="dm-ctx-panel">
       <h4 style="font-size:13px;font-weight:600;margin-bottom:8px;color:#7c3aed">Traject (ruimtelijke container)</h4>
-      <div class="dm-row"><div class="dm-k">Traject_ID</div><div class="dm-v">PK (text) — Unieke sleutel</div></div>
-      <div class="dm-row"><div class="dm-k">naam</div><div class="dm-v">Text — Leesbare naam</div></div>
-      <div class="dm-row"><div class="dm-k">code</div><div class="dm-v">Text — Trajectcode</div></div>
-      <div style="margin-top:8px;padding:6px 8px;background:rgba(124,58,237,.05);border-radius:6px;font-size:10.5px;color:#7c3aed"><strong>&#x2139;</strong> Een traject is een 'domme' GIS-polygoon. De planning zit in gekoppelde werkzaamheidrecords (1:N).</div>
+      <div class="dm-row"><div class="dm-k">guid</div><div class="dm-v">PK (Guid) — Stabiele sleutel voor maatregelen</div></div>
+      <div class="dm-row"><div class="dm-k">naam_traject</div><div class="dm-v">Text — Leesbare naam</div></div>
+      <div class="dm-row"><div class="dm-k">traject_code</div><div class="dm-v">Text — Code voor weergave en rapportage</div></div>
+      <div class="dm-row"><div class="dm-k">type_traject</div><div class="dm-v">Domein — natuurbeek, waterkering, omgevingsgericht water, waterbuffer</div></div>
+      <div style="margin-top:8px;padding:6px 8px;background:rgba(124,58,237,.05);border-radius:6px;font-size:10.5px;color:#7c3aed"><strong>&#x2139;</strong> Een traject is de ruimtelijke container. De planning zit in gekoppelde maatregelen (1:N) via traject_guid.</div>
     </div>`;
       // Right: Werkzaamheid entity
       h += `<div class="dm-ctx-panel">
-      <h4 style="font-size:13px;font-weight:600;margin-bottom:8px;color:#ea580c">Traject_Werkzaamheid (plannings-engine)</h4>
-      <div class="dm-row"><div class="dm-k">Werk_ID</div><div class="dm-v">PK — Unieke sleutel planningsregel</div></div>
-      <div class="dm-row"><div class="dm-k">Traject_ID</div><div class="dm-v">FK &#x2192; Traject</div></div>
-      <div class="dm-row"><div class="dm-k">Handeling</div><div class="dm-v">WAT <span class="dm-dom">${(WZ.handeling || []).join(', ')}</span></div></div>
-      <div class="dm-row"><div class="dm-k">Werkwijze</div><div class="dm-v">HOE <span class="dm-dom">${(WZ.werkwijze || []).join(', ')}</span></div></div>
-      <div class="dm-row"><div class="dm-k">Doel</div><div class="dm-v">WAAROP <span class="dm-dom">${(WZ.doel || []).join(', ')}</span></div></div>
-      <div class="dm-row"><div class="dm-k">Zijde</div><div class="dm-v">WAAR <span class="dm-dom">${(WZ.zijde || []).join(', ')}</span></div></div>
-      <div class="dm-row"><div class="dm-k">Periode</div><div class="dm-v">INT — 1 t/m 9</div></div>
-      <div class="dm-row"><div class="dm-k">Percentage</div><div class="dm-v">INT — 0-100</div></div>
-      <div class="dm-row"><div class="dm-k">Afvoer</div><div class="dm-v">Boolean — Maaisel afvoeren</div></div>
-      <div style="margin-top:8px;padding:6px 8px;background:rgba(234,88,12,.05);border-radius:6px;font-size:10.5px;color:#ea580c"><strong>&#x2139;</strong> Elk record is &eacute;&eacute;n unieke, ondeelbare actie. L/R-wisseling via 4 records per traject.</div>
+      <h4 style="font-size:13px;font-weight:600;margin-bottom:8px;color:#ea580c">Maatregelen (plannings-engine)</h4>
+      <div class="dm-row"><div class="dm-k">maatregel_guid</div><div class="dm-v">PK — Unieke sleutel maatregelregel</div></div>
+      <div class="dm-row"><div class="dm-k">traject_guid</div><div class="dm-v">FK &#x2192; Traject.guid</div></div>
+      <div class="dm-row"><div class="dm-k">wl_regime</div><div class="dm-v">Domein — beheerregime, gekoppeld aan regimecatalogus</div></div>
+      <div class="dm-row"><div class="dm-k">wl_werkperiode</div><div class="dm-v">P1-P24 — halfmaandelijkse werkperiode</div></div>
+      <div class="dm-row"><div class="dm-k">wl_zijde</div><div class="dm-v">Links, rechts, beide zijden, binnen/buiten talud of N.v.t.</div></div>
+      <div class="dm-row"><div class="dm-k">wl_bodempercentage</div><div class="dm-v">Bewerkingspercentage voor bodem</div></div>
+      <div class="dm-row"><div class="dm-k">wl_afvoeren</div><div class="dm-v">Direct afvoeren, na 24 uur afvoeren, laten liggen of N.v.t.</div></div>
+      <div class="dm-row"><div class="dm-k">anm_status_maatregel</div><div class="dm-v">Aannemerstatus voor uitvoering en terugmelding</div></div>
+      <div style="margin-top:8px;padding:6px 8px;background:rgba(234,88,12,.05);border-radius:6px;font-size:10.5px;color:#ea580c"><strong>&#x2139;</strong> Elk record is een geplande maatregel. Regime bepaalt de werkinstructie; velden als zijde, werkperiode en bodempercentage bepalen de uitvoering op trajectniveau.</div>
     </div>`;
       h += `</div></div>`;
       // === SECTION 7: ER DIAGRAM ===

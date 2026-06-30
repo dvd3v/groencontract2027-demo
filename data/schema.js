@@ -67,10 +67,10 @@ window.SchemaLoader = {
         return { d: entry.definitie, s: entry.standaard, st: entry.status, c: section };
       }
     }
-    // Check werkzaamheden meta
+    // Check maatregelen meta
     if (this._schema.werkzaamheden?.meta?.[term]) {
       const entry = this._schema.werkzaamheden.meta[term];
-      return { d: entry.definitie, s: entry.standaard, st: entry.status, c: 'Werkzaamheden' };
+      return { d: entry.definitie, s: entry.standaard, st: entry.status, c: 'Maatregelen' };
     }
     // Check velden
     for (const [, v] of Object.entries(this._schema.velden)) {
@@ -105,10 +105,18 @@ window.SchemaLoader = {
       is_werkpad: ['true', 'false'],
       breedteklasse_watergang: s.extra_domains?.breedteklasse_watergang || [],
       fase_zijde: s.extra_domains?.fase_zijde || [],
-      handeling: s.werkzaamheden?.handeling || [],
-      werkwijze: s.werkzaamheden?.werkwijze || [],
-      doel: s.werkzaamheden?.doel || [],
+      regime: s.werkzaamheden?.regime || [],
+      werkperiode: s.werkzaamheden?.werkperiode || [],
       zijde: s.werkzaamheden?.zijde || [],
+      bodempercentage: s.werkzaamheden?.bodempercentage || [],
+      afvoeren: s.werkzaamheden?.afvoeren || [],
+      planstatus: s.werkzaamheden?.planstatus || [],
+      wl_regime: s.werkzaamheden?.regime || [],
+      wl_werkperiode: s.werkzaamheden?.werkperiode || [],
+      wl_zijde: s.werkzaamheden?.zijde || [],
+      wl_bodempercentage: s.werkzaamheden?.bodempercentage || [],
+      wl_afvoeren: s.werkzaamheden?.afvoeren || [],
+      wl_planstatus: s.werkzaamheden?.planstatus || [],
       registratie_status: s.werkzaamheden?.registratie_status || []
     };
 
@@ -142,7 +150,7 @@ window.SchemaLoader = {
     addToGlossary(s.ruimtelijke_contexten, 'Ruimtelijke Context');
     addToGlossary(s.functies, 'Functie');
     if (s.type_waterbodem) addToGlossary(s.type_waterbodem, 'Type Waterbodem');
-    if (s.werkzaamheden?.meta) addToGlossary(s.werkzaamheden.meta, 'Werkzaamheden');
+    if (s.werkzaamheden?.meta) addToGlossary(s.werkzaamheden.meta, 'Maatregelen');
     // Add velden as glossary entries
     for (const [, v] of Object.entries(s.velden)) {
       if (v.label && v.definitie) {

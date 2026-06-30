@@ -4,9 +4,20 @@
     {
       "type": "Feature",
       "properties": {
-        "Traject_ID": "WL-TR-WB1",
-        "naam": "Buffer Groot",
-        "code": "WB1"
+        "OBJECTID": 1,
+        "GlobalID": "{WB-0001-0000-0000-000000000001}",
+        "guid": "tr-wb-001",
+        "traject_code_oud": "WL-TR-WB1",
+        "traject_code": "WB-001",
+        "naam_traject": "Buffer Groot",
+        "functie": "Overig",
+        "type_traject": "Waterbuffer",
+        "bodembreedte": "> 300 cm",
+        "bovenbreedte": "> 300 cm",
+        "onderhoudspadbreedte links": "> 190 cm",
+        "onderhoudspadbreedte rechts": "N.v.t.",
+        "uitvoerder_onderhoud": "Aannemer Zuid A",
+        "stakeholder_informatie": "Regenwaterbuffer met gefaseerd maaien en nabegrazing."
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -1249,9 +1260,20 @@
     {
       "type": "Feature",
       "properties": {
-        "Traject_ID": "WL-TR-WB2",
-        "naam": "Buffer Klein",
-        "code": "WB2"
+        "OBJECTID": 2,
+        "GlobalID": "{WB-0002-0000-0000-000000000002}",
+        "guid": "tr-wb-002",
+        "traject_code_oud": "WL-TR-WB2",
+        "traject_code": "WB-002",
+        "naam_traject": "Buffer Klein",
+        "functie": "Overig",
+        "type_traject": "Waterbuffer",
+        "bodembreedte": "100-300 cm",
+        "bovenbreedte": "> 300 cm",
+        "onderhoudspadbreedte links": "< 190 cm",
+        "onderhoudspadbreedte rechts": "N.v.t.",
+        "uitvoerder_onderhoud": "Aannemer Zuid A",
+        "stakeholder_informatie": "Kleine buffer; voorziening en toegangspad expliciet vrijhouden."
       },
       "geometry": {
         "type": "MultiPolygon",

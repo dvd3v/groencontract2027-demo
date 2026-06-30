@@ -40,21 +40,160 @@ window.PILOTS['waterbuffer'] = {
     }
   },
 
-  // Werkzaamheden — Traject_Werkzaamheid records (1:N relatie met traject)
-  werkzaamheden: [
-    // Buffer Groot (WL-TR-WB1) — standaard onderhoud
-    { Werk_ID:'W-WB-001', Traject_ID:'WL-TR-WB1', Handeling:'Maaien',     Werkwijze:'Sinusbeheer', Doel:'Gehele traject',        Zijde:'N.v.t',  Periode:1, Percentage:33, Afvoer:true },
-    { Werk_ID:'W-WB-002', Traject_ID:'WL-TR-WB1', Handeling:'Opschonen',     Werkwijze:'Standaard', Doel:'Natte Bodem',  Zijde:'N.v.t.', Periode:1, Percentage:100, Afvoer:true },
-    // Buffer Groot — constructie-onderhoud (2x/jaar)
-    { Werk_ID:'W-WB-003', Traject_ID:'WL-TR-WB1', Handeling:'Vrijmaaien', Werkwijze:'Standaard', Doel:'Hek',  Zijde:'N.v.t.', Periode:1, Percentage:100, Afvoer:false },
-    { Werk_ID:'W-WB-004', Traject_ID:'WL-TR-WB1', Handeling:'Vrijmaaien', Werkwijze:'Standaard', Doel:'Constructie',  Zijde:'N.v.t.', Periode:2, Percentage:100, Afvoer:false },
-    { Werk_ID:'W-WB-004', Traject_ID:'WL-TR-WB1', Handeling:'Uitdunnen', Werkwijze:'Standaard', Doel:'Struweel',  Zijde:'N.v.t.', Periode:4, Percentage:0, Afvoer:false },
-    { Werk_ID:'W-WB-004', Traject_ID:'WL-TR-WB1', Handeling:'Snoeien', Werkwijze:'Standaard', Doel:'Haag',  Zijde:'N.v.t.', Periode:4, Percentage:0, Afvoer:false },
-    // Buffer Klein (WL-TR-WB2) — standaard onderhoud
-    { Werk_ID:'W-WB-009', Traject_ID:'WL-TR-WB2', Handeling:'Maaien',     Werkwijze:'Sinusbeheer',         Doel:'Gehele traject',        Zijde:'N.v.t',  Periode:1, Percentage:33, Afvoer:true  },
-    { Werk_ID:'W-WB-010', Traject_ID:'WL-TR-WB2', Handeling:'Opschonen',     Werkwijze:'Standaard',         Doel:'Natte Bodem',  Zijde:'N.v.t.', Periode:1, Percentage:100, Afvoer:true  },
-    // Buffer Klein — constructie-onderhoud
-    { Werk_ID:'W-WB-011', Traject_ID:'WL-TR-WB2', Handeling:'Vrijmaaien', Werkwijze:'Standaard',         Doel:'Hek',  Zijde:'N.v.t.', Periode:1, Percentage:100, Afvoer:false },
+  trajecten: [
+    { guid: 'tr-wb-001', traject_code: 'WB-001', naam_traject: 'Buffer Groot' },
+    { guid: 'tr-wb-002', traject_code: 'WB-002', naam_traject: 'Buffer Klein' }
+  ],
+
+  regimes: {
+    M13: {
+      regime_code: 'M13',
+      regime_naam: 'Maaien regenwaterbuffer habitatbenadering',
+      categorie: 'Maaien',
+      werkinstructie: 'Bodem volledig maaien; overige terreindelen roterend sparen. Binnen 15 maart tot 15 juli 50% maaien, daarbuiten 25%, telkens een ander deel.'
+    },
+    M15: {
+      regime_code: 'M15',
+      regime_naam: 'Vrijmaaien in- en uitstroomvoorziening',
+      categorie: 'Maaien',
+      werkinstructie: 'In- en uitstroomvoorziening vrijmaken en maaien, inclusief poorten en toegangspaden. Maaisel afvoeren conform afvoerkeuze.'
+    },
+    M16: {
+      regime_code: 'M16',
+      regime_naam: 'Vrijmaaien afrasteringen en poorten',
+      categorie: 'Maaien',
+      werkinstructie: 'Afrasteringen, hekken en poorten rondom de buffer vrijhouden zodat toegang en inspectie mogelijk blijven.'
+    },
+    O5: {
+      regime_code: 'O5',
+      regime_naam: 'Begrazen',
+      categorie: 'Overig',
+      werkinstructie: 'Met begrazing de vegetatie kort houden; voor buffers in de periode 1 april tot 15 november. Begrazingsdruk locatiegericht bepalen.'
+    }
+  },
+
+  // Maatregelen — GC2027 datamodel (1:N relatie via traject_guid)
+  maatregelen: [
+    {
+      traject_guid: 'tr-wb-001',
+      maatregel_guid: 'mt-wb-001',
+      wl_regime: 'M13',
+      wl_werkperiode: 10,
+      wl_zijde: 'N.v.t.',
+      wl_bodempercentage: '100%',
+      wl_afvoeren: 'Direct afvoeren',
+      wl_uitvoeringswijze_maaien: 'Maaien',
+      wl_soortspecifiek: 'Ja',
+      wl_locatiebezoek: 'Ja',
+      wl_planstatus: 'Gereed voor uitvoering',
+      wl_toelichting: 'Waterbuffer maaien: bodem volledig, droge delen gefaseerd sparen.',
+      wl_steekproef_status: 'Nog niet gecontroleerd',
+      wl_acceptatie_status: 'Nog niet aangeboden',
+      anm_status_maatregel: 'Gepland',
+      anm_periode_gepland: 10,
+      anm_datum_uitvoering: '',
+      anm_opmerking: ''
+    },
+    {
+      traject_guid: 'tr-wb-001',
+      maatregel_guid: 'mt-wb-002',
+      wl_regime: 'M16',
+      wl_werkperiode: 12,
+      wl_zijde: 'Beide zijden',
+      wl_bodempercentage: 'N.v.t.',
+      wl_afvoeren: 'Laten liggen',
+      wl_uitvoeringswijze_maaien: 'Handmatig',
+      wl_soortspecifiek: 'Nee',
+      wl_locatiebezoek: 'Nee',
+      wl_planstatus: 'Gereed voor uitvoering',
+      wl_toelichting: 'Hekken en poorten over volledige omtrek vrijhouden.',
+      wl_steekproef_status: 'Nog niet gecontroleerd',
+      wl_acceptatie_status: 'Nog niet aangeboden',
+      anm_status_maatregel: 'Gepland',
+      anm_periode_gepland: 12,
+      anm_datum_uitvoering: '',
+      anm_opmerking: ''
+    },
+    {
+      traject_guid: 'tr-wb-001',
+      maatregel_guid: 'mt-wb-003',
+      wl_regime: 'O5',
+      wl_werkperiode: 18,
+      wl_zijde: 'N.v.t.',
+      wl_bodempercentage: 'N.v.t.',
+      wl_afvoeren: 'N.v.t.',
+      wl_uitvoeringswijze_maaien: 'N.v.t.',
+      wl_soortspecifiek: 'Ja',
+      wl_locatiebezoek: 'Ja',
+      wl_planstatus: 'Concept',
+      wl_toelichting: 'Nazomerbegrazing na de hoofdmaaironde, buiten de eerste maaiperiode.',
+      wl_steekproef_status: 'Nog niet gecontroleerd',
+      wl_acceptatie_status: 'Nog niet aangeboden',
+      anm_status_maatregel: 'Gepland',
+      anm_periode_gepland: 18,
+      anm_datum_uitvoering: '',
+      anm_opmerking: ''
+    },
+    {
+      traject_guid: 'tr-wb-002',
+      maatregel_guid: 'mt-wb-004',
+      wl_regime: 'M13',
+      wl_werkperiode: 14,
+      wl_zijde: 'N.v.t.',
+      wl_bodempercentage: '100%',
+      wl_afvoeren: 'Na 24 uur afvoeren',
+      wl_uitvoeringswijze_maaien: 'Maaien',
+      wl_soortspecifiek: 'Ja',
+      wl_locatiebezoek: 'Nee',
+      wl_planstatus: 'Gereed voor uitvoering',
+      wl_toelichting: 'Kleine buffer volledig maaien; vegetatie-eiland op droge rand sparen.',
+      wl_steekproef_status: 'Nog niet gecontroleerd',
+      wl_acceptatie_status: 'Nog niet aangeboden',
+      anm_status_maatregel: 'Gepland',
+      anm_periode_gepland: 14,
+      anm_datum_uitvoering: '',
+      anm_opmerking: ''
+    },
+    {
+      traject_guid: 'tr-wb-002',
+      maatregel_guid: 'mt-wb-005',
+      wl_regime: 'M15',
+      wl_werkperiode: 15,
+      wl_zijde: 'N.v.t.',
+      wl_bodempercentage: 'N.v.t.',
+      wl_afvoeren: 'Direct afvoeren',
+      wl_uitvoeringswijze_maaien: 'Handmatig',
+      wl_soortspecifiek: 'Nee',
+      wl_locatiebezoek: 'Ja',
+      wl_planstatus: 'Gereed voor uitvoering',
+      wl_toelichting: 'Inlaat, uitlaat en toegangspad vrijmaken.',
+      wl_steekproef_status: 'Nog niet gecontroleerd',
+      wl_acceptatie_status: 'Nog niet aangeboden',
+      anm_status_maatregel: 'Gepland',
+      anm_periode_gepland: 15,
+      anm_datum_uitvoering: '',
+      anm_opmerking: ''
+    },
+    {
+      traject_guid: 'tr-wb-002',
+      maatregel_guid: 'mt-wb-006',
+      wl_regime: 'O5',
+      wl_werkperiode: 20,
+      wl_zijde: 'N.v.t.',
+      wl_bodempercentage: 'N.v.t.',
+      wl_afvoeren: 'N.v.t.',
+      wl_uitvoeringswijze_maaien: 'N.v.t.',
+      wl_soortspecifiek: 'Ja',
+      wl_locatiebezoek: 'Ja',
+      wl_planstatus: 'Concept',
+      wl_toelichting: 'Korte nabegrazing in oktober om opslag te remmen.',
+      wl_steekproef_status: 'Nog niet gecontroleerd',
+      wl_acceptatie_status: 'Nog niet aangeboden',
+      anm_status_maatregel: 'Gepland',
+      anm_periode_gepland: 20,
+      anm_datum_uitvoering: '',
+      anm_opmerking: ''
+    }
   ],
 
   // Aannemersregistratie (persistent via localStorage)

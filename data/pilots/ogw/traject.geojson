@@ -4,9 +4,20 @@
     {
       "type": "Feature",
       "properties": {
-        "Traject_ID": "WL-TR-OGW1",
-        "naam": "OGW beek segment Noord",
-        "code": "WL123-N"
+        "OBJECTID": 1,
+        "GlobalID": "{OGW-0001-0000-0000-000000000001}",
+        "guid": "tr-ogw-001",
+        "traject_code_oud": "WL-TR-OGW1",
+        "traject_code": "OGW-001",
+        "naam_traject": "OGW beek segment Noord",
+        "functie": "Aanvoer",
+        "type_traject": "Omgevingsgericht water",
+        "bodembreedte": "50-100 cm",
+        "bovenbreedte": "100-300 cm",
+        "onderhoudspadbreedte links": "> 190 cm",
+        "onderhoudspadbreedte rechts": "< 190 cm",
+        "uitvoerder_onderhoud": "Aannemer Noord A",
+        "stakeholder_informatie": "Habitatbenadering; zijde wisselen per maaiperiode."
       },
       "geometry": {
         "type": "MultiPolygon",

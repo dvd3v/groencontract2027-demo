@@ -684,36 +684,63 @@
     }
   },
   "werkzaamheden": {
-    "handeling": [
-      "Maaien",
-      "Snoeien",
-      "Knippen",
-      "Opschonen",
-      "Vrijmaaien",
-      "Inspecteren"
+    "regime": [
+      "M8",
+      "M13",
+      "M15",
+      "M16",
+      "O5"
     ],
-    "werkwijze": [
-      "Habitatbenadering",
-      "Sinusbeheer",
-      "Klepelen",
-      "Knotten",
-      "Standaard"
-    ],
-    "doel": [
-      "Talud",
-      "Bodem",
-      "Natte Bodem",
-      "Werkpad",
-      "Berm",
-      "Constructie",
-      "Hek",
-      "Kruin"
+    "werkperiode": [
+      "P1",
+      "P2",
+      "P3",
+      "P4",
+      "P5",
+      "P6",
+      "P7",
+      "P8",
+      "P9",
+      "P10",
+      "P11",
+      "P12",
+      "P13",
+      "P14",
+      "P15",
+      "P16",
+      "P17",
+      "P18",
+      "P19",
+      "P20",
+      "P21",
+      "P22",
+      "P23",
+      "P24"
     ],
     "zijde": [
       "Links",
       "Rechts",
-      "Beide",
+      "Beide zijden",
+      "Binnen talud",
+      "Buiten talud",
       "N.v.t."
+    ],
+    "bodempercentage": [
+      "75%",
+      "100%",
+      "120%",
+      "N.v.t."
+    ],
+    "afvoeren": [
+      "Direct afvoeren",
+      "Na 24 uur afvoeren",
+      "Laten liggen",
+      "N.v.t."
+    ],
+    "planstatus": [
+      "Concept",
+      "Gereed voor uitvoering",
+      "Vervallen"
     ],
     "registratie_status": [
       "gepland",
@@ -722,34 +749,54 @@
       "afgekeurd"
     ],
     "meta": {
-      "Handeling": {
-        "definitie": "Het werkwoord / de hoofdactie van de werkzaamheid.",
-        "standaard": "WL",
+      "guid": {
+        "definitie": "Stabiele sleutel van een traject; bron voor Maatregelen.traject_guid.",
+        "standaard": "GC2027",
         "status": "Definitief"
       },
-      "Werkwijze": {
-        "definitie": "Kwaliteitseis of methode waarmee de handeling wordt uitgevoerd.",
-        "standaard": "WL",
+      "traject_code": {
+        "definitie": "Leesbare unieke code voor weergave, rapportage en kruisverwijzing.",
+        "standaard": "GC2027",
         "status": "Definitief"
       },
-      "Doel": {
-        "definitie": "Het fysieke onderdeel waarop de handeling betrekking heeft.",
-        "standaard": "WL",
+      "maatregel_guid": {
+        "definitie": "Unieke sleutel van de maatregelregel.",
+        "standaard": "GC2027",
         "status": "Definitief"
       },
-      "Zijde": {
-        "definitie": "Ruimtelijke specificatie: Links, Rechts, Beide of N.v.t.",
-        "standaard": "WL",
+      "traject_guid": {
+        "definitie": "FK naar Trajecten.guid. Dit is de operationele koppeling tussen maatregel en traject.",
+        "standaard": "GC2027",
         "status": "Definitief"
       },
-      "Sinusbeheer": {
-        "definitie": "Gefaseerd maaibeheer: per periode wisselende zijde (L/R), 50% per beurt. Ecologisch beheer gericht op biodiversiteit.",
-        "standaard": "WL",
+      "wl_regime": {
+        "definitie": "Beheerregime. Coded domain; join naar de regimecatalogus voor titel en werkinstructie.",
+        "standaard": "GC2027",
         "status": "Definitief"
       },
-      "Habitatbenadering": {
-        "definitie": "Ecologisch maaibeheer gericht op behoud en ontwikkeling van specifieke habitattypen en biodiversiteit.",
-        "standaard": "WL",
+      "wl_werkperiode": {
+        "definitie": "Geplande halfmaandelijkse periode, P1 tot en met P24.",
+        "standaard": "GC2027",
+        "status": "Definitief"
+      },
+      "wl_zijde": {
+        "definitie": "Zijde waarop zijgebonden onderdelen van het regime van toepassing zijn.",
+        "standaard": "GC2027",
+        "status": "Definitief"
+      },
+      "wl_bodempercentage": {
+        "definitie": "Bewerkingspercentage voor de bodem.",
+        "standaard": "GC2027",
+        "status": "Definitief"
+      },
+      "wl_afvoeren": {
+        "definitie": "Maaisel direct afvoeren, na 24 uur afvoeren, laten liggen of niet van toepassing.",
+        "standaard": "GC2027",
+        "status": "Definitief"
+      },
+      "anm_status_maatregel": {
+        "definitie": "Uitvoeringsstatus die door de aannemer wordt teruggekoppeld.",
+        "standaard": "GC2027",
         "status": "Definitief"
       }
     }
@@ -827,17 +874,19 @@
       "beheerder"
     ],
     "C": [
-      "Handeling",
-      "Werkwijze",
-      "Doel",
-      "Zijde",
-      "Periode",
-      "Percentage",
-      "Afvoer",
-      "status",
-      "datum_gepland",
-      "datum_uitgevoerd",
-      "opmerking"
+      "maatregel_guid",
+      "traject_guid",
+      "wl_regime",
+      "wl_werkperiode",
+      "wl_zijde",
+      "wl_bodempercentage",
+      "wl_afvoeren",
+      "wl_uitvoeringswijze_maaien",
+      "wl_planstatus",
+      "anm_status_maatregel",
+      "anm_periode_gepland",
+      "anm_datum_uitvoering",
+      "anm_opmerking"
     ]
   },
   "matrixRegimes": [
